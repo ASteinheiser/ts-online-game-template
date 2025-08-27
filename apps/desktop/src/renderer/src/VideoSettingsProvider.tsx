@@ -80,7 +80,7 @@ export const VideoSettingsProvider = ({ children }: { children: React.ReactNode 
         <div
           className="fixed top-0 left-0 w-full h-5 bg-transparent"
           // @ts-expect-error electron can interpret this style and allow for dragging the native window
-          style={{ '-webkit-app-region': 'drag' }}
+          style={{ WebkitAppRegion: 'drag' }}
         />
       )}
 
