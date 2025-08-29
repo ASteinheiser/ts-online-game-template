@@ -29,7 +29,8 @@ export default defineConfig({
       manifest: {
         name: 'Marketing Site',
         short_name: 'Marketing Site',
-        theme_color: '#0f0f0f',
+        theme_color: '#6118ad',
+        background_color: '#09090b',
         icons: [
           {
             src: 'pwa-64x64.png',
