@@ -15,6 +15,17 @@ export class Boot extends Scene {
   }
 
   create() {
+    const bg = this.add.image(0, 0, ASSET.BACKGROUND).setAlpha(0.5).setOrigin(0.5);
+
+    const centerBackground = () => {
+      const { width, height } = this.scale;
+      bg.setPosition(width / 2, height / 2);
+      bg.setDisplaySize(width, height);
+    };
+
+    centerBackground();
+    this.scale.on('resize', centerBackground);
+
     this.scene.start(SCENE.PRELOADER);
   }
 }
