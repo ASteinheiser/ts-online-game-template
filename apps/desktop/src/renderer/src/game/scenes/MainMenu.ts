@@ -10,17 +10,17 @@ export class MainMenu extends Scene {
   }
 
   create() {
-    this.add.image(512, 384, ASSET.BACKGROUND);
+    const bg = this.add.image(0, 0, ASSET.BACKGROUND).setOrigin(0.5);
 
-    new CustomText(this, 512, 300, 'Duck, Duck, Punch', {
+    const titleText = new CustomText(this, 0, 0, 'Duck, Duck, Punch', {
       fontFamily: 'Arial Black',
       fontSize: '38px',
       strokeThickness: 8,
     })
       .setOrigin(0.5)
-      .bounce(5, 2000);
+      .fadeIn(1000);
 
-    new CustomText(this, 512, 460, 'Click here to start', {
+    const startButton = new CustomText(this, 0, 0, 'Click here to start', {
       fontFamily: 'Arial Black',
       fontSize: '38px',
       strokeThickness: 8,
@@ -31,7 +31,7 @@ export class MainMenu extends Scene {
       })
       .fadeIn(1000);
 
-    new CustomText(this, 512, 560, 'Profile', {
+    const profileButton = new CustomText(this, 0, 0, 'Profile', {
       fontFamily: 'Arial Black',
       fontSize: '38px',
       strokeThickness: 8,
@@ -42,7 +42,7 @@ export class MainMenu extends Scene {
       })
       .fadeIn(1000);
 
-    new CustomText(this, 512, 660, 'Settings', {
+    const settingsButton = new CustomText(this, 0, 0, 'Settings', {
       fontFamily: 'Arial Black',
       fontSize: '38px',
       strokeThickness: 8,
@@ -52,6 +52,21 @@ export class MainMenu extends Scene {
         EventBus.emit(EVENT_BUS.SETTINGS_OPEN);
       })
       .fadeIn(1000);
+
+    const layout = () => {
+      const { width, height } = this.scale;
+      bg.setPosition(width / 2, height / 2).setDisplaySize(width, height);
+
+      titleText.setPosition(width / 2, height / 2 - 100);
+      titleText.bounce(5, 2000);
+
+      startButton.setPosition(width / 2, height / 2);
+      profileButton.setPosition(width / 2, height / 2 + 100);
+      settingsButton.setPosition(width / 2, height / 2 + 200);
+    };
+
+    layout();
+    this.scale.on('resize', layout);
 
     EventBus.emit(EVENT_BUS.CURRENT_SCENE_READY, this);
   }
