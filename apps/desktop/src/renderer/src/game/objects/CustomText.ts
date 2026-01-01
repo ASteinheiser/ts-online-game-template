@@ -2,6 +2,7 @@ import { GameObjects, type Scene } from 'phaser';
 
 export class CustomText extends GameObjects.Text {
   color: string | CanvasGradient | CanvasPattern;
+  bounceTween?: Phaser.Tweens.Tween;
 
   constructor(
     scene: Scene,
@@ -30,9 +31,14 @@ export class CustomText extends GameObjects.Text {
   }
 
   bounce(height = 10, duration = 1000): this {
-    this.scene.tweens.add({
+    if (this.bounceTween) {
+      this.bounceTween.stop();
+      this.bounceTween.destroy();
+    }
+
+    this.bounceTween = this.scene.tweens.add({
       targets: this,
-      y: this.y - height,
+      y: `-=${height}`,
       duration: duration / 2,
       ease: 'Sine.easeInOut',
       yoyo: true,
