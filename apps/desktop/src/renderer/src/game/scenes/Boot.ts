@@ -19,8 +19,7 @@ export class Boot extends Scene {
 
     const centerBackground = () => {
       const { width, height } = this.scale;
-      bg.setPosition(width / 2, height / 2);
-      bg.setDisplaySize(width, height);
+      bg.setPosition(width / 2, height / 2).setDisplaySize(width, height);
     };
 
     centerBackground();

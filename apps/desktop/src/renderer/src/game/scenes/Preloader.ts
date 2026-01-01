@@ -5,25 +5,38 @@ import player from '../../assets/muscle-duck-sprite.png';
 import { PLAYER_ANIM } from '../objects/Player';
 import { ASSET, SCENE } from '../constants';
 
+const PROGRESS_BAR_WIDTH = 468;
+const PROGRESS_BAR_HEIGHT = 32;
+const PROGRESS_BAR_PADDING = 4;
+
 export class Preloader extends Scene {
   constructor() {
     super(SCENE.PRELOADER);
   }
 
   init() {
-    //  We loaded this image in our Boot Scene, so we can display it here
-    this.add.image(512, 384, ASSET.BACKGROUND);
+    // We loaded this image in our Boot Scene, so we can display it here
+    const bg = this.add.image(0, 0, ASSET.BACKGROUND).setOrigin(0.5);
 
-    //  A simple progress bar. This is the outline of the bar.
-    this.add.rectangle(512, 384, 468, 32).setStrokeStyle(1, 0xffffff);
+    // create a progress bar container with two rectangle components
+    const progressFill = this.add.rectangle(0, 0, 0, PROGRESS_BAR_HEIGHT - PROGRESS_BAR_PADDING, 0xffffff);
+    const progressOutline = this.add
+      .rectangle((PROGRESS_BAR_WIDTH - PROGRESS_BAR_PADDING) / 2, 0, PROGRESS_BAR_WIDTH, PROGRESS_BAR_HEIGHT)
+      .setStrokeStyle(1, 0xffffff);
+    const progress = this.add.container(0, 0, [progressOutline, progressFill]);
 
-    //  This is the progress bar itself. It will increase in size from the left based on the % of progress.
-    const bar = this.add.rectangle(512 - 230, 384, 4, 28, 0xffffff);
+    const layout = () => {
+      const { width, height } = this.scale;
+      bg.setPosition(width / 2, height / 2).setDisplaySize(width, height);
+      progress.setPosition(width / 2 - PROGRESS_BAR_WIDTH / 2, height / 2 - PROGRESS_BAR_HEIGHT / 2);
+    };
+
+    layout();
+    this.scale.on('resize', layout);
 
     //  Use the 'progress' event emitted by the LoaderPlugin to update the loading bar
     this.load.on('progress', (progress: number) => {
-      //  Update the progress bar (our bar is 464px wide, so 100% = 464px)
-      bar.width = 4 + 460 * progress;
+      progressFill.width = (PROGRESS_BAR_WIDTH - PROGRESS_BAR_PADDING) * progress;
     });
   }
 
