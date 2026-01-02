@@ -177,7 +177,7 @@ export class Game extends Scene {
         fontSize: 12,
       }).setOrigin(0.5, 2.5);
 
-      const newPlayer = new Player(entity, nameText);
+      const newPlayer = new Player(this, entity, nameText);
 
       this.playerEntities[sessionId] = newPlayer;
 
@@ -278,6 +278,7 @@ export class Game extends Scene {
     $(this.room.state).enemies.onRemove((enemy) => {
       const foundEnemy = this.enemyEntities[enemy.id];
       if (foundEnemy) {
+        this.currentPlayer?.hit();
         foundEnemy.destroy();
         delete this.enemyEntities[enemy.id];
       }

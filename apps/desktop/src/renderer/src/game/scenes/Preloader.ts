@@ -2,8 +2,10 @@ import { Loader, Scene, Scenes } from 'phaser';
 import { PLAYER_FRAME_RATE, PLAYER_SIZE, ENEMY_SIZE } from '@repo/core-game';
 import enemy from '../../assets/evil-dude.png';
 import player from '../../assets/muscle-duck-sprite.png';
+import punch from '../../assets/punch.mp3';
+import enemyHit from '../../assets/wilhelm-scream.mp3';
 import { PLAYER_ANIM } from '../objects/Player';
-import { ASSET, SCENE } from '../constants';
+import { ASSET, SCENE, SOUND } from '../constants';
 
 const PROGRESS_BAR_WIDTH = 468;
 const PROGRESS_BAR_HEIGHT = 32;
@@ -51,6 +53,8 @@ export class Preloader extends Scene {
       frameWidth: PLAYER_SIZE.width,
       frameHeight: PLAYER_SIZE.height,
     });
+    this.load.audio(SOUND.PUNCH, punch);
+    this.load.audio(SOUND.ENEMY_HIT, enemyHit);
   }
 
   create() {
