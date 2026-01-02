@@ -7,4 +7,5 @@ export * from './Label';
 export * from './LoadingSpinner';
 export * from './Select';
 export * from './Sheet';
+export * from './Slider';
 export * from './Toaster';
