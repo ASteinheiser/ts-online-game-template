@@ -22,7 +22,7 @@ const GET_TOTAL_PLAYERS = gql`
 
 export const Game = () => {
   const { session } = useSession();
-  const { isMuted } = useAudioSettings();
+  const { isMuted, volume } = useAudioSettings();
 
   const phaserRef = useRef<IRefPhaserGame | null>(null);
 
@@ -94,6 +94,10 @@ export const Game = () => {
   useEffect(() => {
     phaserRef?.current?.game?.sound.setMute(isMuted);
   }, [isMuted]);
+
+  useEffect(() => {
+    phaserRef?.current?.game?.sound.setVolume(volume / 100);
+  }, [volume]);
 
   return (
     <>

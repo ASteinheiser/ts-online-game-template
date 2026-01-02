@@ -1,4 +1,13 @@
-import { Checkbox, Label, Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@repo/ui';
+import {
+  Checkbox,
+  Label,
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  Slider,
+} from '@repo/ui';
 import { useVideoSettings } from '../../providers/VideoSettingsProvider';
 import { useAudioSettings } from '../../providers/AudioSettingsProvider';
 import { ResolutionSelect } from './ResolutionSelect';
@@ -19,7 +28,7 @@ export const SettingsModal = ({ isOpen, onOpenChange }: SettingsModalProps) => {
     changeResolution,
   } = useVideoSettings();
 
-  const { isMuted, toggleMute } = useAudioSettings();
+  const { isMuted, toggleMute, volume, setVolume } = useAudioSettings();
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -60,6 +69,18 @@ export const SettingsModal = ({ isOpen, onOpenChange }: SettingsModalProps) => {
           <div className="flex items-center justify-between">
             <Label className="font-title text-xl">Mute</Label>
             <Checkbox className="size-6" checked={isMuted} onCheckedChange={toggleMute} />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <Label className="font-title text-xl">Volume</Label>
+            <Slider
+              className="w-44"
+              min={0}
+              max={100}
+              value={[volume]}
+              onValueChange={(value) => setVolume(value[0])}
+              disabled={isMuted}
+            />
           </div>
         </div>
 
