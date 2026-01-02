@@ -12,6 +12,7 @@ import { ProfileModal } from '../modals/ProfileModal';
 import { NewPasswordModal } from '../modals/NewPasswordModal';
 import { SettingsModal } from '../modals/SettingsModal';
 import { SEARCH_PARAMS } from '../router/constants';
+import { useAudioSettings } from '../AudioSettingsProvider';
 
 const GET_TOTAL_PLAYERS = gql`
   query Desktop_GetTotalPlayers {
@@ -21,6 +22,7 @@ const GET_TOTAL_PLAYERS = gql`
 
 export const Game = () => {
   const { session } = useSession();
+  const { isMuted } = useAudioSettings();
 
   const phaserRef = useRef<IRefPhaserGame | null>(null);
 
@@ -88,6 +90,10 @@ export const Game = () => {
       EventBus.off(EVENT_BUS.RECONNECTION_ATTEMPT);
     };
   }, []);
+
+  useEffect(() => {
+    phaserRef?.current?.game?.sound.setMute(isMuted);
+  }, [isMuted]);
 
   return (
     <>

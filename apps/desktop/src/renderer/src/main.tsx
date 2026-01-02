@@ -6,6 +6,7 @@ import { SessionProvider } from '@repo/client-auth/provider';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './graphql/client';
 import { router } from './router';
+import { AudioSettingsProvider } from './AudioSettingsProvider';
 import { SplashProvider } from './SplashProvider';
 import { VideoSettingsProvider } from './VideoSettingsProvider';
 import './theme.css';
@@ -18,11 +19,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ApolloProvider client={client}>
       <VideoSettingsProvider>
-        <SplashProvider>
-          <SessionProvider healthCheckEnabled isDesktop>
-            <RouterProvider router={router} />
-          </SessionProvider>
-        </SplashProvider>
+        <AudioSettingsProvider>
+          <SplashProvider>
+            <SessionProvider healthCheckEnabled isDesktop>
+              <RouterProvider router={router} />
+            </SessionProvider>
+          </SplashProvider>
+        </AudioSettingsProvider>
       </VideoSettingsProvider>
     </ApolloProvider>
 

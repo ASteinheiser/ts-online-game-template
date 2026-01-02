@@ -1,5 +1,6 @@
 import { Checkbox, Label, Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@repo/ui';
 import { useVideoSettings } from '../../VideoSettingsProvider';
+import { useAudioSettings } from '../../AudioSettingsProvider';
 import { ResolutionSelect } from './ResolutionSelect';
 import { Versions } from './Versions';
 
@@ -17,6 +18,8 @@ export const SettingsModal = ({ isOpen, onOpenChange }: SettingsModalProps) => {
     changeFullscreen,
     changeResolution,
   } = useVideoSettings();
+
+  const { isMuted, toggleMute } = useAudioSettings();
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -52,6 +55,11 @@ export const SettingsModal = ({ isOpen, onOpenChange }: SettingsModalProps) => {
                 if (open) refetchResolutions();
               }}
             />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <Label className="font-title text-xl">Mute</Label>
+            <Checkbox className="size-6" checked={isMuted} onCheckedChange={toggleMute} />
           </div>
         </div>
 
