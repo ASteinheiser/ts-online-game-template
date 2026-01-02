@@ -1,5 +1,5 @@
 import type { Room } from 'colyseus.js';
-import type { Scene } from 'phaser';
+import { Scenes, type Scene } from 'phaser';
 import { CustomText } from './CustomText';
 import { WS_EVENT } from '@repo/core-game';
 
@@ -19,9 +19,7 @@ export class PingDisplay {
   constructor(scene: Scene) {
     this.scene = scene;
 
-    const x = this.scene.cameras.main.width - MARGIN;
-    const y = MARGIN;
-    this.pingText = new CustomText(this.scene, x, y, '--', {
+    this.pingText = new CustomText(this.scene, 0, 0, '--', {
       fontSize: '16px',
       color: '#00ff00',
     })
@@ -29,7 +27,18 @@ export class PingDisplay {
       .setScrollFactor(0);
 
     this.background = this.scene.add.graphics().setScrollFactor(0).setDepth(99);
-    this.updateBackgroundSize();
+
+    const layout = () => {
+      const { width } = this.scene.scale;
+      this.pingText.setPosition(width - MARGIN, MARGIN);
+      this.updateBackgroundSize();
+    };
+
+    layout();
+    this.scene.scale.on(Phaser.Scale.Events.RESIZE, layout);
+    this.scene.events.once(Scenes.Events.SHUTDOWN, () => {
+      this.scene.scale.off(Phaser.Scale.Events.RESIZE, layout);
+    });
   }
 
   start(room: Room) {
