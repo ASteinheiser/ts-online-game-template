@@ -41,6 +41,7 @@ export class Game extends Scene {
   currentPlayerServer?: Phaser.GameObjects.Rectangle;
   enemyEntities: Record<string, Enemy> = {};
 
+  escapeKey?: Phaser.Input.Keyboard.Key;
   cursorKeys?: Phaser.Types.Input.Keyboard.CursorKeys;
   pendingInputs: Array<InputPayload> = [];
   inputSeq = 0;
@@ -53,6 +54,7 @@ export class Game extends Scene {
   }
 
   preload() {
+    this.escapeKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
   }
 
@@ -297,9 +299,15 @@ export class Game extends Scene {
   }
 
   fixedTick() {
-    if (!this.room || !this.room.connection.isOpen || !this.currentPlayer || !this.cursorKeys) {
+    if (!this.room?.connection.isOpen || !this.currentPlayer || !this.cursorKeys || !this.escapeKey) {
       return;
     }
+
+    // press escape to open the settings menu
+    if (this.escapeKey.isDown) {
+      EventBus.emit(EVENT_BUS.SETTINGS_OPEN);
+    }
+
     // press shift to leave the game
     if (this.cursorKeys.shift.isDown) {
       this.room.send(WS_EVENT.LEAVE_ROOM);
