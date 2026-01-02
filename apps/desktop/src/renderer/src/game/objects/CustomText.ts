@@ -1,11 +1,11 @@
-import { GameObjects, type Scene } from 'phaser';
+import { GameObjects } from 'phaser';
 
 export class CustomText extends GameObjects.Text {
   color: string | CanvasGradient | CanvasPattern;
   bounceTween?: Phaser.Tweens.Tween;
 
   constructor(
-    scene: Scene,
+    scene: Phaser.Scene,
     x: number,
     y: number,
     text: string | string[],

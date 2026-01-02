@@ -1,5 +1,5 @@
 import type { Room } from 'colyseus.js';
-import { Scenes, type Scene } from 'phaser';
+import { Scenes } from 'phaser';
 import { CustomText } from './CustomText';
 import { WS_EVENT } from '@repo/core-game';
 
@@ -8,7 +8,7 @@ const PADDING = 6;
 const CORNER_RADIUS = 8;
 
 export class PingDisplay {
-  scene: Scene;
+  scene: Phaser.Scene;
   room?: Room;
   pingStartTime = 0;
   currentPingMs = 0;
@@ -16,7 +16,7 @@ export class PingDisplay {
   background: Phaser.GameObjects.Graphics;
   pingText: CustomText;
 
-  constructor(scene: Scene) {
+  constructor(scene: Phaser.Scene) {
     this.scene = scene;
 
     this.pingText = new CustomText(this.scene, 0, 0, '--', {
