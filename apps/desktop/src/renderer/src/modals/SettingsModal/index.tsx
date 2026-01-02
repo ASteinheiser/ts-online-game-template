@@ -1,6 +1,6 @@
 import { Checkbox, Label, Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@repo/ui';
-import { useVideoSettings } from '../../VideoSettingsProvider';
-import { useAudioSettings } from '../../AudioSettingsProvider';
+import { useVideoSettings } from '../../providers/VideoSettingsProvider';
+import { useAudioSettings } from '../../providers/AudioSettingsProvider';
 import { ResolutionSelect } from './ResolutionSelect';
 import { Versions } from './Versions';
 

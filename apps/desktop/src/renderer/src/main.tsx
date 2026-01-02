@@ -6,9 +6,9 @@ import { SessionProvider } from '@repo/client-auth/provider';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './graphql/client';
 import { router } from './router';
-import { AudioSettingsProvider } from './AudioSettingsProvider';
-import { SplashProvider } from './SplashProvider';
-import { VideoSettingsProvider } from './VideoSettingsProvider';
+import { AudioSettingsProvider } from './providers/AudioSettingsProvider';
+import { SplashProvider } from './providers/SplashProvider';
+import { VideoSettingsProvider } from './providers/VideoSettingsProvider';
 import './theme.css';
 
 /** this is required by the content security policy defined in index.html */

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import type { ResolutionOption } from '../../shared/types';
+import type { ResolutionOption } from '../../../shared/types';
 
 interface VideoSettingsContextType {
   isFullscreen: boolean;

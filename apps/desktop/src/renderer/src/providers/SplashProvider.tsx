@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import logo from './assets/logo.png';
+import logo from '../assets/logo.png';
 
 /** This is how long to show the splash screen. Should match 'splash-fade' animation in theme.css (4s) */
 const SPLASH_DURATION = 4 * 1000;

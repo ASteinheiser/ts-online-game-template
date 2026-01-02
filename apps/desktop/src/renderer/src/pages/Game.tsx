@@ -12,7 +12,7 @@ import { ProfileModal } from '../modals/ProfileModal';
 import { NewPasswordModal } from '../modals/NewPasswordModal';
 import { SettingsModal } from '../modals/SettingsModal';
 import { SEARCH_PARAMS } from '../router/constants';
-import { useAudioSettings } from '../AudioSettingsProvider';
+import { useAudioSettings } from '../providers/AudioSettingsProvider';
 
 const GET_TOTAL_PLAYERS = gql`
   query Desktop_GetTotalPlayers {
