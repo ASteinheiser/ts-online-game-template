@@ -1,9 +1,10 @@
-import { Scene } from 'phaser';
+import { Scene, Scenes } from 'phaser';
 import { Client, getStateCallbacks, type Room } from 'colyseus.js';
 import {
   calculateMovement,
   FIXED_TIME_STEP,
   PLAYER_SIZE,
+  MAP_SIZE,
   WS_ROOM,
   WS_EVENT,
   WS_CODE,
@@ -68,9 +69,30 @@ export class Game extends Scene {
 
   async create({ token }: AuthPayload) {
     this.cameras.main.setBackgroundColor(0x00ff00);
-    this.add.image(512, 384, ASSET.BACKGROUND).setAlpha(0.5);
 
-    new CustomText(this, 340, 10, 'Press Shift to leave the game', { fontSize: 20 });
+    // draw a border around the map area
+    this.add
+      .rectangle(0, 0, MAP_SIZE.width, MAP_SIZE.height)
+      .setOrigin(0, 0)
+      .setDepth(99)
+      .setStrokeStyle(4, 0x990099);
+
+    const bg = this.add.image(0, 0, ASSET.BACKGROUND).setAlpha(0.5).setOrigin(0.5);
+
+    const leaveText = new CustomText(this, 0, 0, 'Press Shift to leave the game', { fontSize: 20 });
+
+    const layout = () => {
+      const { width, height } = this.scale;
+      bg.setPosition(width / 2, height / 2).setDisplaySize(width, height);
+
+      leaveText.setPosition((width - leaveText.width) / 2, 30);
+    };
+
+    layout();
+    this.scale.on(Phaser.Scale.Events.RESIZE, layout);
+    this.events.once(Scenes.Events.SHUTDOWN, () => {
+      this.scale.off(Phaser.Scale.Events.RESIZE, layout);
+    });
 
     this.client.auth.token = token;
 
