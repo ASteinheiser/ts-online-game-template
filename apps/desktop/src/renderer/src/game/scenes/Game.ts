@@ -68,23 +68,30 @@ export class Game extends Scene {
   }
 
   async create({ token }: AuthPayload) {
-    this.cameras.main.setBackgroundColor(0x00ff00);
+    // set the camera bounds to the map size
+    this.cameras.main.setBackgroundColor(0x00ff00).setBounds(0, 0, MAP_SIZE.width, MAP_SIZE.height);
 
     // draw a border around the map area
     this.add
       .rectangle(0, 0, MAP_SIZE.width, MAP_SIZE.height)
       .setOrigin(0, 0)
       .setDepth(99)
-      .setStrokeStyle(4, 0x990099);
+      .setStrokeStyle(8, 0x990099);
 
-    const bg = this.add.image(0, 0, ASSET.BACKGROUND).setAlpha(0.5).setOrigin(0.5);
+    // set the background image to cover the entire map area
+    this.add
+      .image(0, 0, ASSET.BACKGROUND)
+      .setAlpha(0.5)
+      .setOrigin(0.5)
+      .setPosition(MAP_SIZE.width / 2, MAP_SIZE.height / 2)
+      .setDisplaySize(MAP_SIZE.width, MAP_SIZE.height);
 
-    const leaveText = new CustomText(this, 0, 0, 'Press Shift to leave the game', { fontSize: 20 });
+    const leaveText = new CustomText(this, 0, 0, 'Press Shift to leave the game', {
+      fontSize: 20,
+    }).setScrollFactor(0);
 
     const layout = () => {
-      const { width, height } = this.scale;
-      bg.setPosition(width / 2, height / 2).setDisplaySize(width, height);
-
+      const { width } = this.scale;
       leaveText.setPosition((width - leaveText.width) / 2, 30);
     };
 
@@ -177,6 +184,8 @@ export class Game extends Scene {
       // keep track of the current player
       if (sessionId === this.room?.sessionId) {
         this.currentPlayer = newPlayer;
+        // ensure the camera is following the current player
+        this.cameras.main.startFollow(entity, false, 0.1, 0.1);
 
         // #region FOR DEBUGGING PURPOSES
         this.currentPlayerServer = this.add.rectangle(0, 0, entity.width, entity.height).setDepth(100);
