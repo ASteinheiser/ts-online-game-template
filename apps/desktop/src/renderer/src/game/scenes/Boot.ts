@@ -1,4 +1,4 @@
-import { Scene } from 'phaser';
+import { Scene, Scenes } from 'phaser';
 import background from '../../assets/bg.png';
 import { ASSET, SCENE } from '../constants';
 
@@ -17,13 +17,16 @@ export class Boot extends Scene {
   create() {
     const bg = this.add.image(0, 0, ASSET.BACKGROUND).setAlpha(0.5).setOrigin(0.5);
 
-    const centerBackground = () => {
+    const layout = () => {
       const { width, height } = this.scale;
       bg.setPosition(width / 2, height / 2).setDisplaySize(width, height);
     };
 
-    centerBackground();
-    this.scale.on('resize', centerBackground);
+    layout();
+    this.scale.on(Phaser.Scale.Events.RESIZE, layout);
+    this.events.once(Scenes.Events.SHUTDOWN, () => {
+      this.scale.off(Phaser.Scale.Events.RESIZE, layout);
+    });
 
     this.scene.start(SCENE.PRELOADER);
   }

@@ -1,4 +1,4 @@
-import { Scene } from 'phaser';
+import { Loader, Scene, Scenes } from 'phaser';
 import { PLAYER_FRAME_RATE, PLAYER_SIZE, ENEMY_SIZE } from '@repo/core-game';
 import enemy from '../../assets/evil-dude.png';
 import player from '../../assets/muscle-duck-sprite.png';
@@ -32,10 +32,12 @@ export class Preloader extends Scene {
     };
 
     layout();
-    this.scale.on('resize', layout);
+    this.scale.on(Phaser.Scale.Events.RESIZE, layout);
+    this.events.once(Scenes.Events.SHUTDOWN, () => {
+      this.scale.off(Phaser.Scale.Events.RESIZE, layout);
+    });
 
-    //  Use the 'progress' event emitted by the LoaderPlugin to update the loading bar
-    this.load.on('progress', (progress: number) => {
+    this.load.on(Loader.Events.PROGRESS, (progress: number) => {
       progressFill.width = (PROGRESS_BAR_WIDTH - PROGRESS_BAR_PADDING) * progress;
     });
   }
