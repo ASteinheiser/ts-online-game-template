@@ -215,7 +215,11 @@ pnpm db:test:sync
 
 #### Web Hosting Setup
 
-TODO: hosting via github pages
+The web hosting setup is based on GitHub Pages and GitHub Actions. To get started:
+
+Go to your github repository, then `Settings` > `Pages`, select `Source` and choose `GitHub Actions`.
+
+You can also add a custom domain via the `Custom domain` field. Make sure you follow the instructions to ensure you have the correct DNS records in place. Also ensure you select `Enforce HTTPS` and update the `/apps/web/public/CNAME` file with your custom domain.
 
 #### Desktop File Hosting Setup
 
