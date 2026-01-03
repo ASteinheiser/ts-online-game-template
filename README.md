@@ -209,8 +209,32 @@ pnpm db:test:sync
 
 ## Deployment
 
-This is TBD at this point still...
-
-The goal is to host a scalable, cheap setup. Possibly:
+#### Architecture overview:
 
 <img src="./images/infra-diagram.png" width="800px" height="auto">
+
+#### Web Hosting Setup
+
+TODO: hosting via github pages
+
+#### Desktop File Hosting Setup
+
+TODO: hosting via github releases
+
+#### Auth Setup
+
+You should already have a Supabase project setup with JWT auth. So that piece is covered!
+
+#### Database Setup
+
+Supabase offers a hosted PostgreSQL DB at no cost (limited storage/CPU). You can choose any other provider you'd like, and depending on your needs, you may want to compare pricing with [DigitalOcean](https://www.digitalocean.com/products/managed-databases-postgresql/) or [AWS RDS](https://aws.amazon.com/rds/postgresql/) at actual scale. But for a small project, Supabase is a great option.
+
+Follow [these instructions](https://supabase.com/docs/guides/database/prisma) to setup a hosted PostgreSQL DB with Supabase for Prisma. You'll need to setup your Prisma user in Supabase and turn off the Supabase Data API setting.
+
+TODO: update env
+
+#### Game Server Setup
+
+TODO: create DigitalOcean Droplet
+
+TODO: update env
