@@ -1,6 +1,6 @@
 # TypeScript Online Game Template
 
-A _highly opinionated_ template for creating real-time, online games using [TypeScript](https://www.typescriptlang.org/)! Quickly create mmo-style games using [React](https://react.dev/) + [Phaser](https://phaser.io/) for rendering, [Colyseus](https://colyseus.io/) for websockets, [Electron](https://www.electronjs.org/) for native builds, and [SST](https://sst.dev/) ([IaC](https://en.wikipedia.org/wiki/Infrastructure_as_code)) for deployment! Also has support for [Progressive Web Apps](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps) (PWA). Oh, and lots and lots of [Vite](https://vite.dev/) for builds and testing!
+A _highly opinionated_ template for creating real-time, online games using [TypeScript](https://www.typescriptlang.org/)! Quickly create mmo-style games using [React](https://react.dev/) + [Phaser](https://phaser.io/) for rendering, [Colyseus](https://colyseus.io/) for websockets and [Electron](https://www.electronjs.org/) for native builds! Also has support for [Progressive Web Apps](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps) (PWA). Oh, and lots and lots of [Vite](https://vite.dev/) for builds and testing!
 
 - [Overview](#overview)
 - [Third-party Dependencies](#third-party-dependencies)
@@ -10,7 +10,7 @@ A _highly opinionated_ template for creating real-time, online games using [Type
 - [Testing](#testing)
 - [Load Testing](#load-testing)
 - [Available Commands](#available-commands)
-- [Infra/Hosting Setup](#infrahosting-setup)
+- [Deployment](#deployment)
 
 ## Overview
 
@@ -207,10 +207,10 @@ pnpm db:test:sync
 | `pnpm build:mac` | Builds the desktop app (via Electron) for MacOS |
 | `pnpm build:linux` | Builds the desktop app (via Electron) for Linux |
 
-## Infra/Hosting Setup
+## Deployment
 
 This is TBD at this point still...
 
-The goal is to provide Infrastructure as Code (IaC) for hosting a scalable, cheap setup. Possibly:
+The goal is to host a scalable, cheap setup. Possibly:
 
-<img src="./infra/system-design.png" width="800px" height="auto">
+<img src="./images/infra.png" width="800px" height="auto">
