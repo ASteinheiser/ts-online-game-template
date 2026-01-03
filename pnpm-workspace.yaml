@@ -17,7 +17,7 @@ catalog:
   graphql: ^16.11.0
   "@apollo/server": ^4.12.0
   "@apollo/client": ^3.13.8
-  "@graphql-codegen/cli": ^5.0.6
+  "@graphql-codegen/cli": ^6.1.0
   "@graphql-typed-document-node/core": ^3.2.0
   "@parcel/watcher": ^2.5.1
   phaser: 4.0.0-rc.6
