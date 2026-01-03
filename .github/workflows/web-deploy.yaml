@@ -39,6 +39,8 @@ jobs:
 
       - name: Build web app
         run: pnpm build --filter=web
+        environment:
+          name: github-pages
         env:
           NODE_ENV: production
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
