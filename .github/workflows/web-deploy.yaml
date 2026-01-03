@@ -35,7 +35,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --filter=web --recursive --frozen-lockfile
 
       - name: Build web app
         run: pnpm build --filter=web
