@@ -213,4 +213,4 @@ This is TBD at this point still...
 
 The goal is to host a scalable, cheap setup. Possibly:
 
-<img src="./images/infra.png" width="800px" height="auto">
+<img src="./images/infra-diagram.png" width="800px" height="auto">
