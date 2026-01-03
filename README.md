@@ -221,7 +221,7 @@ Go to your github repository, then `Settings` > `Pages`, select `Source` and cho
 
 > You can also add a custom domain via the `Custom domain` field. Make sure you follow the instructions to ensure you have the correct DNS records in place. Also ensure you select `Enforce HTTPS` and update the `/apps/web/public/CNAME` file with your custom domain.
 
-Now go to `Secrets and variables` > `Actions`, then fill out the `Environment secrets` section according to your `/apps/web/.env` file.
+Now go to `Secrets and variables` > `Actions`, then fill out the `Environment secrets` section according to your `/apps/web/.env` file. Ensure that you keep these secrets in their own `Environment`: `github-pages`.
 
 ### Desktop File Hosting Setup
 
