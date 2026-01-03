@@ -15,7 +15,7 @@ catalog:
   "@prisma/client": ^7.2.0
   "@prisma/adapter-pg": ^7.2.0
   graphql: ^16.11.0
-  "@apollo/server": ^4.12.0
+  "@apollo/server": ^5.2.0
   "@apollo/client": ^4.0.11
   rxjs: ^7.8.2
   "@graphql-codegen/cli": ^6.1.0
