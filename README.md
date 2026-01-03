@@ -213,23 +213,25 @@ pnpm db:test:sync
 
 <img src="./images/infra-diagram.png" width="800px" height="auto">
 
-#### Web Hosting Setup
+### Web Hosting Setup
 
 The web hosting setup is based on GitHub Pages and GitHub Actions. To get started:
 
 Go to your github repository, then `Settings` > `Pages`, select `Source` and choose `GitHub Actions`.
 
-You can also add a custom domain via the `Custom domain` field. Make sure you follow the instructions to ensure you have the correct DNS records in place. Also ensure you select `Enforce HTTPS` and update the `/apps/web/public/CNAME` file with your custom domain.
+> You can also add a custom domain via the `Custom domain` field. Make sure you follow the instructions to ensure you have the correct DNS records in place. Also ensure you select `Enforce HTTPS` and update the `/apps/web/public/CNAME` file with your custom domain.
 
-#### Desktop File Hosting Setup
+Now go to `Secrets and variables` > `Actions`, then fill out the `Environment secrets` section according to your `/apps/web/.env` file.
+
+### Desktop File Hosting Setup
 
 TODO: hosting via github releases
 
-#### Auth Setup
+### Auth Setup
 
 You should already have a Supabase project setup with JWT auth. So that piece is covered!
 
-#### Database Setup
+### Database Setup
 
 Supabase offers a hosted PostgreSQL DB at no cost (limited storage/CPU). You can choose any other provider you'd like, and depending on your needs, you may want to compare pricing with [DigitalOcean](https://www.digitalocean.com/products/managed-databases-postgresql/) or [AWS RDS](https://aws.amazon.com/rds/postgresql/) at actual scale. But for a small project, Supabase is a great option.
 
@@ -237,7 +239,7 @@ Follow [these instructions](https://supabase.com/docs/guides/database/prisma) to
 
 TODO: update env
 
-#### Game Server Setup
+### Game Server Setup
 
 TODO: create DigitalOcean Droplet
 
