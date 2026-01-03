@@ -18,10 +18,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  environment:
-    name: github-pages
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
     steps:
       - uses: actions/checkout@v6
         with:
@@ -58,6 +58,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment:
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
