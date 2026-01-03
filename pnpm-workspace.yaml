@@ -13,6 +13,7 @@ catalog:
   colyseus.js: ^0.16.16
   prisma: ^7.2.0
   "@prisma/client": ^7.2.0
+  "@prisma/adapter-pg": ^7.2.0
   graphql: ^16.11.0
   "@apollo/server": ^4.12.0
   "@apollo/client": ^3.13.8

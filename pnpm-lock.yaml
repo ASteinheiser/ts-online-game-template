@@ -21,6 +21,9 @@ catalogs:
     '@parcel/watcher':
       specifier: ^2.5.1
       version: 2.5.1
+    '@prisma/adapter-pg':
+      specifier: ^7.2.0
+      version: 7.2.0
     '@prisma/client':
       specifier: ^7.2.0
       version: 7.2.0
@@ -274,7 +277,7 @@ importers:
         specifier: ^0.16.8
         version: 0.16.16(@colyseus/core@0.16.24(@colyseus/schema@3.0.76)(@pm2/io@6.1.0))(@colyseus/ws-transport@0.16.5(@colyseus/core@0.16.24(@colyseus/schema@3.0.76)(@pm2/io@6.1.0)))
       '@prisma/adapter-pg':
-        specifier: ^7.2.0
+        specifier: 'catalog:'
         version: 7.2.0
       '@prisma/client':
         specifier: 'catalog:'
