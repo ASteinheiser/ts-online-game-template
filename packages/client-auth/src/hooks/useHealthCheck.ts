@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { gql, useApolloClient } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useApolloClient } from '@apollo/client/react';
 import type { Auth_GetHealthCheckQuery } from '../graphql';
 
 const MAX_RETRIES = 10;

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { Toaster } from '@repo/ui';
 import { SessionProvider } from '@repo/client-auth/provider';
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client/react';
 import { client } from './graphql/client';
 import { router } from './router';
 import './theme.css';

@@ -26,7 +26,8 @@
     "graphql": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "react-router-dom": "catalog:"
+    "react-router-dom": "catalog:",
+    "rxjs": "catalog:"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "catalog:",

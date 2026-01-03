@@ -32,7 +32,8 @@
     "phaser": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "react-router-dom": "catalog:"
+    "react-router-dom": "catalog:",
+    "rxjs": "catalog:"
   },
   "devDependencies": {
     "@electron-toolkit/preload": "^3.0.2",

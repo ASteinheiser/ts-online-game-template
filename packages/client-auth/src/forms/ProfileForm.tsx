@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useMutation } from '@apollo/client/react';
 import { useNavigate } from 'react-router-dom';
 import { isEmail } from 'validator';
 import { Button, ConfirmationModal, Input, Label, toast } from '@repo/ui';

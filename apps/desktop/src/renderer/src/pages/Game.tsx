@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { useSession } from '@repo/client-auth/provider';
 import { useSearchParamFlag } from '@repo/ui/hooks';
 import { toast } from '@repo/ui';

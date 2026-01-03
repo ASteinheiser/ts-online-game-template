@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { ChevronDown } from '@repo/ui/icons';
 import { cn } from '@repo/ui/utils';
 import type { Web_GetTotalPlayersQuery, Web_GetTotalPlayersQueryVariables } from '../graphql';

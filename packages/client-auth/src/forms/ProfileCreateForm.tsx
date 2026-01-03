@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { gql, useApolloClient } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useApolloClient } from '@apollo/client/react';
 import { Button, Input, Label, toast } from '@repo/ui';
 import { CheckMark } from '@repo/ui/icons';
 import { useSession } from '../provider/SessionContext';

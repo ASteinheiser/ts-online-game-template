@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { gql, useApolloClient, type ApolloError } from '@apollo/client';
+import { gql, type ErrorLike } from '@apollo/client';
+import { useApolloClient } from '@apollo/client/react';
 import { useDebounce } from '@repo/ui/hooks';
 import type { Auth_GetUserExistsQuery, Auth_GetUserExistsQueryVariables } from '../graphql';
 
@@ -13,7 +14,7 @@ interface UseUserNameExistsResult {
   userNameExists?: boolean;
   isTyping: boolean;
   loading: boolean;
-  error?: ApolloError;
+  error?: ErrorLike;
 }
 
 export const useUserNameExists = (userName: string): UseUserNameExistsResult => {
@@ -21,7 +22,7 @@ export const useUserNameExists = (userName: string): UseUserNameExistsResult => 
 
   const [userNameExists, setUserNameExists] = useState<boolean>();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<ApolloError>();
+  const [error, setError] = useState<ErrorLike>();
 
   const debouncedUserName = useDebounce(userName, 500);
 
@@ -46,7 +47,7 @@ export const useUserNameExists = (userName: string): UseUserNameExistsResult => 
       setUserNameExists(data?.userExists ?? undefined);
     } catch (error) {
       console.error(error);
-      setError(error as ApolloError);
+      setError(error as ErrorLike);
       setUserNameExists(undefined);
     } finally {
       setLoading(false);
