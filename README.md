@@ -28,6 +28,9 @@ A _highly opinionated_ template for creating real-time, online games using [Type
 - `typescript-config`: Shared TypeScript configs
 - `eslint-config`: Shared ESlint configs
 
+<br />
+<img src="./images/dev.gif" width="800px" height="auto">
+
 ## Third-party Dependencies
 
 This project relies on [Supabase](https://supabase.com/) for [JWT authentication](https://auth0.com/docs/secure/tokens/json-web-tokens). They offer a very generous free tier ([50k MAU](https://supabase.com/pricing)) and a straight-forward developer experience. It's also [open source](https://github.com/supabase/supabase?tab=readme-ov-file#supabase), so you can self-host if the need arises!
@@ -154,6 +157,9 @@ pnpm db:test:stop
 
 <b>NOTE</b>: `pnpm test:watch` offers a similar experience to `pnpm dev`, in the sense that it will watch for graphql and prisma type changes, and hot-reload as needed. `pnpm test` acts as a complete CI check as it will run all the type generators, typechecks, linters, then finally tests.
 
+<br />
+<img src="./images/test.gif" width="800px" height="auto">
+
 ## Load Testing
 
 Colyseus has a built-in load testing tool that can be used to test the scalability of the game rooms. The example load test is located in `apps/game-api/test/load/test.ts`. To start the load test, run:
@@ -166,6 +172,9 @@ pnpm test:load
 pnpm db:test:start
 pnpm db:test:sync
 ```
+
+<br />
+<img src="./images/test-load.gif" width="800px" height="auto">
 
 ## Available Commands
 
