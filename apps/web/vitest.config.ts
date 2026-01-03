@@ -11,7 +11,6 @@ export default mergeConfig(
       coverage: {
         provider: 'v8',
         reporter: ['text'],
-        all: false,
       },
     },
   })
