@@ -35,7 +35,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install --filter="!apps/game-api" --frozen-lockfile
+        run: pnpm install --filter="!game-api,!desktop" --frozen-lockfile
 
       - name: Build web app
         run: pnpm build --filter=web
