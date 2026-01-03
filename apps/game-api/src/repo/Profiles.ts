@@ -1,4 +1,4 @@
-import type { PrismaClient, Profile } from '../prisma-client';
+import type { PrismaClient, Profile } from './prisma-client/client';
 
 export class ProfilesRepository {
   private prisma: PrismaClient;

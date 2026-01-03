@@ -3,13 +3,8 @@ import { Client } from 'colyseus.js';
 import { cli, type Options } from '@colyseus/loadtest';
 import { WS_ROOM, WS_EVENT, type InputPayload } from '@repo/core-game';
 import type { GameRoomState } from '../../src/rooms/GameRoom/roomState';
-import {
-  generateTestJWT,
-  createTestPrismaClient,
-  setupTestDb,
-  cleanupTestDb,
-  TEST_USERS,
-} from '../integration/utils';
+import { prisma } from '../../src/repo/client';
+import { generateTestJWT, setupTestDb, cleanupTestDb, TEST_USERS } from '../integration/utils';
 
 const JOIN_DELAY_MS = 500;
 const TEST_USER_EXPIRES_IN_MS = 3 * 60 * 1000; // 3 minutes
@@ -103,7 +98,6 @@ export async function main(options: Options) {
   });
 }
 
-const prisma = createTestPrismaClient();
 await cleanupTestDb(prisma);
 await setupTestDb(prisma);
 

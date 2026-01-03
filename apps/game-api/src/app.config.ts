@@ -9,7 +9,7 @@ import { WS_ROOM, API_ROUTES, CONNECTION_CHECK_INTERVAL } from '@repo/core-game'
 import { server as GQLServer } from './graphql';
 import { GameRoom } from './rooms/GameRoom';
 import { createContext } from './graphql/context';
-import type { PrismaClient } from './prisma-client';
+import type { PrismaClient } from './repo/prisma-client/client';
 
 const isProduction = process.env.NODE_ENV === 'production';
 

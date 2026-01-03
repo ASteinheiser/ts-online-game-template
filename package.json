@@ -1,6 +1,6 @@
 {
   "name": "ts-online-game-template",
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@10.27.0",
   "version": "0.0.1",
   "author": "Andrew Steinheiser <me@iamandrew.io>",
   "license": "MIT",
@@ -37,7 +37,7 @@
   "devDependencies": {
     "eslint": "catalog:",
     "prettier": "catalog:",
-    "turbo": "^2.5.5"
+    "turbo": "^2.7.2"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

@@ -22,7 +22,7 @@ import {
   type AuthPayload,
   type InputPayload,
 } from '@repo/core-game';
-import type { PrismaClient, Profile } from '../../prisma-client';
+import type { PrismaClient, Profile } from '../../repo/prisma-client/client';
 import { validateJwt } from '../../auth/jwt';
 import { logger } from '../../logger';
 import { ROOM_ERROR } from '../error';

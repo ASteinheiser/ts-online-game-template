@@ -3,11 +3,8 @@ import type { ColyseusTestServer } from '@colyseus/testing';
 import type { GraphQLResponse } from '@apollo/server';
 import { WS_ROOM, WS_EVENT } from '@repo/core-game';
 import type { GameRoomState } from '../../src/rooms/GameRoom/roomState';
-import { PrismaClient } from '../../src/prisma-client';
+import type { PrismaClient } from '../../src/repo/prisma-client/client';
 import type { DecodedToken, User } from '../../src/auth/jwt';
-
-const DATABASE_URL = process.env.DATABASE_URL;
-if (!DATABASE_URL) throw new Error('DATABASE_URL is not set');
 
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) throw new Error('JWT_SECRET is not set');
@@ -87,15 +84,6 @@ export const parseGQLData = <Type>(result: GraphQLResponse<Type>) => {
   return result.body.kind === 'single'
     ? (result.body.singleResult?.data as Type)
     : (result.body.initialResult.data as Type);
-};
-
-/** create a prisma client connected to the local test DB */
-export const createTestPrismaClient = () => {
-  return new PrismaClient({
-    datasources: {
-      db: { url: DATABASE_URL },
-    },
-  });
 };
 
 /** seeds data into the local test DB */

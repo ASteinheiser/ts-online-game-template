@@ -5,14 +5,8 @@ import { ProfilesRepository } from '../../src/repo/Profiles';
 import type { RESULTS } from '../../src/rooms/GameRoom';
 import type { GoTrueAdminApi } from '@supabase/supabase-js';
 import type { User } from '../../src/auth/jwt';
-import {
-  TEST_USERS,
-  makeTestContextUser,
-  parseGQLData,
-  createTestPrismaClient,
-  setupTestDb,
-  cleanupTestDb,
-} from './utils';
+import { prisma } from '../../src/repo/client';
+import { TEST_USERS, makeTestContextUser, parseGQLData, setupTestDb, cleanupTestDb } from './utils';
 import type {
   Test_GetTotalPlayersQuery,
   Test_GetTotalPlayersQueryVariables,
@@ -21,10 +15,7 @@ import type {
 } from '../graphql';
 
 describe('GQLServer', () => {
-  let prisma: ReturnType<typeof createTestPrismaClient>;
-
   before(async () => {
-    prisma = createTestPrismaClient();
     await cleanupTestDb(prisma);
     await setupTestDb(prisma);
   });

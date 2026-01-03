@@ -2,6 +2,7 @@ import assert from 'assert';
 import type { ServerError } from '@colyseus/core';
 import { type ColyseusTestServer, boot } from '@colyseus/testing';
 import type { GoTrueAdminApi } from '@supabase/supabase-js';
+import type { ToJSON } from '@colyseus/schema';
 import {
   WS_CODE,
   WS_EVENT,
@@ -14,12 +15,12 @@ import type { GameRoom } from '../../src/rooms/GameRoom';
 import { Player } from '../../src/rooms/GameRoom/roomState';
 import { makeApp } from '../../src/app.config';
 import { ROOM_ERROR } from '../../src/rooms/error';
+import { prisma } from '../../src/repo/client';
 import {
   TEST_USERS,
   joinTestRoom,
   reconnectTestRoom,
   generateTestJWT,
-  createTestPrismaClient,
   setupTestDb,
   cleanupTestDb,
 } from './utils';
@@ -29,12 +30,10 @@ const TEST_CONNECTION_CHECK_INTERVAL = 100;
 
 describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
   let server: ColyseusTestServer;
-  let prisma: ReturnType<typeof createTestPrismaClient>;
   // currently unused, but required by the app config
   const authClient = {} as GoTrueAdminApi;
 
   before(async () => {
-    prisma = createTestPrismaClient();
     await cleanupTestDb(prisma);
     await setupTestDb(prisma);
     const app = makeApp({
@@ -356,7 +355,6 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       assertPlayerFieldsState({
         room,
         playerId: client.sessionId,
-        // @ts-expect-error - needed to test the player fields state
         expectedPlayer: {
           ...oldPlayer,
           x: oldPlayer.x + PLAYER_MOVE_SPEED,
@@ -625,7 +623,7 @@ const assertExtraPlayerState = ({ room, clientIds, extraPlayerIds }: AssertExtra
 interface AssertPlayerFieldsStateArgs {
   room: GameRoom;
   playerId: string;
-  expectedPlayer: Player;
+  expectedPlayer: ToJSON<Player>;
 }
 /** Asserts that the player has the correct fields */
 const assertPlayerFieldsState = ({ room, playerId, expectedPlayer }: AssertPlayerFieldsStateArgs) => {
