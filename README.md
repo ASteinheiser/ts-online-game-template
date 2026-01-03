@@ -223,6 +223,8 @@ Go to your github repository, then `Settings` > `Pages`, select `Source` and cho
 
 Now go to `Secrets and variables` > `Actions`, then fill out the `Environment secrets` section according to your `/apps/web/.env` file. Ensure that you keep these secrets in their own `Environment`: `github-pages`.
 
+Now that everything is setup, you can either push to `main` or manually trigger the `Deploy Web to GitHub Pages` workflow from the `Actions` tab.
+
 ### Desktop File Hosting Setup
 
 TODO: hosting via github releases
