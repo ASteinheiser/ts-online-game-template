@@ -40,7 +40,7 @@ You'll need to create a free tier [project](https://supabase.com/dashboard/) and
 - `apps/game-api/.env`
 - `apps/web/.env`
 
-**NOTE:** You'll need to update the `Site URL` (under `Authentication` > `URL Configuration`) to send email links to the auth redirect route. For example, if your custom domain is `https://ts-game.online`, you should enter: `https://ts-game.online/auth/redirect`. You can use `http://localhost:4200/auth/redirect` for local development. Configure this value here:
+**NOTE:** You'll need to add `Redirect URLs` (under `Authentication` > `URL Configuration`) to send email links to the auth redirect route. For example, if your custom domain is `https://ts-game.online`, you should add: `https://ts-game.online/auth/redirect*`. You can also add `http://localhost:4200/auth/redirect*` for local development. Configure this here:
 
 `https://supabase.com/dashboard/project/<PROJECT_ID>/auth/url-configuration`
 
