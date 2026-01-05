@@ -39,6 +39,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Disable Windows CRLF translation
+        if: matrix.os == 'windows-latest'
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git reset --hard
+
       - name: Setup PNPM
         uses: pnpm/action-setup@v4
         with:
