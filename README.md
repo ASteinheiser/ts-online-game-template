@@ -211,7 +211,7 @@ pnpm db:test:sync
 
 #### Architecture overview:
 
-<img src="./images/infra-diagram.png" width="800px" height="auto">
+<img src="./images/system-design.png" width="800px" height="auto">
 
 ### Web Hosting Setup
 
@@ -221,7 +221,9 @@ Go to your github repository, then `Settings` > `Pages`, select `Source` and cho
 
 > You can also add a custom domain via the `Custom domain` field. Make sure you follow the instructions to ensure you have the correct DNS records in place. Also ensure you select `Enforce HTTPS` and update the `/apps/web/public/CNAME` file with your custom domain.
 
-Now go to `Secrets and variables` > `Actions`, then fill out the `Environment secrets` section according to your `/apps/web/.env` file. Ensure that you keep these secrets in their own `Environment`: `github-pages`.
+Now go to `Settings` > `Environments`, then select (or create if needed) the `github-pages` environment. Fill out the `Environment secrets` section according to your `/apps/web/.env` file.
+
+**NOTE:** Before hosting the `game-api`, you won't have a valid `VITE_API_URL`. So for now, just use the development value: `http://localhost:4204`
 
 Now that everything is setup, you can either push to `main` or manually trigger the `Deploy Web to GitHub Pages` workflow from the `Actions` tab.
 
