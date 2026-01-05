@@ -65,7 +65,7 @@
       "outputs": ["build/icon.png", "resources/icon.png"]
     },
     "build": {
-      "dependsOn": ["^build", "@repo/core-game#build", "generate:app-icons", "test"],
+      "dependsOn": ["^build", "generate:app-icons", "test"],
       "outputs": ["dist/**"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "env": [
@@ -92,6 +92,9 @@
     "build:linux": {
       "dependsOn": ["desktop#build"],
       "outputs": ["dist/**"]
+    },
+    "desktop#build": {
+      "dependsOn": ["@repo/core-game#build"]
     }
   }
 }
