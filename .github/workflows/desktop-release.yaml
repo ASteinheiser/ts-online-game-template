@@ -101,3 +101,4 @@ jobs:
           artifactErrorsFailBuild: true
           draft: false
           generateReleaseNotes: true
+          allowUpdates: true 
