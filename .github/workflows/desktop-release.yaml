@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build:
-    name: Build desktop binaries (${ { matrix.os } })
+    name: Build desktop binaries
     runs-on: ${{ matrix.os }}
     environment:
       name: github-releases

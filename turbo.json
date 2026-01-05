@@ -90,7 +90,7 @@
       "outputs": ["dist/**"]
     },
     "build:linux": {
-      "dependsOn": ["desktop#build"],
+      "dependsOn": ["core-game#build", "desktop#build"],
       "outputs": ["dist/**"]
     }
   }
