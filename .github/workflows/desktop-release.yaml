@@ -97,7 +97,11 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ github.ref_name }}
-          artifacts: "dist/**/*"
+          artifacts: |
+            dist/**/*.dmg
+            dist/**/*.zip
+            dist/**/*.exe
+            dist/**/*.AppImage
           artifactErrorsFailBuild: true
           draft: false
           generateReleaseNotes: true
