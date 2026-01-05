@@ -33,7 +33,6 @@ dmg:
 linux:
   target:
     - AppImage
-    - snap
     - deb
   maintainer: me@iamandrew.io
   category: Games
