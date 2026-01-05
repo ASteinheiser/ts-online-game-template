@@ -229,7 +229,13 @@ Now that everything is setup, you can either push to `main` or manually trigger 
 
 ### Desktop File Hosting Setup
 
-TODO: hosting via github releases
+The desktop app files will be hosted via GitHub Releases and GitHub Actions. To get started:
+
+Go to your github repository, then `Settings` > `Environments` and create the `github-releases` environment. Fill out the `Environment secrets` section according to your `/apps/desktop/.env` file.
+
+**NOTE:** Before hosting the `game-api`, you won't have a valid `VITE_API_URL` or `VITE_WEBSOCKET_URL`. So for now, just use the development values: `http://localhost:4204` and `ws://localhost:4204` respectively.
+
+That's it! The desktop app files will now be built and hosted in a GitHub Release. Simply create a release with a new tag and the GitHub Action will update the Release with the files.
 
 ### Auth Setup
 
