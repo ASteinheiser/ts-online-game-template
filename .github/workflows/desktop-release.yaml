@@ -62,47 +62,12 @@ jobs:
 
       - name: Build desktop app
         if: matrix.os == 'macos-latest'
-        run: pnpm build:mac
+        run: pnpm build:mac -- --publish
 
       - name: Build desktop app
         if: matrix.os == 'windows-latest'
-        run: pnpm build:win
+        run: pnpm build:win -- --publish
 
       - name: Build desktop app
         if: matrix.os == 'ubuntu-latest'
-        run: pnpm build:linux
-
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v6
-        with:
-          name: dist-${{ matrix.os }}
-          path: |
-            apps/desktop/dist/**
-          if-no-files-found: error
-
-  release:
-    name: Create GitHub Release
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v7
-        with:
-          pattern: dist-* # grab all platform artifacts
-          merge-multiple: true
-          path: dist
-
-      - name: Create / Update GitHub Release & Upload Assets
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ github.ref_name }}
-          artifacts: |
-            dist/**/*.dmg
-            dist/**/*.zip
-            dist/**/*.exe
-            dist/**/*.AppImage
-          artifactErrorsFailBuild: true
-          draft: false
-          generateReleaseNotes: true
-          allowUpdates: true 
+        run: pnpm build:linux -- --publish

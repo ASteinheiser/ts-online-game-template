@@ -40,8 +40,8 @@ appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
-  provider: generic
-  url: https://iamandrew.io
+  provider: github
+  releaseType: release
 protocols:
   - name: Demo Game
     schemes:
