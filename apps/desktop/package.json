@@ -1,6 +1,7 @@
 {
   "name": "desktop",
   "version": "0.0.1",
+  "repository": "https://github.com/asteinheiser/ts-online-game-template",
   "homepage": "https://ts-game.online",
   "author": "Andrew Steinheiser <me@iamandrew.io>",
   "license": "MIT",
