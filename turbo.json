@@ -2,7 +2,7 @@
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
   "concurrency": "13",
-  "globalEnv": ["GITHUB_TOKEN"],
+  "globalEnv": ["GH_TOKEN"],
   "tasks": {
     "generate:gql-types": {
       "inputs": ["$TURBO_DEFAULT$", "../../apps/game-api/src/graphql/schema.graphql"],
