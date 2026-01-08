@@ -235,6 +235,8 @@ Go to your github repository, then `Settings` > `Environments` and create the `g
 
 **NOTE:** Before hosting the `game-api`, you won't have a valid `VITE_API_URL` or `VITE_WEBSOCKET_URL`. So for now, just use the development values: `http://localhost:4204` and `ws://localhost:4204` respectively.
 
+**NOTE:** You will also need to set the `GH_TOKEN` environment secret. This is used to authenticate with the GitHub API and update the release with the desktop app files as they are built. [Generate a personal access token](https://github.com/settings/personal-access-tokens) and make sure to give it permissions to `read and write` on `Contents`.
+
 That's it! The desktop app files will now be built and hosted in a GitHub Release. Simply create a release with a new tag and the GitHub Action will update the Release with the desktop app files once the builds complete.
 
 ### Auth Setup
