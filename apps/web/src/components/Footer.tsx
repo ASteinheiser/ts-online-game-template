@@ -5,7 +5,7 @@ export const Footer = () => {
       style={{ height: 'var(--footer-height)' }}
     >
       <p className="font-label text-lg text-muted-foreground text-center">
-        Made with 💜 by Andrew Steinheiser - Copyright © 2025
+        Made with 💜 by Andrew Steinheiser - Copyright © 2026
       </p>
     </div>
   );
