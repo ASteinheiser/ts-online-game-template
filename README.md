@@ -85,22 +85,22 @@ Install the `docker-compose` cli, which can be [installed via Docker Desktop](ht
 <b>Ensure</b> you are using the <ins>correct version</ins> of <ins>Node.js</ins>. You can validate this by comparing your local version of node (`node -v`) with the `.nvmrc`.
 
 NOTE: The `.nvmrc` uses an alias for the node version. I highly recommend managing your local node version with [`nvm`](https://github.com/nvm-sh/nvm). This will allow you to quickly swap to the correct version with:
-```
+```bash
 nvm use
 ```
 
 This project uses [`pnpm`](https://pnpm.io/) for it's dependency mangement. You can install it with `npm`:
-```
+```bash
 npm i -g pnpm
 ```
 
 This project also uses [Turborepo](https://turborepo.com/) to manage scripts across the monorepo. While this is NOT necessary, [it is recommended](https://turborepo.com/docs/getting-started/installation#installing-turbo) that you install a local version:
-```
+```bash
 npm i -g turbo
 ```
 
 With the `turbo` cli, you can take a look at the project structure as well as the available commands:
-```
+```bash
 turbo ls
 turbo run
 ```
@@ -123,14 +123,14 @@ These commands are available from the root directory whether you decide to insta
 | `pnpm build:[win\|mac\|linux]` | Builds the desktop app via Electron |
 
 <b>NOTE</b>: If, for example, your Electron app is throwing an error when starting or building, but was previously working, try:
-```
+```bash
 pnpm install:clean
 ```
 
 ## Working with the PostgreSQL DB
 
 If this is your first time running the project, you'll need to start the DB with `docker-compose` and sync the tables with `prisma`:
-```
+```bash
 pnpm db:start
 pnpm db:sync
 ```
@@ -138,7 +138,7 @@ pnpm db:sync
 `pnpm generate:db-types` will run during `dev`, `build`, etc., if you're using the monorepo commands.
 
 However, if you change the DB schema via `apps/game-api/prisma/schema.prisma`, then you'll need to run `db:sync` again:
-```
+```bash
 pnpm db:sync
 ```
 
@@ -149,7 +149,7 @@ This will generate a SQL migration, migrate your local DB, and update your types
 ## Testing
 
 When you run `pnpm test` or `pnpm test:watch`, it will run the `game-api` test suite, which requires a local test DB to be running. This can be accomplished by following the instructions for [working with the PostgreSQL DB](#working-with-the-postgresql-db), with the only difference being that you add `test:` to the `db:` commands, ie:
-```
+```bash
 pnpm db:test:start
 pnpm db:test:sync
 pnpm db:test:stop
@@ -163,12 +163,12 @@ pnpm db:test:stop
 ## Load Testing
 
 Colyseus has a built-in load testing tool that can be used to test the scalability of the game rooms. The example load test is located in `apps/game-api/test/load/test.ts`. To start the load test, run:
-```
+```bash
 pnpm test:load
 ```
 
 <b>NOTE</b>: This will run the `game-api` CI checks, start the server in preview mode, then run the load test. The preview server is production-like, but pointed at a local test DB. Please ensure the test DB is running and synced, same as the [testing instructions](#testing) above:
-```
+```bash
 pnpm db:test:start
 pnpm db:test:sync
 ```
@@ -282,7 +282,7 @@ Now you can create the "Developer ID Application" certificate (and `.p12` file) 
 - As you save this file, you'll be prompted to enter a password for the certificate. This is the `MAC_CERT_PASS` that you'll need to set as a repository secret. I recommend using a password manager to generate a secure password.
 
 You should now have a valid `.p12` file. You can base64 encode it, then copy the value, by running:
-```
+```bash
 base64 < ~/path/to/cert_name.p12 | pbcopy
 ```
 
