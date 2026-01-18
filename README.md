@@ -237,7 +237,28 @@ Go to your github repository, then `Settings` > `Environments` and create the `g
 
 **NOTE:** You will also need to set the `GH_TOKEN` environment secret. This is used to authenticate with the GitHub API and update the release with the desktop app files as they are built. [Generate a personal access token](https://github.com/settings/personal-access-tokens) and make sure to give it permissions to `read and write` on `Contents`.
 
-That's it! The desktop app files will now be built and hosted in a GitHub Release. Simply create a release with a new tag and the GitHub Action will update the Release with the desktop app files once the builds complete.
+#### macOS Signing
+
+To sign and notarize builds for macOS, you'll need:
+- a MacBook (Keychain Access app required)
+- an [Apple Developer account](https://developer.apple.com/)
+- to be enrolled in the paid [Apple Developer Program](https://developer.apple.com/programs/enroll/)
+
+You'll also need to set the following:
+
+| Repository Secret | Description |
+|----|----|
+| `APPLE_ID` | Email address of the Apple Developer account |
+| `APPLE_APP_SPECIFIC_PASSWORD` | Generated "App-Specific Password" (16 characters) |
+| `APPLE_TEAM_ID` | Team ID of the Apple Developer account (10 characters) |
+| `MAC_CERT_B64` | Base64 encoded "Developer ID Application" certificate |
+| `MAC_CERT_PASS` | Password for the certificate |
+
+Setting your `APPLE_ID` should be easy, just use your email address that you'll use to log in at https://account.apple.com/. Once you log in, under "Sign-In and Security", you should see a section called "App-Specific Passwords". Create a new password and copy the value (this only shows once, 16 characters, ex: `asdf-asdf-asdf-asdf`). Now use that value to set the `APPLE_APP_SPECIFIC_PASSWORD` repository secret.
+
+To find your `APPLE_TEAM_ID`, go to https://developer.apple.com/account and scroll down to "Membership details". You should see your 10 character "Team ID" here (ex: `1234ABCD56`).
+
+The desktop app files can now be built, signed (macOS/win) and hosted in a GitHub Release! Simply create a Release with a new tag (such as `v0.0.1`) and the GitHub Action will kick off the build process for each OS. As each OS build completes, the Release will be updated with the desktop app files.
 
 ### Auth Setup
 
