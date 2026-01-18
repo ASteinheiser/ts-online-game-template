@@ -258,6 +258,38 @@ Setting your `APPLE_ID` should be easy, just use your email address that you'll 
 
 To find your `APPLE_TEAM_ID`, go to https://developer.apple.com/account and scroll down to "Membership details". You should see your 10 character "Team ID" here (ex: `1234ABCD56`).
 
+Getting a valid `MAC_CERT_B64` (and `MAC_CERT_PASS`) is a bit more involved. You'll need a "Developer ID Application" certificate (a `.p12` file) that you can base64 encode. Before you can create that certificate, you'll need to create a "Certificate Signing Request" (CSR) file. This can be done with Keychain Access:
+- Open Keychain Access
+- Click "Keychain Access" > "Certificate Assistant" > "Request a Certificate from a Certificate Authority"
+- Create a CSR with:
+    - your Apple Developer email as the User Email Address
+    - Common Name set to your name or company name
+    - empty CA Email Address
+    - "Request is" set to "Saved to disk"
+- Save the CSR file (`.certSigningRequest` file)
+
+Now you can create the "Developer ID Application" certificate (and `.p12` file) from https://developer.apple.com/account/resources/certificates/list
+- Create a new Certificate
+- Select "Developer ID Application" and click "Continue"
+- DO NOT CHANGE the default selection for "Previous Sub-CA"
+- Upload the CSR file you just created
+- Create the Certificate
+- Download the certificate (should be a `.cer` file)
+- Double click the `.cer` file to add it to your Keychain
+- Ensure that you see a checkmark with "This certificate is valid", otherwise, revisit the steps above
+- Expand the certificate, select the cert and the private key, then click "Export 2 items..."
+- Ensure you save it as a `.p12` format
+- As you save this file, you'll be prompted to enter a password for the certificate. This is the `MAC_CERT_PASS` that you'll need to set as a repository secret. I recommend using a password manager to generate a secure password.
+
+You should now have a valid `.p12` file. You can base64 encode it, then copy the value, by running:
+```
+base64 < ~/path/to/cert_name.p12 | pbcopy
+```
+
+Finally, set the `MAC_CERT_B64` repository secret with the base64 encoded value (you can paste it directly from your clipboard).
+
+#### Deployment Trigger
+
 The desktop app files can now be built, signed (macOS/win) and hosted in a GitHub Release! Simply create a Release with a new tag (such as `v0.0.1`) and the GitHub Action will kick off the build process for each OS. As each OS build completes, the Release will be updated with the desktop app files.
 
 ### Auth Setup
