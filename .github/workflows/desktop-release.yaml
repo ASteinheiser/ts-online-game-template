@@ -77,6 +77,14 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple: -k "" build.keychain
         shell: bash
 
+      - name: Debug env
+        if: matrix.os == 'macos-latest'
+        run: |
+          echo "APPLE_ID                : ${APPLE_ID:+present}"
+          echo "APPLE_APP_SPECIFIC_PASSWORD : ${APPLE_APP_SPECIFIC_PASSWORD:+present}"
+          echo "ASC_PROVIDER            : ${ASC_PROVIDER:+present}"
+        shell: bash
+
       - name: Build desktop app
         if: matrix.os == 'macos-latest'
         run: pnpm build:mac -- --publish=always
