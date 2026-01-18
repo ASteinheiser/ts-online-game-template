@@ -2,7 +2,7 @@
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
   "concurrency": "13",
-  "globalEnv": ["GH_TOKEN"],
+  "globalEnv": ["GH_TOKEN", "CSC_LINK", "CSC_KEY_PASSWORD", "APPLE_ID", "APPLE_TEAM_ID", "APPLE_APP_SPECIFIC_PASSWORD"],
   "tasks": {
     "generate:gql-types": {
       "inputs": ["$TURBO_DEFAULT$", "../../apps/game-api/src/graphql/schema.graphql"],
