@@ -36,7 +36,6 @@ dmg:
 linux:
   target:
     - AppImage
-    - deb
   maintainer: me@iamandrew.io
   category: Games
 appImage:
