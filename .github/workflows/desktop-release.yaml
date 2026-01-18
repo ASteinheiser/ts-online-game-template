@@ -24,6 +24,11 @@ jobs:
       VITE_WEBSOCKET_URL: ${{ secrets.VITE_WEBSOCKET_URL }}
       VITE_PUBLIC_WEB_BASE_URL: ${{ secrets.VITE_PUBLIC_WEB_BASE_URL }}
       VITE_DEEP_LINK_PROTOCOL: ${{ secrets.VITE_DEEP_LINK_PROTOCOL }}
+      CSC_LINK: ${{ secrets.MAC_CERT_B64 }}
+      CSC_KEY_PASSWORD: ${{ secrets.MAC_CERT_PASS }}
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
 
     strategy:
       fail-fast: false
@@ -60,6 +65,17 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --filter="!game-api" --frozen-lockfile
+
+      - name: Import macOS signing cert
+        if: runner.os == 'macOS'
+        run: |
+          echo "$CSC_LINK" | base64 --decode > mac_cert.p12
+          security create-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security import mac_cert.p12 -k build.keychain -P "$CSC_KEY_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -k "" build.keychain
+        shell: bash
 
       - name: Build desktop app
         if: matrix.os == 'macos-latest'
