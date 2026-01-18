@@ -27,8 +27,9 @@ jobs:
       CSC_LINK: ${{ secrets.MAC_CERT_B64 }}
       CSC_KEY_PASSWORD: ${{ secrets.MAC_CERT_PASS }}
       APPLE_ID: ${{ secrets.APPLE_ID }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
       ASC_PROVIDER: ${{ secrets.APPLE_TEAM_ID }}
-      APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+      APPLE_ID_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
 
     strategy:
       fail-fast: false
@@ -75,14 +76,6 @@ jobs:
           security unlock-keychain -p "" build.keychain
           security import mac_cert.p12 -k build.keychain -P "$CSC_KEY_PASSWORD" -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple: -k "" build.keychain
-        shell: bash
-
-      - name: Debug env
-        if: matrix.os == 'macos-latest'
-        run: |
-          echo "APPLE_ID                : ${APPLE_ID:+present}"
-          echo "APPLE_APP_SPECIFIC_PASSWORD : ${APPLE_APP_SPECIFIC_PASSWORD:+present}"
-          echo "ASC_PROVIDER            : ${ASC_PROVIDER:+present}"
         shell: bash
 
       - name: Build desktop app
