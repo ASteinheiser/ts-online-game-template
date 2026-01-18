@@ -11,6 +11,7 @@ A _highly opinionated_ template for creating real-time, online games using [Type
 - [Load Testing](#load-testing)
 - [Available Commands](#available-commands)
 - [Deployment](#deployment)
+- [Cost Breakdown](#cost-breakdown)
 
 ## Overview
 
@@ -309,3 +310,19 @@ TODO: update env
 TODO: create DigitalOcean Droplet
 
 TODO: update env
+
+## Cost Breakdown
+
+A focal point of this project is to be as cost-effective as possible at the start. Here's a breakdown of the costs associated with running everything:
+
+|Provider|Service|Cost|
+|--------|-------|----|
+|GitHub Actions|CI/CD|Free|
+|GitHub Pages|Web Hosting|Free|
+|GitHub Releases|Desktop App Hosting|Free|
+|Supabase|Auth and DB|Free|
+|DigitalOcean|Persistent Server|~$5/month|
+|Apple|macOS signing cert|$100/year or ~$8/month|
+|SSL|Windows signing cert|$129/year or ~$11/month|
+
+**TOTAL:** ~$290/year or ~$24/month
