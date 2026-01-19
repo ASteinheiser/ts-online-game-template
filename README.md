@@ -289,6 +289,45 @@ base64 < ~/path/to/cert_name.p12 | pbcopy
 
 Finally, set the `MAC_CERT_B64` repository secret with the base64 encoded value (you can paste it directly from your clipboard).
 
+#### Windows Signing
+
+To sign builds for Windows, you'll need an Azure ["Artifact Signing Account"](https://azure.microsoft.com/en-us/products/artifact-signing), which is a hosted Certificate Authority service. This works similarly to the Apple Developer program and has similar pricing as well. To get started:
+- Create/log in to your Azure account
+- From the Azure Dashboard, search for "Artifact Signing Accounts"
+- Create a new Artifact Signing Account
+- After creating the account, you'll need to give the Artifact Signing Account permissions to perform Identity Verification. This can be done by selecting the Account, then going to "Access Control (IAM)" and adding the role assigment for "Artifact Signing Identity Verifier" to your user.
+- Now go back to the Artifact Signing Account, and click on "Identity validation", select "Individual" (instead of "Organization"), then "New Identity" > "Public"
+- Fill out the form with your information, create your new identity and wait for processing
+- You will most likely see the status update to "Action Required". If you do, click on the Identity and you should see a link (ex: "Please complete your verification here")
+- Complete the verification process, which will likely include uploading your ID and a selfie through a verification portal, as well as downloading the Microsoft Authenticator app
+- You should now see your Individual Identity with a status of "Completed"
+- Now go back to the Artifact Signing Account, and click on "Certificate profile"
+- Click "Create" > "Public Trust"
+- Fill out the form, selecting your new Individual Identity from the dropdown for "Verified CN and O", then create the profile
+
+With a valid "Certificate Profile", you can now fill out your Azure signing information in the `/apps/desktop/electron-builder.yml` file:
+```yaml
+win:
+  azureSignOptions:
+    endpoint: "<YOUR_ARTIFACT_SIGNING_ACCOUNT_URI>"
+    codeSigningAccountName: "<YOUR_ARTIFACT_SIGNING_ACCOUNT_NAME>"
+    certificateProfileName: "<YOUR_CERTIFICATE_PROFILE_NAME>"
+    publisherName: "<YOUR_CERTIFICATE_SUBJECT>"
+```
+
+The last thing we need to do is create the "App registration" in Azure:
+- From the Azure Dashboard, search for "App registrations"
+- Click "New registration"
+- Give it a name like `gh-electron-signer` and create
+- From your new App Registration, you should be able to see two fields:
+    - "Application (client) ID" > set this as the `AZURE_CLIENT_ID` repository secret
+    - "Directory (tenant) ID" > set this as the `AZURE_TENANT_ID` repository secret
+- Now click on "Manage" > "Certificates & secrets"
+- Click "New client secret" and create a new secret
+- Ensure you copy the Value, as it will only show once!
+
+Finally, you can set the `AZURE_CLIENT_SECRET` repository secret with the value you just copied.
+
 #### Deployment Trigger
 
 The desktop app files can now be built, signed (macOS/win) and hosted in a GitHub Release! Simply create a Release with a new tag (such as `v0.0.1`) and the GitHub Action will kick off the build process for each OS. As each OS build completes, the Release will be updated with the desktop app files.
@@ -322,7 +361,7 @@ A focal point of this project is to be as cost-effective as possible at the star
 |GitHub Releases|Desktop App Hosting|Free|
 |Supabase|Auth and DB|Free|
 |DigitalOcean|Persistent Server|~$5/month|
-|Apple|macOS signing cert|$100/year or ~$8/month|
-|SSL|Windows signing cert|$129/year or ~$11/month|
+|Apple|macOS signing cert|~$8/month ($100/year)|
+|Microsoft Azure|Windows signing cert|$10/month|
 
-**TOTAL:** ~$290/year or ~$24/month
+**TOTAL:** ~$23/month or ~$280/year
