@@ -94,7 +94,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
-          $root  = "$Env:SystemRoot\System32\config\systemprofile"
+          $root  = "$env:SystemRoot\System32\config\systemprofile"
           $local = Join-Path $root 'AppData\Local'
           $roam  = Join-Path $root 'AppData\Roaming'
           New-Item -ItemType Directory -Force -Path $local,$roam | Out-Null
