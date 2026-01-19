@@ -315,7 +315,7 @@ win:
     publisherName: "<YOUR_CERTIFICATE_SUBJECT>"
 ```
 
-The last thing we need to do is create the "App registration" in Azure:
+Now you need to create the "App registration" in Azure:
 - From the Azure Dashboard, search for "App registrations"
 - Click "New registration"
 - Give it a name like `gh-electron-signer` and create
@@ -325,8 +325,16 @@ The last thing we need to do is create the "App registration" in Azure:
 - Now click on "Manage" > "Certificates & secrets"
 - Click "New client secret" and create a new secret
 - Ensure you copy the Value, as it will only show once!
+- Set the `AZURE_CLIENT_SECRET` repository secret with the value you just copied
 
-Finally, you can set the `AZURE_CLIENT_SECRET` repository secret with the value you just copied.
+This final step is very important... You need to assign "Artifact Signing Certificate Profile Signer" permissions to your "App Registration":
+- From your "Artifact Signing Account", click on "Access Control (IAM)"
+- Click "Add" > "Add role assignment"
+- Find and select the "Artifact Signing Certificate Profile Signer" role
+- For "Members", you need to assign a "service principal" for your "App Registration"
+- Click "Select members" and search for your "App Registration" by name
+- Create the permission
+- Double check the new permission in "Artifact Signing Account" > "Access Control (IAM)" > "Role assignments" tab
 
 #### Deployment Trigger
 
