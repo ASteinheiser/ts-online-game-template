@@ -79,23 +79,15 @@ jobs:
           security import mac_cert.p12 -k build.keychain -P "$MAC_CERT_PASS" -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple: -k "" build.keychain
 
-      - name: Install TrustedSigning module
-        if: matrix.os == 'windows-latest'
-        shell: pwsh
-        run: |
-          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-          Set-PSRepository PSGallery -InstallationPolicy Trusted
-          if (-not (Get-PackageProvider -Name NuGet -ErrorAction SilentlyContinue)) {
-            Install-PackageProvider -Name NuGet -Force -Scope CurrentUser
-          }
-          Install-Module TrustedSigning -Force -Scope CurrentUser
-
       - name: Build desktop app
         if: matrix.os == 'macos-latest'
         run: pnpm build:mac -- --publish=always
 
       - name: Build desktop app
         if: matrix.os == 'windows-latest'
+        env:
+          LOCALAPPDATA: C:\Users\runneradmin\AppData\Local
+          APPDATA: C:\Users\runneradmin\AppData\Roaming
         run: pnpm build:win -- --publish=always
 
       - name: Build desktop app

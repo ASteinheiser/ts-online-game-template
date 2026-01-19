@@ -85,7 +85,7 @@
     "build:win": {
       "dependsOn": ["desktop#build"],
       "outputs": ["dist/**"],
-      "env": ["AZURE_TENANT_ID", "AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET"]
+      "env": ["AZURE_TENANT_ID", "AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET", "LOCALAPPDATA", "APPDATA"]
     },
     "build:mac": {
       "dependsOn": ["desktop#build"],
