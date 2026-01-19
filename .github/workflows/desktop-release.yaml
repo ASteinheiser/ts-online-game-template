@@ -96,24 +96,12 @@ jobs:
 
       - name: Build desktop app
         if: matrix.os == 'windows-latest'
-        shell: pwsh
         env:
-          ELECTRON_BUILDER_PARALLEL_SIGN: "false"
-        run: |
-          # Guarantee the three folders winCodeSign expects
-          $user = $env:USERPROFILE            # e.g. C:\Users\runneradmin
-          $env:LOCALAPPDATA = Join-Path $user 'AppData\Local'
-          $env:APPDATA      = Join-Path $user 'AppData\Roaming'
-          $toolsRoot        = Join-Path $env:LOCALAPPDATA 'TrustedSigning'
-
-          New-Item -ItemType Directory -Force -Path $env:LOCALAPPDATA,$env:APPDATA,$toolsRoot | Out-Null
-
-          Write-Host "LOCALAPPDATA = $env:LOCALAPPDATA"
-          Write-Host "APPDATA      = $env:APPDATA"
-          Write-Host "TOOLS ROOT   = $toolsRoot"
-
-          # finally build & publish
-          pnpm build:win -- --publish=always
+          LOCALAPPDATA: C:\Users\runneradmin\AppData\Local
+          APPDATA:      C:\Users\runneradmin\AppData\Roaming
+          TEMP:         C:\Users\runneradmin\AppData\Local\Temp
+          TMP:          C:\Users\runneradmin\AppData\Local\Temp
+        run: pnpm build:win -- --publish=always
 
       - name: Build desktop app
         if: matrix.os == 'ubuntu-latest'
