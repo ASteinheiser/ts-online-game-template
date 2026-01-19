@@ -96,9 +96,6 @@ jobs:
 
       - name: Build desktop app
         if: matrix.os == 'windows-latest'
-        env:
-          LOCALAPPDATA: C:\Users\runneradmin\AppData\Local
-          APPDATA: C:\Users\runneradmin\AppData\Roaming
         run: pnpm build:win -- --publish=always
 
       - name: Build desktop app
