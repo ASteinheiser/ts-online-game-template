@@ -98,6 +98,8 @@ jobs:
           $local = Join-Path $root 'AppData\Local'
           $roam  = Join-Path $root 'AppData\Roaming'
           New-Item -ItemType Directory -Force -Path $local,$roam | Out-Null
+          echo "LOCALAPPDATA=$local" >> $env:GITHUB_ENV
+          echo "APPDATA=$roam"       >> $env:GITHUB_ENV
           Write-Host "Verified $local and $roam for Trusted Signing"
 
       - name: Build desktop app
