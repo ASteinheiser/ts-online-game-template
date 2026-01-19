@@ -96,12 +96,13 @@ jobs:
 
       - name: Build desktop app
         if: matrix.os == 'windows-latest'
+        shell: pwsh
         env:
-          LOCALAPPDATA: C:\Users\runneradmin\AppData\Local
-          APPDATA:      C:\Users\runneradmin\AppData\Roaming
-          TEMP:         C:\Users\runneradmin\AppData\Local\Temp
-          TMP:          C:\Users\runneradmin\AppData\Local\Temp
-        run: pnpm build:win -- --publish=always
+          WIN_TRUSTED_SIGNING_CACHE: ${{ github.workspace }}\ts-tools
+          ELECTRON_BUILDER_PARALLEL_SIGN: "false"
+        run: |
+          mkdir $env:WIN_TRUSTED_SIGNING_CACHE -ea 0
+          pnpm build:win -- --publish=always
 
       - name: Build desktop app
         if: matrix.os == 'ubuntu-latest'
