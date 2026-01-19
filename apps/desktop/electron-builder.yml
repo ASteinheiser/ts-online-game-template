@@ -3,10 +3,11 @@ productName: demo-game
 directories:
   buildResources: build
 files:
-  - dist/**/*
+  - dist/main/**/*
+  - dist/preload/**/*
+  - dist/renderer/**/*
   - package.json
   - resources/**/*
-  - '!dist/mac-*'
   - '!src/*'
   - '!{electron.vite.config.ts,vitest.config.ts}'
   - '!{.eslintcache,eslint.config.js,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
