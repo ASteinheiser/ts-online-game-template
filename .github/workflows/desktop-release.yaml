@@ -90,16 +90,15 @@ jobs:
           }
           Install-Module TrustedSigning -Force -Scope CurrentUser
 
-      - name: Ensure SYSTEM profile has AppData folders
+      - name: Ensure SYSTEM profile AppData exists
         if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
-          $root  = "$env:SystemRoot\System32\config\systemprofile"
+          $root  = "$Env:SystemRoot\System32\config\systemprofile"
           $local = Join-Path $root 'AppData\Local'
           $roam  = Join-Path $root 'AppData\Roaming'
-
           New-Item -ItemType Directory -Force -Path $local,$roam | Out-Null
-          Write-Host "Created $local and $roam"
+          Write-Host "Verified $local and $roam for Trusted Signing"
 
       - name: Build desktop app
         if: matrix.os == 'macos-latest'
