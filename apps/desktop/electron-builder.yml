@@ -15,6 +15,11 @@ asarUnpack:
   - resources/**
 win:
   executableName: demo-game
+  azureSignOptions:
+    endpoint: "https://eus.codesigning.azure.net"
+    codeSigningAccountName: "Andrew-Steinheiser"
+    certificateProfileName: "Andrew-Steinheiser"
+    publisherName: "CN=Andrew Steinheiser, O=Andrew Steinheiser, L=Tempe, S=Arizona, C=US"
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
