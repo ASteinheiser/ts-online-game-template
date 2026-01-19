@@ -52,7 +52,7 @@
     "@vitejs/plugin-react": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "electron": "catalog:",
-    "electron-builder": "^26.0.12",
+    "electron-builder": "^26.4.0",
     "electron-vite": "^5.0.0",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
