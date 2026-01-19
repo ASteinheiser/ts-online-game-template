@@ -90,19 +90,29 @@ jobs:
           }
           Install-Module TrustedSigning -Force -Scope CurrentUser
 
+      - name: Prepare cache folders for winCodeSign
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          $cacheRoot = 'C:\TrustedSigningCache'
+          New-Item -ItemType Directory -Force -Path $cacheRoot | Out-Null
+
+          # Export for the current job, winCodeSign reads these
+          echo "LOCALAPPDATA=$cacheRoot" >> $env:GITHUB_ENV
+          echo "APPDATA=$cacheRoot"      >> $env:GITHUB_ENV
+          echo "WIN_TRUSTED_SIGNING_CACHE=$cacheRoot" >> $env:GITHUB_ENV
+
+          Write-Host "Using $cacheRoot for Trusted-Signing tool cache"
+
       - name: Build desktop app
         if: matrix.os == 'macos-latest'
         run: pnpm build:mac -- --publish=always
 
       - name: Build desktop app
         if: matrix.os == 'windows-latest'
-        shell: pwsh
         env:
-          WIN_TRUSTED_SIGNING_CACHE: ${{ github.workspace }}\ts-tools
           ELECTRON_BUILDER_PARALLEL_SIGN: "false"
-        run: |
-          mkdir $env:WIN_TRUSTED_SIGNING_CACHE -ea 0
-          pnpm build:win -- --publish=always
+        run: pnpm build:win -- --publish=always
 
       - name: Build desktop app
         if: matrix.os == 'ubuntu-latest'
