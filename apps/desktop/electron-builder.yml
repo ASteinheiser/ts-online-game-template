@@ -3,7 +3,8 @@ productName: demo-game
 directories:
   buildResources: build
 files:
-  - dist/renderer/**/*
+  - '!dist/mac-*'
+  - dist/**/*
   - package.json
   - resources/**/*
   - '!src/*'
