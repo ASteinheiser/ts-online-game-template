@@ -90,19 +90,16 @@ jobs:
           }
           Install-Module TrustedSigning -Force -Scope CurrentUser
 
-      - name: Prepare cache folders for winCodeSign
+      - name: Ensure SYSTEM profile has AppData folders
         if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
-          $cacheRoot = 'C:\TrustedSigningCache'
-          New-Item -ItemType Directory -Force -Path $cacheRoot | Out-Null
+          $root  = "$env:SystemRoot\System32\config\systemprofile"
+          $local = Join-Path $root 'AppData\Local'
+          $roam  = Join-Path $root 'AppData\Roaming'
 
-          # Export for the current job, winCodeSign reads these
-          echo "LOCALAPPDATA=$cacheRoot" >> $env:GITHUB_ENV
-          echo "APPDATA=$cacheRoot"      >> $env:GITHUB_ENV
-          echo "WIN_TRUSTED_SIGNING_CACHE=$cacheRoot" >> $env:GITHUB_ENV
-
-          Write-Host "Using $cacheRoot for Trusted-Signing tool cache"
+          New-Item -ItemType Directory -Force -Path $local,$roam | Out-Null
+          Write-Host "Created $local and $roam"
 
       - name: Build desktop app
         if: matrix.os == 'macos-latest'
