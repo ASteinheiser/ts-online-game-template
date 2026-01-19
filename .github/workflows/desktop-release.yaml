@@ -79,21 +79,30 @@ jobs:
           security import mac_cert.p12 -k build.keychain -P "$MAC_CERT_PASS" -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple: -k "" build.keychain
 
-      - name: Install TrustedSigning PowerShell module
+      - name: Install TrustedSigning module
         if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
-          # Make PSGallery non-interactive
-          Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
-          # Ensure NuGet provider is present
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
           if (-not (Get-PackageProvider -Name NuGet -ErrorAction SilentlyContinue)) {
-            Install-PackageProvider -Name NuGet -Force
+            Install-PackageProvider -Name NuGet -Force -Scope CurrentUser
           }
-          # Install or upgrade the TrustedSigning module
-          if (-not (Get-Module -ListAvailable -Name TrustedSigning)) {
-            Install-Module -Name TrustedSigning -Scope CurrentUser -Force
-          }
-          Import-Module TrustedSigning
+          Install-Module TrustedSigning -Force -Scope CurrentUser
+
+      - name: Work-around $LOCALAPPDATA/$APPDATA being empty on GHA runners
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          $home   = "$env:SystemDrive\Users\runneradmin"
+          $local  = "$home\AppData\Local"
+          $roam   = "$home\AppData\Roaming"
+          # Create the folders if they don't exist
+          New-Item -ItemType Directory -Force -Path $local,$roam | Out-Null
+          Write-Host "Setting LOCALAPPDATA -> $local"
+          Write-Host "Setting APPDATA     -> $roam"
+          echo "LOCALAPPDATA=$local" >> $env:GITHUB_ENV
+          echo "APPDATA=$roam"       >> $env:GITHUB_ENV
 
       - name: Build desktop app
         if: matrix.os == 'macos-latest'
