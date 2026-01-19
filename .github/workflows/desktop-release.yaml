@@ -90,32 +90,30 @@ jobs:
           }
           Install-Module TrustedSigning -Force -Scope CurrentUser
 
-      - name: Ensure LOCALAPPDATA / APPDATA exist (work-around for Azure SignTool)
-        if: matrix.os == 'windows-latest'
-        shell: pwsh
-        run: |
-          # Derive the normal per-user paths from %USERPROFILE%
-          $user = $env:USERPROFILE
-          $local = Join-Path $user 'AppData\Local'
-          $roam  = Join-Path $user 'AppData\Roaming'
-
-          # Create the folders if they're missing
-          New-Item -ItemType Directory -Force -Path $local, $roam | Out-Null
-
-          # Only set the vars if they're empty
-          if (-not $env:LOCALAPPDATA) { echo "LOCALAPPDATA=$local" >> $env:GITHUB_ENV }
-          if (-not $env:APPDATA)     { echo "APPDATA=$roam"       >> $env:GITHUB_ENV }
-
-          Write-Host "LOCALAPPDATA = $env:LOCALAPPDATA"
-          Write-Host "APPDATA      = $env:APPDATA"
-
       - name: Build desktop app
         if: matrix.os == 'macos-latest'
         run: pnpm build:mac -- --publish=always
 
       - name: Build desktop app
         if: matrix.os == 'windows-latest'
-        run: pnpm build:win -- --publish=always
+        shell: pwsh
+        env:
+          ELECTRON_BUILDER_PARALLEL_SIGN: "false"
+        run: |
+          # Guarantee the three folders winCodeSign expects
+          $user = $env:USERPROFILE            # e.g. C:\Users\runneradmin
+          $env:LOCALAPPDATA = Join-Path $user 'AppData\Local'
+          $env:APPDATA      = Join-Path $user 'AppData\Roaming'
+          $toolsRoot        = Join-Path $env:LOCALAPPDATA 'TrustedSigning'
+
+          New-Item -ItemType Directory -Force -Path $env:LOCALAPPDATA,$env:APPDATA,$toolsRoot | Out-Null
+
+          Write-Host "LOCALAPPDATA = $env:LOCALAPPDATA"
+          Write-Host "APPDATA      = $env:APPDATA"
+          Write-Host "TOOLS ROOT   = $toolsRoot"
+
+          # finally build & publish
+          pnpm build:win -- --publish=always
 
       - name: Build desktop app
         if: matrix.os == 'ubuntu-latest'
