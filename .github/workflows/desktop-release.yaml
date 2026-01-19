@@ -90,19 +90,24 @@ jobs:
           }
           Install-Module TrustedSigning -Force -Scope CurrentUser
 
-      - name: Work-around $LOCALAPPDATA/$APPDATA being empty on GHA runners
+      - name: Ensure LOCALAPPDATA / APPDATA exist (work-around for Azure SignTool)
         if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
-          $home   = "$env:SystemDrive\Users\runneradmin"
-          $local  = "$home\AppData\Local"
-          $roam   = "$home\AppData\Roaming"
-          # Create the folders if they don't exist
-          New-Item -ItemType Directory -Force -Path $local,$roam | Out-Null
-          Write-Host "Setting LOCALAPPDATA -> $local"
-          Write-Host "Setting APPDATA     -> $roam"
-          echo "LOCALAPPDATA=$local" >> $env:GITHUB_ENV
-          echo "APPDATA=$roam"       >> $env:GITHUB_ENV
+          # Derive the normal per-user paths from %USERPROFILE%
+          $user = $env:USERPROFILE
+          $local = Join-Path $user 'AppData\Local'
+          $roam  = Join-Path $user 'AppData\Roaming'
+
+          # Create the folders if they're missing
+          New-Item -ItemType Directory -Force -Path $local, $roam | Out-Null
+
+          # Only set the vars if they're empty
+          if (-not $env:LOCALAPPDATA) { echo "LOCALAPPDATA=$local" >> $env:GITHUB_ENV }
+          if (-not $env:APPDATA)     { echo "APPDATA=$roam"       >> $env:GITHUB_ENV }
+
+          Write-Host "LOCALAPPDATA = $env:LOCALAPPDATA"
+          Write-Host "APPDATA      = $env:APPDATA"
 
       - name: Build desktop app
         if: matrix.os == 'macos-latest'
