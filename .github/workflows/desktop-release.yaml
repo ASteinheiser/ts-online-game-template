@@ -108,8 +108,6 @@ jobs:
 
       - name: Build desktop app
         if: matrix.os == 'windows-latest'
-        env:
-          ELECTRON_BUILDER_PARALLEL_SIGN: "false"
         run: pnpm build:win -- --publish=always
 
       - name: Build desktop app
