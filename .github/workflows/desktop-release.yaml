@@ -70,7 +70,7 @@ jobs:
         run: pnpm install --filter="!game-api" --frozen-lockfile
 
       - name: Import macOS signing cert
-        if: runner.os == 'macOS'
+        if: matrix.os == 'macos-latest'
         run: |
           echo "$MAC_CERT_B64" | base64 --decode > mac_cert.p12
           security create-keychain -p "" build.keychain
