@@ -7,16 +7,15 @@ interface AutoUpdateProviderProps {
 }
 
 export const AutoUpdateProvider = ({ children }: AutoUpdateProviderProps) => {
-  const [updateStarted, setUpdateStarted] = useState(false);
+  const [showUpdateMessage, setShowUpdateMessage] = useState(false);
   const toastIdRef = useRef<string | number | undefined>();
 
   useEffect(() => {
     window.api.updates.onDownloadProgress((progress: ProgressInfo) => {
-      if (!updateStarted) setUpdateStarted(true);
-
       const percent = Math.round(progress.percent);
 
       if (toastIdRef.current === undefined) {
+        setShowUpdateMessage(true);
         toastIdRef.current = toast(`Downloading update... ${percent}%`, {
           id: 'update-download',
           duration: Infinity,
@@ -38,7 +37,7 @@ export const AutoUpdateProvider = ({ children }: AutoUpdateProviderProps) => {
     <>
       {children}
 
-      <Dialog open={updateStarted} onOpenChange={(open) => setUpdateStarted(open)}>
+      <Dialog open={showUpdateMessage} onOpenChange={setShowUpdateMessage}>
         <DialogContent className="max-w-md" aria-describedby={undefined} disableCloseButton>
           <DialogTitle className="text-4xl font-pixel text-center text-muted-foreground">
             Automatic update started...
