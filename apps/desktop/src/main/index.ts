@@ -36,14 +36,6 @@ const createWindow = () => {
   // handles setting resolution and fullscreen on startup
   applyVideoSettings(mainWindow, {});
 
-  // IPC handlers for video settings
-  ipcMain.handle(ELECTRON_EVENTS.QUIT_APP, () => app.quit());
-  ipcMain.handle(ELECTRON_EVENTS.GET_AVAILABLE_RESOLUTIONS, () => getAvailableResolutions(mainWindow));
-  ipcMain.handle(ELECTRON_EVENTS.GET_VIDEO_SETTINGS, () => loadVideoSettings());
-  ipcMain.handle(ELECTRON_EVENTS.SET_VIDEO_SETTINGS, (_, newSettings: Partial<VideoSettings>) =>
-    applyVideoSettings(mainWindow, newSettings)
-  );
-
   mainWindow.on('ready-to-show', () => {
     mainWindow?.show();
     if (pendingDeepLink) {
@@ -104,6 +96,14 @@ app.whenReady().then(() => {
 
   // Create the desktop window
   createWindow();
+
+  // IPC handlers for video settings
+  ipcMain.handle(ELECTRON_EVENTS.QUIT_APP, () => app.quit());
+  ipcMain.handle(ELECTRON_EVENTS.GET_AVAILABLE_RESOLUTIONS, () => getAvailableResolutions(mainWindow));
+  ipcMain.handle(ELECTRON_EVENTS.GET_VIDEO_SETTINGS, () => loadVideoSettings());
+  ipcMain.handle(ELECTRON_EVENTS.SET_VIDEO_SETTINGS, (_, newSettings: Partial<VideoSettings>) =>
+    applyVideoSettings(mainWindow, newSettings)
+  );
 });
 
 // Enforce single instance
