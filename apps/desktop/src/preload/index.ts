@@ -32,6 +32,7 @@ const api: CustomAPI = {
     }
   },
   video: {
+    closeWindow: () => ipcRenderer.invoke(ELECTRON_EVENTS.CLOSE_WINDOW),
     getAvailableResolutions: () => ipcRenderer.invoke(ELECTRON_EVENTS.GET_AVAILABLE_RESOLUTIONS),
     getVideoSettings: () => ipcRenderer.invoke(ELECTRON_EVENTS.GET_VIDEO_SETTINGS),
     setVideoSettings: (settings) => ipcRenderer.invoke(ELECTRON_EVENTS.SET_VIDEO_SETTINGS, settings),

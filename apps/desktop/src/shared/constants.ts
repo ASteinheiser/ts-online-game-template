@@ -5,4 +5,5 @@ export const ELECTRON_EVENTS = {
   SET_VIDEO_SETTINGS: 'set-video-settings',
   ON_FULLSCREEN_CHANGED: 'on-fullscreen-changed',
   UPDATE_PROGRESS: 'update-progress',
+  CLOSE_WINDOW: 'close-window',
 } as const;

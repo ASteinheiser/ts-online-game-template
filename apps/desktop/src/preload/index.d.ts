@@ -8,6 +8,8 @@ export interface CustomAPI {
   onDeepLink: (callback: DeepLinkCallback) => void;
   /** video settings helpers */
   video: {
+    /** closes the main window */
+    closeWindow: () => Promise<void>;
     /** Returns an array of supported resolutions filtered by current display */
     getAvailableResolutions: () => Promise<Array<ResolutionOption>>;
     /** Returns the currently saved video settings */

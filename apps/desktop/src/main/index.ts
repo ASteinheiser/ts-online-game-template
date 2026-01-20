@@ -89,6 +89,7 @@ app.whenReady().then(() => {
   initAutoUpdater(mainWindow);
 
   // IPC handlers for video settings
+  ipcMain.handle(ELECTRON_EVENTS.CLOSE_WINDOW, () => mainWindow?.close());
   ipcMain.handle(ELECTRON_EVENTS.GET_AVAILABLE_RESOLUTIONS, () => getAvailableResolutions(mainWindow));
   ipcMain.handle(ELECTRON_EVENTS.GET_VIDEO_SETTINGS, () => loadVideoSettings());
   ipcMain.handle(ELECTRON_EVENTS.SET_VIDEO_SETTINGS, (_, newSettings: Partial<VideoSettings>) =>
