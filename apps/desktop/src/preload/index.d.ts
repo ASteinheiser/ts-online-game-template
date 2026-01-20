@@ -6,10 +6,10 @@ export type DeepLinkCallback = (url: string) => void;
 export interface CustomAPI {
   /** called once by the renderer to setup a deep-link listener */
   onDeepLink: (callback: DeepLinkCallback) => void;
+  /** quits the application */
+  quitApp: () => Promise<void>;
   /** video settings helpers */
   video: {
-    /** closes the main window */
-    closeWindow: () => Promise<void>;
     /** Returns an array of supported resolutions filtered by current display */
     getAvailableResolutions: () => Promise<Array<ResolutionOption>>;
     /** Returns the currently saved video settings */
