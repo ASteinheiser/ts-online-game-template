@@ -338,7 +338,11 @@ This final step is very important... You need to assign "Artifact Signing Certif
 
 #### Deployment Trigger
 
-The desktop app files can now be built, signed (macOS/win) and hosted in a GitHub Release! Simply create a Release with a new tag (such as `v0.0.1`) and the GitHub Action will kick off the build process for each OS. As each OS build completes, the Release will be updated with the desktop app files.
+The desktop app files can now be built, signed (macOS/Windows) and hosted in a GitHub Release! Simply create a Release with a new tag (such as `v0.0.1`) and the GitHub Action will kick off the build process for each OS. As each OS build completes, the Release will be updated with the desktop app files.
+
+#### Automatic Updates
+
+On all platforms (macOS/Windows/Linux), the app will automatically check for updates and download them in the background. This is possible thanks to `electron-builder`'s `publish` feature combined with `electron-updater`. When an update is found, the app will display a modal and toast to the user, then restart the app once the download completes. Session rejoin logic is implemented, so this setup should result in all users being on the latest version of the app at all times, while experiencing minimal interruption.
 
 ### Auth Setup
 
