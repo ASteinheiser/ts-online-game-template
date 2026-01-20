@@ -3,8 +3,16 @@ import { Button, Select, SelectContent, SelectItem, SelectTrigger, SelectValue }
 
 type OsOption = 'macos' | 'windows' | 'linux';
 
+const detectOS = (): OsOption | undefined => {
+  const userAgent = navigator.userAgent.toLowerCase();
+  if (userAgent.includes('win')) return 'windows';
+  if (userAgent.includes('mac')) return 'macos';
+  if (userAgent.includes('linux') || userAgent.includes('x11')) return 'linux';
+  return undefined;
+};
+
 export const Download = () => {
-  const [os, setOs] = useState<OsOption>();
+  const [os, setOs] = useState<OsOption | undefined>(detectOS());
 
   return (
     <div className="fullscreen-center">
