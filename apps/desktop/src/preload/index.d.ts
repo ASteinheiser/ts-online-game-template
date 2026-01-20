@@ -17,6 +17,11 @@ export interface CustomAPI {
     /** called once by the renderer to setup a fullscreen listener */
     onFullscreenChanged: (callback: (isFullscreen: boolean) => void) => void;
   };
+  /** update helpers */
+  updates: {
+    /** called once by the renderer to setup a handler for download progress events */
+    onDownloadProgress: (callback: (progress: Electron.DownloadProgress) => void) => void;
+  };
 }
 
 declare global {

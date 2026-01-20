@@ -38,6 +38,10 @@ const api: CustomAPI = {
     onFullscreenChanged: (callback) =>
       ipcRenderer.on(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, (_, isFullscreen) => callback(isFullscreen)),
   },
+  updates: {
+    onDownloadProgress: (callback) =>
+      ipcRenderer.on(ELECTRON_EVENTS.UPDATE_PROGRESS, (_, progress) => callback(progress)),
+  },
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

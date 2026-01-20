@@ -7,6 +7,7 @@ import { ApolloProvider } from '@apollo/client/react';
 import { client } from './graphql/client';
 import { router } from './router';
 import { AudioSettingsProvider } from './providers/AudioSettingsProvider';
+import { AutoUpdateProvider } from './providers/AutoUpdateProvider';
 import { SplashProvider } from './providers/SplashProvider';
 import { VideoSettingsProvider } from './providers/VideoSettingsProvider';
 import './theme.css';
@@ -18,15 +19,17 @@ if (!API_URL) throw new Error('VITE_API_URL is not set');
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ApolloProvider client={client}>
-      <VideoSettingsProvider>
-        <AudioSettingsProvider>
-          <SplashProvider>
-            <SessionProvider healthCheckEnabled isDesktop>
-              <RouterProvider router={router} />
-            </SessionProvider>
-          </SplashProvider>
-        </AudioSettingsProvider>
-      </VideoSettingsProvider>
+      <AutoUpdateProvider>
+        <VideoSettingsProvider>
+          <AudioSettingsProvider>
+            <SplashProvider>
+              <SessionProvider healthCheckEnabled isDesktop>
+                <RouterProvider router={router} />
+              </SessionProvider>
+            </SplashProvider>
+          </AudioSettingsProvider>
+        </VideoSettingsProvider>
+      </AutoUpdateProvider>
     </ApolloProvider>
 
     <Toaster />

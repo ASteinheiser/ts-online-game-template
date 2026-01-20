@@ -5,6 +5,7 @@ import icon from '../../resources/icon.png?asset';
 import { ELECTRON_EVENTS } from '../shared/constants';
 import type { VideoSettings } from '../shared/types';
 import { getAvailableResolutions, loadVideoSettings, applyVideoSettings } from './video-settings';
+import { initAutoUpdater } from './auto-updater';
 
 const WIN_APP_USER_MODEL_ID = 'iamandrew.demo-game';
 
@@ -83,6 +84,9 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window);
   });
+
+  // Initialize auto-updater (silent, polls every 10min)
+  initAutoUpdater(mainWindow);
 
   // IPC handlers for video settings
   ipcMain.handle(ELECTRON_EVENTS.GET_AVAILABLE_RESOLUTIONS, () => getAvailableResolutions(mainWindow));
