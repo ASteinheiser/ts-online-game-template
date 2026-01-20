@@ -37,7 +37,7 @@ mac:
   entitlementsInherit: build/entitlements.mac.plist
   notarize: true
 dmg:
-  artifactName: ${name}-${version}-${arch}.${ext}
+  artifactName: ${name}-${version}.${ext}
 linux:
   target:
     - AppImage
