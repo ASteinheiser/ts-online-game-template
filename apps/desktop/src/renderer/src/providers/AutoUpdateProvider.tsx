@@ -1,16 +1,19 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ProgressInfo } from 'electron-updater';
-import { toast } from '@repo/ui';
+import { Dialog, DialogContent, DialogTitle, DialogDescription, toast } from '@repo/ui';
 
 interface AutoUpdateProviderProps {
   children: React.ReactNode;
 }
 
 export const AutoUpdateProvider = ({ children }: AutoUpdateProviderProps) => {
+  const [updateStarted, setUpdateStarted] = useState(false);
   const toastIdRef = useRef<string | number | undefined>();
 
   useEffect(() => {
     window.api.updates.onDownloadProgress((progress: ProgressInfo) => {
+      if (!updateStarted) setUpdateStarted(true);
+
       const percent = Math.round(progress.percent);
 
       if (toastIdRef.current === undefined) {
@@ -31,5 +34,20 @@ export const AutoUpdateProvider = ({ children }: AutoUpdateProviderProps) => {
     });
   }, []);
 
-  return children;
+  return (
+    <>
+      {children}
+
+      <Dialog open={updateStarted} onOpenChange={(open) => setUpdateStarted(open)}>
+        <DialogContent className="max-w-md" aria-describedby={undefined} disableCloseButton>
+          <DialogTitle className="text-4xl font-pixel text-center text-muted-foreground">
+            Automatic update started...
+          </DialogTitle>
+          <DialogDescription className="text-center mt-4 text-lg">
+            You will be able to rejoin your session once the download completes and the app restarts
+          </DialogDescription>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
 };
