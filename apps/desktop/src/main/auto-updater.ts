@@ -1,7 +1,8 @@
 import { app, type BrowserWindow } from 'electron';
-import { autoUpdater } from 'electron-updater';
+import ElectronUpdater from 'electron-updater';
 import { ELECTRON_EVENTS } from '../shared/constants';
 
+const { autoUpdater } = ElectronUpdater;
 const POLL_INTERVAL = 10 * 60 * 1000; // 10 minutes
 
 /**
