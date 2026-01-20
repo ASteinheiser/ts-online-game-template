@@ -85,11 +85,14 @@ export const SettingsModal = ({ isOpen, onOpenChange }: SettingsModalProps) => {
           </div>
         </div>
 
-        <div className="w-20 h-[2px] bg-secondary mx-auto" />
-
-        <DialogFooter className="flex flex-col items-center gap-4">
-          <Button variant="secondary" onClick={() => window.api.quitApp()} className="w-full">
-            Quit
+        <DialogFooter className="flex flex-col items-center gap-6">
+          <Button
+            variant="secondary"
+            onClick={() => window.api.quitApp()}
+            size="lg"
+            className="w-full ml-10 mr-10"
+          >
+            Exit Game
           </Button>
           <Versions />
         </DialogFooter>
