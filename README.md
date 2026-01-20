@@ -247,7 +247,7 @@ To sign and notarize builds for macOS, you'll need:
 
 You'll also need to set the following:
 
-| Repository Secret | Description |
+| Environment Secret | Description |
 |----|----|
 | `APPLE_ID` | Email address of the Apple Developer account |
 | `APPLE_APP_SPECIFIC_PASSWORD` | Generated "App-Specific Password" (16 characters) |
@@ -255,7 +255,7 @@ You'll also need to set the following:
 | `MAC_CERT_B64` | Base64 encoded "Developer ID Application" certificate |
 | `MAC_CERT_PASS` | Password for the certificate |
 
-Setting your `APPLE_ID` should be easy, just use your email address that you'll use to log in at https://account.apple.com/. Once you log in, under "Sign-In and Security", you should see a section called "App-Specific Passwords". Create a new password and copy the value (this only shows once, 16 characters, ex: `asdf-asdf-asdf-asdf`). Now use that value to set the `APPLE_APP_SPECIFIC_PASSWORD` repository secret.
+Setting your `APPLE_ID` should be easy, just use your email address that you'll use to log in at https://account.apple.com/. Once you log in, under "Sign-In and Security", you should see a section called "App-Specific Passwords". Create a new password and copy the value (this only shows once, 16 characters, ex: `asdf-asdf-asdf-asdf`). Now use that value to set the `APPLE_APP_SPECIFIC_PASSWORD` environment secret.
 
 To find your `APPLE_TEAM_ID`, go to https://developer.apple.com/account and scroll down to "Membership details". You should see your 10 character "Team ID" here (ex: `1234ABCD56`).
 
@@ -280,14 +280,14 @@ Now you can create the "Developer ID Application" certificate (and `.p12` file) 
 - Ensure that you see a checkmark with "This certificate is valid", otherwise, revisit the steps above
 - Expand the certificate, select the cert and the private key, then click "Export 2 items..."
 - Ensure you save it as a `.p12` format
-- As you save this file, you'll be prompted to enter a password for the certificate. This is the `MAC_CERT_PASS` that you'll need to set as a repository secret. I recommend using a password manager to generate a secure password.
+- As you save this file, you'll be prompted to enter a password for the certificate. This is the `MAC_CERT_PASS` that you'll need to set as a environment secret. I recommend using a password manager to generate a secure password.
 
 You should now have a valid `.p12` file. You can base64 encode it, then copy the value, by running:
 ```bash
 base64 < ~/path/to/cert_name.p12 | pbcopy
 ```
 
-Finally, set the `MAC_CERT_B64` repository secret with the base64 encoded value (you can paste it directly from your clipboard).
+Finally, set the `MAC_CERT_B64` environment secret with the base64 encoded value (you can paste it directly from your clipboard).
 
 #### Windows Signing
 
@@ -320,12 +320,12 @@ Now you need to create the "App registration" in Azure:
 - Click "New registration"
 - Give it a name like `gh-electron-signer` and create
 - From your new App Registration, you should be able to see two fields:
-    - "Application (client) ID" > set this as the `AZURE_CLIENT_ID` repository secret
-    - "Directory (tenant) ID" > set this as the `AZURE_TENANT_ID` repository secret
+    - "Application (client) ID" > set this as the `AZURE_CLIENT_ID` environment secret
+    - "Directory (tenant) ID" > set this as the `AZURE_TENANT_ID` environment secret
 - Now click on "Manage" > "Certificates & secrets"
 - Click "New client secret" and create a new secret
 - Ensure you copy the Value, as it will only show once!
-- Set the `AZURE_CLIENT_SECRET` repository secret with the value you just copied
+- Set the `AZURE_CLIENT_SECRET` environment secret with the value you just copied
 
 This final step is very important... You need to assign "Artifact Signing Certificate Profile Signer" permissions to your "App Registration":
 - From your "Artifact Signing Account", click on "Access Control (IAM)"
@@ -352,9 +352,14 @@ You should already have a Supabase project setup with JWT auth. So that piece is
 
 Supabase offers a hosted PostgreSQL DB at no cost (limited storage/CPU). You can choose any other provider you'd like, and depending on your needs, you may want to compare pricing with [DigitalOcean](https://www.digitalocean.com/products/managed-databases-postgresql/) or [AWS RDS](https://aws.amazon.com/rds/postgresql/) at actual scale. But for a small project, Supabase is a great option.
 
-Follow [these instructions](https://supabase.com/docs/guides/database/prisma) to setup a hosted PostgreSQL DB with Supabase for Prisma. You'll need to setup your Prisma user in Supabase and turn off the Supabase Data API setting.
-
-TODO: update env
+Follow [these instructions](https://supabase.com/docs/guides/database/prisma) to setup a hosted PostgreSQL DB with Supabase for Prisma. You'll need to:
+- Turn off the Supabase Data API setting
+  - this is a security measure since we will connect to the DB directly via connection string
+- Create your Prisma user in Supabase
+- Obtain and copy your connection string
+  - Example: `postgres://[DB-USER].[PROJECT-REF]:[PRISMA-PASSWORD]@[DB-REGION].pooler.supabase.com:5432/postgres`
+- Go to your GitHub repository, then `Settings` > `Environments`, and create the `game-server` environment
+- Add a new environment secret, `DATABASE_URL`, set to your connection string
 
 ### Game Server Setup
 
