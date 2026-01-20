@@ -3,7 +3,7 @@ import ElectronUpdater from 'electron-updater';
 import { ELECTRON_EVENTS } from '../shared/constants';
 
 const { autoUpdater } = ElectronUpdater;
-const POLL_INTERVAL = 10 * 60 * 1000; // 10 minutes
+const POLL_INTERVAL = 1 * 60 * 1000; // 1 minute
 
 /**
  * Initializes auto-updater to silently poll for and apply updates.
