@@ -15,7 +15,7 @@ if (!DEEP_LINK_PROTOCOL) throw new Error('VITE_DEEP_LINK_PROTOCOL is not set');
 let mainWindow: BrowserWindow | null = null;
 let pendingDeepLink: string | null = null;
 
-function createWindow(): void {
+const createWindow = () => {
   mainWindow = new BrowserWindow({
     // settings to create an OS-agnostic experience
     frame: false,
@@ -60,7 +60,7 @@ function createWindow(): void {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
   }
-}
+};
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -85,6 +85,15 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window);
   });
 
+  app.on('activate', () => {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+
+  // Create the desktop window
+  createWindow();
+
   // Initialize auto-updater (silent, polls every 10min)
   initAutoUpdater(mainWindow);
 
@@ -95,15 +104,6 @@ app.whenReady().then(() => {
   ipcMain.handle(ELECTRON_EVENTS.SET_VIDEO_SETTINGS, (_, newSettings: Partial<VideoSettings>) =>
     applyVideoSettings(mainWindow, newSettings)
   );
-
-  // Create the desktop window
-  createWindow();
-
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
 });
 
 // Enforce single instance

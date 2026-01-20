@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   Slider,
-  Button,
+  // Button,
 } from '@repo/ui';
 import { useVideoSettings } from '../../providers/VideoSettingsProvider';
 import { useAudioSettings } from '../../providers/AudioSettingsProvider';
@@ -88,9 +88,9 @@ export const SettingsModal = ({ isOpen, onOpenChange }: SettingsModalProps) => {
         <div className="w-20 h-[2px] bg-secondary mx-auto" />
 
         <DialogFooter className="flex flex-col items-center gap-4">
-          <Button variant="secondary" onClick={window.api.video.closeWindow} className="w-full">
+          {/* <Button variant="secondary" onClick={window.api.video.closeWindow} className="w-full">
             Quit
-          </Button>
+          </Button> */}
           <Versions />
         </DialogFooter>
       </DialogContent>
