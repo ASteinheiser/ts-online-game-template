@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui';
+import packageJson from '../../package.json';
 
 type OsOption = 'macos' | 'windows' | 'linux';
 
@@ -13,6 +14,53 @@ const detectOS = (): OsOption | undefined => {
 
 export const Download = () => {
   const [os, setOs] = useState<OsOption | undefined>(detectOS());
+  const [downloadUrl, setDownloadUrl] = useState<string>();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchLatestRelease = async () => {
+      if (!os) {
+        setDownloadUrl(undefined);
+        return;
+      }
+
+      try {
+        setLoading(true);
+
+        const repoUrl = packageJson.repository;
+        const [, owner, repo] = repoUrl.match(/github.com\/(.+)\/(.+?)(\.git)?$/i) || [];
+        if (!owner || !repo) {
+          throw new Error('Invalid repository url in package.json');
+        }
+
+        const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/latest`, {
+          headers: { Accept: 'application/vnd.github+json' },
+        });
+        if (!res.ok) {
+          throw new Error(`GitHub API error: ${res.status}`);
+        }
+
+        const release = await res.json();
+        const assets: Array<{ name: string; browser_download_url: string }> = release?.assets ?? [];
+
+        const matcher: Record<OsOption, RegExp> = {
+          macos: /\.dmg$/i,
+          windows: /-setup\.exe$/i,
+          linux: /\.AppImage$/i,
+        };
+
+        const asset = assets.find((file) => matcher[os].test(file.name));
+        setDownloadUrl(asset?.browser_download_url);
+      } catch (err) {
+        console.error(err);
+        setDownloadUrl(undefined);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLatestRelease();
+  }, [os]);
 
   return (
     <div className="fullscreen-center">
@@ -31,8 +79,8 @@ export const Download = () => {
             </SelectContent>
           </Select>
 
-          <Button className="w-[200px]" disabled={!os}>
-            Download
+          <Button asChild className="w-[200px]" disabled={!os || !downloadUrl} loading={loading}>
+            <a href={downloadUrl}>Download</a>
           </Button>
         </div>
       </div>
