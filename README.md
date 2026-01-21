@@ -340,7 +340,7 @@ This final step is very important... You need to assign "Artifact Signing Certif
 
 #### Deployment Trigger
 
-The desktop app files can now be built, signed (macOS/Windows) and hosted in a GitHub Release! Simply create a Release with a new tag that looks like `v*.*.*`, and the GitHub Action will kick off the build process for each OS. As each OS build completes, the Release will be updated with the desktop app files.
+The desktop app files can now be built, signed (macOS/Windows) and hosted in a GitHub Release! Simply create a Release with a new Tag that looks like `v*.*.*`, and the GitHub Action will kick off the build process for each OS. As each OS build completes, the Release will be updated with the desktop app files.
 
 #### Automatic Updates
 
@@ -363,9 +363,9 @@ Follow [these instructions](https://supabase.com/docs/guides/database/prisma) to
 - Go to your GitHub repository, then `Settings` > `Environments`, and create the `game-server` environment
 - Add a new environment secret called `DATABASE_URL` and set it to your connection string
 
-Now your production DB is set up. Each time you create a new tag that looks like `api-v*.*.*`, the GitHub Action will kick off a backend deployment. One step of this deployment will handle migrating the DB according to your Prisma migrations.
+Now your production DB is set up. Each time you create a new Tag that looks like `api-v*.*.*`, the GitHub Action will kick off a backend deployment. One step of this deployment will handle migrating the DB according to your Prisma migrations.
 
-**NOTE:** When creating a new tag for a backend deployment, DO NOT create a Release! Releases are reserved for hosting the desktop app files only...
+**NOTE:** When creating a new Tag for a backend deployment, DO NOT create a Release! Releases are reserved for hosting the desktop app files only...
 
 ### Game Server Setup
 
@@ -389,17 +389,44 @@ TODO: one-time droplet setup
 
 #### Deployment Trigger
 
-Now whenever you create a new tag that looks like `api-v*.*.*`, the GitHub Action will kick off a backend deployment. First, this will handle migrating the DB according to your Prisma migrations, then it will update and restart the game API server in DigitalOcean.
+Whenever you create a new Tag that looks like `api-v*.*.*`, the GitHub Action will kick off a backend deployment. First, this will handle migrating the DB according to your Prisma migrations, then it will update and restart the game API server in DigitalOcean.
 
-**NOTE:** When creating a new API tag, DO NOT create a Release! Releases are reserved for hosting the desktop app files only...
+**NOTE:** When creating a new API Tag, DO NOT create a Release! Releases are reserved for hosting the desktop app files only...
 
 ## Deploys, Releases and Tags
 
-TODO: section on how to deploy web, desktop and backend
+Each app in the monorepo is deployed using GitHub Actions, however, they all have different trigger mechanisms.
 
-TODO: section on releases vs tags
+**NOTE:** If you just finished the "Deployment Setup" section above, you might have your `web` and `desktop` apps deployed, but they'll be missing the proper environment secrets for the production game server. You can resolve this by first updating the environment secrets for both apps (`VITE_API_URL` and `VITE_WEBSOCKET_URL`), then triggering new deployments.
 
-TODO: section on managing tags locally to resolve git errors
+### Web Deploy
+Simply push to the `main` branch or manually trigger the `Deploy Web to GitHub Pages` workflow from the Actions tab in GitHub. The automated workflow is looking for any changes to `apps/web/`, as well as `packages/`.
+
+### Desktop Deploy
+To build and host the desktop app files, create a Release with a new Tag (or just push a new Tag), that looks like `v*.*.*`. You can do this through the GitHub UI, by clicking on "Releases" > "Draft a new release". The GitHub Release will be updated with the desktop app files as they are built.
+
+**NOTE:** It's very important that the "Releases" are reserved for hosting the desktop app files only. The native app updates and download button on web depend on this.
+
+If you want to delete a Release and Tag, you can do that! I recommend doing this through the GitHub UI. Once you delete the Release and Tag, you'll most likely encounter a git error the next time you try to push. If you do, run this command to force pull the tags:
+```bash
+git pull --tags origin main --force
+```
+
+### Game Server Deploy
+To deploy the game server, create a new Tag that looks like `api-v*.*.*`. You can do this via the git CLI:
+```bash
+git tag api-v0.0.1
+git push origin api-v0.0.1
+```
+
+Once you push the Tag, the GitHub Action will kick off the backend deployment. This will migrate the DB and update the running game API server.
+
+**NOTE:** It's very important that you only create a Tag for backend deploys, and NOT a "Release". Releases are reserved for hosting the desktop app files only...
+
+If you want to delete an API Tag, you can do that! I recommend doing this through the GitHub UI. Once you delete the Tag, you'll most likely encounter a git error the next time you try to push. If you do, run this command to remove the local Tag:
+```bash
+git tag -d api-v0.0.1
+```
 
 ## Cost Breakdown
 
