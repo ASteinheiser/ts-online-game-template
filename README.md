@@ -6,11 +6,12 @@ A _highly opinionated_ template for creating real-time, online games using [Type
 - [Third-party Dependencies](#third-party-dependencies)
 - [Developer Quickstart](#developer-quickstart)
 - [Most Used Commands](#most-used-commands)
-- [Working with the PostgreSQL DB](#working-with-the-postgresql-db)
+- [Local PostgreSQL DB](#local-postgresql-db)
 - [Testing](#testing)
 - [Load Testing](#load-testing)
 - [Available Commands](#available-commands)
-- [Deployment](#deployment)
+- [Deployment Setup](#deployment-setup)
+- [Deploys, Releases and Tags](#deploys-releases-and-tags)
 - [Cost Breakdown](#cost-breakdown)
 
 ## Overview
@@ -128,7 +129,7 @@ These commands are available from the root directory whether you decide to insta
 pnpm install:clean
 ```
 
-## Working with the PostgreSQL DB
+## Local PostgreSQL DB
 
 If this is your first time running the project, you'll need to start the DB with `docker-compose` and sync the tables with `prisma`:
 ```bash
@@ -209,7 +210,7 @@ pnpm db:test:sync
 | `pnpm build:mac` | Builds the desktop app (via Electron) for MacOS |
 | `pnpm build:linux` | Builds the desktop app (via Electron) for Linux |
 
-## Deployment
+## Deployment Setup
 
 #### Architecture overview:
 
@@ -217,7 +218,7 @@ pnpm db:test:sync
 
 ### Web Hosting Setup
 
-The web hosting setup is based on GitHub Pages and GitHub Actions. To get started:
+The web app is built by GitHub Actions and hosted via GitHub Pages. To get started:
 
 Go to your github repository, then `Settings` > `Pages`, select `Source` and choose `GitHub Actions`.
 
@@ -231,7 +232,7 @@ Now that everything is setup, you can either push to `main` or manually trigger 
 
 ### Desktop File Hosting Setup
 
-The desktop app files will be hosted via GitHub Releases and GitHub Actions. To get started:
+The desktop app files are built by GitHub Actions, signed (macOS/Windows) and hosted via GitHub Releases. To get started:
 
 Go to your github repository, then `Settings` > `Environments` and create the `github-releases` environment. Fill out the `Environment secrets` section according to your `/apps/desktop/.env` file.
 
@@ -368,29 +369,37 @@ Now your production DB is set up. Each time you create a new tag that looks like
 
 ### Game Server Setup
 
-TODO: update env secrets according to .env file to the `game-server` environment
+To host your game server as quickly and cheaply as possible, I recommend using [DigitalOcean Droplets](https://www.digitalocean.com/products/droplets/). Their cheapest server is ~$4/month and deployment to it can be easily automated with GitHub Actions (after one-time setup). As you scale, you may want to evaluate pricing against other hosting providers, such as [AWS EC2](https://aws.amazon.com/ec2/) or [GCP Compute Engine](https://cloud.google.com/compute).
 
-TODO: explain why DigitalOcean and other options for scaling
+To get started, first go to your github repository, then `Settings` > `Environments` and select the `game-server` environment. This env should already have the `DATABASE_URL` secret from the DB setup steps above. Fill out the remaining `Environment secrets` based on your `/apps/game-api/.env` file.
 
-To get started, you will need to create a DigitalOcean Droplet:
+Now you need to create a DigitalOcean Droplet:
 - Create/log in to your DigitalOcean account
 - Create a new Droplet
   - Select a region near you/your users
-  - Select Ubuntu 24.04 LTS
+  - Select "Ubuntu 24.04 LTS"
   - Choose the cheapest server (should be ~$4/mo)
-  - Select SSH Key for Authentication Method
+  - Select "SSH Key for Authentication Method"
     - Follow the instructions to generate and add an SSH key
   - Select "Add improved metrics monitoring and alerting (free)"
-    - This will give you some insight as you scale up from a single server
+    - This will give you some helpful insight as you scale up
   - Create the Droplet
 
-TODO: update env for DigitalOcean Droplet
+TODO: one-time droplet setup
 
 #### Deployment Trigger
 
 Now whenever you create a new tag that looks like `api-v*.*.*`, the GitHub Action will kick off a backend deployment. First, this will handle migrating the DB according to your Prisma migrations, then it will update and restart the game API server in DigitalOcean.
 
 **NOTE:** When creating a new API tag, DO NOT create a Release! Releases are reserved for hosting the desktop app files only...
+
+## Deploys, Releases and Tags
+
+TODO: section on how to deploy web, desktop and backend
+
+TODO: section on releases vs tags
+
+TODO: section on managing tags locally to resolve git errors
 
 ## Cost Breakdown
 
@@ -402,8 +411,8 @@ A focal point of this project is to be as cost-effective as possible at the star
 |GitHub Pages|Web Hosting|Free|
 |GitHub Releases|Desktop App Hosting|Free|
 |Supabase|Auth and DB|Free|
-|DigitalOcean|Persistent Server|~$5/month|
+|DigitalOcean|Persistent Server|~$4/month|
 |Apple|macOS signing cert|~$8/month ($100/year)|
 |Microsoft Azure|Windows signing cert|$10/month|
 
-**TOTAL:** ~$23/month or ~$280/year
+**TOTAL:** ~$22/month or ~$264/year
