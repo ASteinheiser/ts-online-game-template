@@ -199,6 +199,7 @@ pnpm db:test:sync
 | `pnpm db:test:start` | Uses `docker-compose` to start a local PostgreSQL DB for testing |
 | `pnpm db:test:stop` | Uses `docker-compose` to stop the local PostgreSQL DB for testing |
 | `pnpm db:test:sync` | Uses `prisma` to manage the testing DB based on the `schema.prisma` |
+| `pnpm db:deploy` | Uses `prisma` to deploy migrations to the prod DB (used by CI) |
 | `pnpm dev` | Run local development servers for each app |
 | `pnpm generate:app-icons` | Generates PWA/Electron icons from `apps/web/public/logo.svg` |
 | `pnpm generate:pwa-assets` | Generates PWA assets from `apps/web/public/logo.svg` |
@@ -338,7 +339,7 @@ This final step is very important... You need to assign "Artifact Signing Certif
 
 #### Deployment Trigger
 
-The desktop app files can now be built, signed (macOS/Windows) and hosted in a GitHub Release! Simply create a Release with a new tag (such as `v0.0.1`) and the GitHub Action will kick off the build process for each OS. As each OS build completes, the Release will be updated with the desktop app files.
+The desktop app files can now be built, signed (macOS/Windows) and hosted in a GitHub Release! Simply create a Release with a new tag that looks like `v*.*.*`, and the GitHub Action will kick off the build process for each OS. As each OS build completes, the Release will be updated with the desktop app files.
 
 #### Automatic Updates
 
@@ -356,10 +357,14 @@ Follow [these instructions](https://supabase.com/docs/guides/database/prisma) to
 - Turn off the Supabase Data API setting
   - this is a security measure since we will connect to the DB directly via connection string
 - Create your Prisma user in Supabase
-- Obtain and copy your connection string
+- Obtain your connection string
   - Example: `postgres://[DB-USER].[PROJECT-REF]:[PRISMA-PASSWORD]@[DB-REGION].pooler.supabase.com:5432/postgres`
 - Go to your GitHub repository, then `Settings` > `Environments`, and create the `game-server` environment
-- Add a new environment secret, `DATABASE_URL`, set to your connection string
+- Add a new environment secret called `DATABASE_URL` and set it to your connection string
+
+Now your production DB is set up. Each time you create a new tag that looks like `api-v*.*.*`, the GitHub Action will kick off a backend deployment. One step of this deployment will handle migrating the DB according to your Prisma migrations.
+
+**NOTE:** When creating a new tag for a backend deployment, DO NOT create a Release! Releases are reserved for hosting the desktop app files only...
 
 ### Game Server Setup
 
