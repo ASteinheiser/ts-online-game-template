@@ -28,6 +28,7 @@
     "db:test:start": "turbo run db:test:start",
     "db:test:stop": "turbo run db:test:stop",
     "db:test:sync": "turbo run db:test:sync",
+    "db:deploy": "turbo run db:deploy",
     "build": "turbo run build",
     "preview": "turbo run preview",
     "build:win": "turbo run build:win",

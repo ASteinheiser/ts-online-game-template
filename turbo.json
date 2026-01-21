@@ -51,6 +51,7 @@
     "db:test:start": { "cache": false },
     "db:test:stop": { "cache": false },
     "db:test:sync": { "cache": false },
+    "db:deploy": { "cache": false },
     "dev": {
       "with": ["generate:gql-types:watch", "generate:db-types:watch"],
       "cache": false,

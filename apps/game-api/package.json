@@ -28,7 +28,8 @@
     "db:sync": "prisma migrate dev",
     "db:test:start": "docker-compose -f docker-compose-test.yaml up -d",
     "db:test:stop": "docker-compose -f docker-compose-test.yaml down",
-    "db:test:sync": "npm run test:env -- prisma migrate dev"
+    "db:test:sync": "npm run test:env -- prisma migrate dev",
+    "db:deploy": "prisma migrate deploy"
   },
   "devDependencies": {
     "@colyseus/loadtest": "^0.16.1",
