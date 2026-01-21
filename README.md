@@ -368,9 +368,29 @@ Now your production DB is set up. Each time you create a new tag that looks like
 
 ### Game Server Setup
 
-TODO: create DigitalOcean Droplet
+TODO: update env secrets according to .env file to the `game-server` environment
 
-TODO: update env
+TODO: explain why DigitalOcean and other options for scaling
+
+To get started, you will need to create a DigitalOcean Droplet:
+- Create/log in to your DigitalOcean account
+- Create a new Droplet
+  - Select a region near you/your users
+  - Select Ubuntu 24.04 LTS
+  - Choose the cheapest server (should be ~$4/mo)
+  - Select SSH Key for Authentication Method
+    - Follow the instructions to generate and add an SSH key
+  - Select "Add improved metrics monitoring and alerting (free)"
+    - This will give you some insight as you scale up from a single server
+  - Create the Droplet
+
+TODO: update env for DigitalOcean Droplet
+
+#### Deployment Trigger
+
+Now whenever you create a new tag that looks like `api-v*.*.*`, the GitHub Action will kick off a backend deployment. First, this will handle migrating the DB according to your Prisma migrations, then it will update and restart the game API server in DigitalOcean.
+
+**NOTE:** When creating a new API tag, DO NOT create a Release! Releases are reserved for hosting the desktop app files only...
 
 ## Cost Breakdown
 
