@@ -358,7 +358,7 @@ Follow [these instructions](https://supabase.com/docs/guides/database/prisma) to
   - this is a security measure since we will connect to the DB directly via connection string
 - Create your Prisma user in Supabase
 - Obtain your connection string
-  - Example: `postgres://[DB-USER].[PROJECT-REF]:[PRISMA-PASSWORD]@[DB-REGION].pooler.supabase.com:5432/postgres`
+  - Example: `postgres://prisma.[PROJECT-REF]:[PRISMA-PASSWORD]@[DB-REGION].pooler.supabase.com:5432/postgres`
 - Go to your GitHub repository, then `Settings` > `Environments`, and create the `game-server` environment
 - Add a new environment secret called `DATABASE_URL` and set it to your connection string
 
