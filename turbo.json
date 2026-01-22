@@ -14,7 +14,8 @@
     },
     "generate:db-types": {
       "inputs": ["prisma/schema.prisma"],
-      "outputs": ["**/prisma-client/**"]
+      "outputs": ["**/prisma-client/**"],
+      "env": ["DATABASE_URL"]
     },
     "generate:db-types:watch": {
       "cache": false,
