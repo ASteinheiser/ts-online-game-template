@@ -6,6 +6,6 @@ export default defineConfig([
   {
     files: [ALL_JS_FILES],
     extends: [baseConfig],
-    ignores: ['ecosystem.config.js'],
+    ignores: ['ecosystem.config.cjs'],
   },
 ]);
