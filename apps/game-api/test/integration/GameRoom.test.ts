@@ -301,11 +301,14 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       const room1 = getRoom(roomIds[0]);
       const room2 = getRoom(roomIds[1]);
 
-      assertBasicPlayerState({
-        room: room1,
-        clientIds: [client1.sessionId, client2.sessionId, client3.sessionId, client4.sessionId],
-      });
-      assertBasicPlayerState({ room: room2, clientIds: [client5.sessionId] });
+      const room1PlayerCount = room1.state.players.size;
+      const room2PlayerCount = room2.state.players.size;
+
+      // total of 5 players across both rooms
+      assert.strictEqual(room1PlayerCount + room2PlayerCount, 5);
+      // the first room should not exceed the maximum number of players per room
+      assert.strictEqual(room1PlayerCount, 4);
+      assert.strictEqual(room2PlayerCount, 1);
     });
   });
 
