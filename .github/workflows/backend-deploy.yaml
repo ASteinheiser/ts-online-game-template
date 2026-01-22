@@ -97,14 +97,16 @@ jobs:
 
             cd $RELEASE_DIR
 
+            PM2="$HOME/.nvm/versions/node/v24.*/bin/pm2"
+
             # start or reload the game API server
-            if /home/deployer/.nvm/versions/node/v24.13.0/bin/pm2 list | grep -q "game-api"; then
-              /home/deployer/.nvm/versions/node/v24.13.0/bin/pm2 reload apps/game-api/ecosystem.config.js --update-env
+            if pm2 list | grep -q "game-api"; then
+              pm2 reload apps/game-api/ecosystem.config.js --update-env
             else
-              /home/deployer/.nvm/versions/node/v24.13.0/bin/pm2 start apps/game-api/ecosystem.config.js
+              pm2 start apps/game-api/ecosystem.config.js
             fi
 
-            /home/deployer/.nvm/versions/node/v24.13.0/bin/pm2 save
+            pm2 save
 
             # prune old releases (keep last 3)
             cd ~
