@@ -45,7 +45,7 @@ jobs:
 
       - name: Start test DB
         run: |
-          docker compose -f ./apps/game-api/docker-compose-test.yaml up -d game_postgres_db_test
+          docker compose -f ./apps/game-api/docker-compose-test.yaml up -d
           pnpm db:test:sync
 
       - name: Build game-api
