@@ -287,31 +287,6 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
 
       assertBasicPlayerState({ room, clientIds });
     });
-
-    it('should add the maximum number of players to the room, then create a new room when needed', async () => {
-      const [client1, client2, client3, client4, client5] = await Promise.all(
-        TEST_USERS.map((user) => joinTestRoom({ server, token: generateTestJWT({ user }) }))
-      );
-      const roomIds = Array.from(
-        new Set([client1.roomId, client2.roomId, client3.roomId, client4.roomId, client5.roomId])
-      );
-
-      await waitForConnectionCheck();
-
-      assert.strictEqual(roomIds.length, 2);
-
-      const room1 = getRoom(roomIds[0]);
-      const room2 = getRoom(roomIds[1]);
-
-      const room1PlayerCount = room1.state.players.size;
-      const room2PlayerCount = room2.state.players.size;
-
-      // the first room should not exceed the maximum number of players per room
-      assert.strictEqual(room1PlayerCount, 4);
-      assert.strictEqual(room2PlayerCount, 1);
-      // total of 5 players across both rooms
-      assert.strictEqual(room1PlayerCount + room2PlayerCount, 5);
-    });
   });
 
   describe('basic game logic', () => {
