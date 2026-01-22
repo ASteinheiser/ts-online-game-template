@@ -69,45 +69,12 @@ jobs:
           source: "game-api.tar.gz"
           target: "~/"
 
-      - name: Remote deploy & zero-downtime reload
+      - name: Run release script via SSH
         uses: appleboy/ssh-action@v1.2.4
         with:
           username: deployer
           host: ${{ secrets.DROPLET_IP }}
           key: ${{ secrets.DROPLET_SSH_KEY }}
           passphrase: ${{ secrets.DROPLET_SSH_PASS }}
-          script: |
-            set -e
-            cd ~
-            # unpack to versioned dir
-            RELEASE_DIR="game-api-$(date +%s)"
-            mkdir $RELEASE_DIR
-            tar xzf game-api.tar.gz -C $RELEASE_DIR
-            rm game-api.tar.gz
-
-            # write env file
-            cat > $RELEASE_DIR/apps/game-api/.env <<'EOV'
-            NODE_ENV: production
-            JWT_SECRET: ${{ secrets.JWT_SECRET }}
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
-            SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-            SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
-            PORT: ${{ secrets.PORT }}
-            EOV
-
-            cd $RELEASE_DIR
-
-            PM2="$HOME/.nvm/versions/node/v24.*/bin/pm2"
-
-            # start or reload the game API server
-            if $PM2 list | grep -q "game-api"; then
-              $PM2 reload apps/game-api/ecosystem.config.js --update-env
-            else
-              $PM2 start apps/game-api/ecosystem.config.js
-            fi
-
-            $PM2 save
-
-            # prune old releases (keep last 3)
-            cd ~
-            ls -dt game-api-* | tail -n +4 | xargs -r rm -rf
+          envs: JWT_SECRET,DATABASE_URL,SUPABASE_URL,SUPABASE_SERVICE_ROLE,PORT
+          script: ./release-api-update.sh
