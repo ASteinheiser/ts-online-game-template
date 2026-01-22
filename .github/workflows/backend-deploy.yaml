@@ -51,7 +51,8 @@ jobs:
           tar czf game-api.tar.gz \
             apps/game-api/dist \
             apps/game-api/package.json \
-            apps/game-api/node_modules
+            apps/game-api/node_modules \
+            apps/game-api/ecosystem.config.js
 
       - name: Copy build zip to Droplet
         uses: appleboy/scp-action@v1.0.0
@@ -59,6 +60,47 @@ jobs:
           username: deployer
           host: ${{ secrets.DROPLET_IP }}
           key: ${{ secrets.DROPLET_SSH_KEY }}
-          passphrase: ${{ secrets.DROPLET_SSH_PASSPHRASE }}
+          passphrase: ${{ secrets.DROPLET_SSH_PASS }}
           source: "game-api.tar.gz"
           target: "~/"
+
+      - name: Remote deploy & zero-downtime reload
+        uses: appleboy/ssh-action@v1.2.4
+        with:
+          username: deployer
+          host: ${{ secrets.DROPLET_IP }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          passphrase: ${{ secrets.DROPLET_SSH_PASS }}
+          script: |
+            set -e
+            cd ~
+            # unpack to versioned dir
+            RELEASE_DIR="game-api-$(date +%s)"
+            mkdir $RELEASE_DIR
+            tar xzf game-api.tar.gz -C $RELEASE_DIR
+            rm game-api.tar.gz
+
+            # write env file
+            cat > $RELEASE_DIR/apps/game-api/.env <<'EOV'
+            NODE_ENV: production
+            JWT_SECRET: ${{ secrets.JWT_SECRET }}
+            DATABASE_URL: ${{ secrets.DATABASE_URL }}
+            SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+            SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+            PORT: ${{ secrets.PORT }}
+            EOV
+
+            cd $RELEASE_DIR
+
+            # start or reload the game API server
+            if pm2 list | grep -q "game-api"; then
+              pm2 reload apps/game-api/ecosystem.config.js --update-env
+            else
+              pm2 start apps/game-api/ecosystem.config.js
+            fi
+
+            pm2 save
+
+            # prune old releases (keep last 3)
+            cd ~
+            ls -dt game-api-* | tail -n +4 | xargs -r rm -rf
