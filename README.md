@@ -356,7 +356,7 @@ Supabase offers a hosted PostgreSQL DB at no cost (limited storage/CPU). You can
 
 Follow [these instructions](https://supabase.com/docs/guides/database/prisma) to setup a hosted PostgreSQL DB with Supabase for Prisma. You'll need to:
 - Turn off the Supabase Data API setting
-  - this is a security measure since we will connect to the DB directly via connection string
+  - this is a security measure since you will connect to the DB directly via connection string
 - Create your Prisma user in Supabase
 - Obtain your connection string
   - Example: `postgres://prisma.[PROJECT-REF]:[PRISMA-PASSWORD]@[DB-REGION].pooler.supabase.com:5432/postgres`
@@ -384,8 +384,90 @@ Now you need to create a DigitalOcean Droplet:
   - Select "Add improved metrics monitoring and alerting (free)"
     - This will give you some helpful insight as you scale up
   - Create the Droplet
+- Copy the Droplet's public IP address (IPv4)
+  - If you want to use your custom domain for your API server, you can use this value to create a DNS record in your domain registrar
+    - Create an "A record" for `api.domain.com` pointed to the Droplet's IPv4
+  - Either the Droplet's IP or your custom domain can be used to create production `VITE_API_URL` and `VITE_WEBSOCKET_URL` environment secrets
+    - ex: `ws://api.domain.com` or `https://123.123.123.123`
 
-TODO: one-time droplet setup
+Now that you have a Droplet online, you can SSH into it for first time setup:
+```bash
+ssh root@<DROPLET_IP>
+```
+
+Once you are logged in to the Droplet, you should setup the `deployer` user, create firewall rules, then switch to the `deployer` user:
+```bash
+adduser deployer --disabled-password
+usermod -aG sudo deployer
+
+ufw allow OpenSSH
+ufw allow 80,443/tcp
+ufw enable
+
+su - deployer
+```
+
+Install `nvm`, `node` and `pm2`:
+```bash
+curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+source ~/.nvm/nvm.sh
+# Make sure this matches the version in the .nvmrc file
+nvm install 24
+npm install -g pm2
+```
+
+Ensure `pm2` resurrects on boot:
+```bash
+pm2 startup systemd -u deployer --hp /home/deployer
+```
+
+**NOTE:** This will output a command which you will need to run as `sudo`. Switch back to the `root` user and run the command. Once the command completes, you can switch back to the `deployer` user.
+
+Setup `pm2-logrotate`, which will help with the limited server resources by rotating and cleaning up `pm2` logs:
+```bash
+pm2 install pm2-logrotate
+pm2 set pm2-logrotate:max_size 10M
+pm2 set pm2-logrotate:retain 30
+pm2 set pm2-logrotate:compress true
+pm2 save --force
+```
+
+The final setup step for the Droplet is to install `caddy`, which will be used as a reverse proxy (with automatic TLS) for the game API server. Before continuing, you will need to switch back to the `root` user:
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl caddy
+# Make sure to replace the two placeholders with actual values
+sudo tee /etc/caddy/Caddyfile >/dev/null <<'EOF'
+<YOUR_CUSTOM_DOMAIN_OR_DROPLET_IP> {
+    reverse_proxy localhost:<PORT_ENV_SECRET>
+    encode gzip
+    log {
+      output file /var/log/caddy/game-api_access.log
+    }
+}
+EOF
+# Reload Caddy to apply the new configuration
+sudo systemctl reload caddy
+```
+
+**NOTE:** If you need to see production logs, you can always SSH into the Droplet and run:
+```bash
+# List all running PM2 processes
+pm2 list
+# Tail the logs for the game API server
+pm2 logs game-api --lines 200
+# Clear out logs manually
+pm2 flush
+```
+
+For the GitHub Action to properly deploy the backend, you'll need to create three more environment secrets in `game-server`:
+| Environment Secret | Description |
+|----|----|
+| `DROPLET_IP` | The IPv4 address of the Droplet |
+| `DROPLET_SSH_KEY` | The private SSH key string (`pbcopy < ~/.ssh/key`) |
+| `DROPLET_SSH_PASS` | The password to use with the SSH key |
+
+Now your Droplet is ready to host the game API server! 
 
 #### Deployment Trigger
 
