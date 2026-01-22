@@ -296,6 +296,8 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
         new Set([client1.roomId, client2.roomId, client3.roomId, client4.roomId, client5.roomId])
       );
 
+      await waitForConnectionCheck();
+
       assert.strictEqual(roomIds.length, 2);
 
       const room1 = getRoom(roomIds[0]);
