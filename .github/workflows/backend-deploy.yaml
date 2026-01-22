@@ -57,7 +57,8 @@ jobs:
             apps/game-api/dist \
             apps/game-api/package.json \
             apps/game-api/node_modules \
-            apps/game-api/ecosystem.config.js
+            apps/game-api/ecosystem.config.js \
+            .nvmrc
 
       - name: Copy build zip to Droplet
         uses: appleboy/scp-action@v1.0.0
@@ -96,6 +97,7 @@ jobs:
             EOV
 
             cd $RELEASE_DIR
+            nvm use
 
             # start or reload the game API server
             if pm2 list | grep -q "game-api"; then
