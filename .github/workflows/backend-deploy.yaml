@@ -100,13 +100,13 @@ jobs:
             PM2="$HOME/.nvm/versions/node/v24.*/bin/pm2"
 
             # start or reload the game API server
-            if pm2 list | grep -q "game-api"; then
-              pm2 reload apps/game-api/ecosystem.config.js --update-env
+            if $PM2 list | grep -q "game-api"; then
+              $PM2 reload apps/game-api/ecosystem.config.js --update-env
             else
-              pm2 start apps/game-api/ecosystem.config.js
+              $PM2 start apps/game-api/ecosystem.config.js
             fi
 
-            pm2 save
+            $PM2 save
 
             # prune old releases (keep last 3)
             cd ~
