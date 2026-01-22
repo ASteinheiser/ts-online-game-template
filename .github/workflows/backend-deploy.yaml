@@ -79,8 +79,6 @@ jobs:
           script: |
             set -e
             cd ~
-            source ~/.bashrc
-            nvm ls
             # unpack to versioned dir
             RELEASE_DIR="game-api-$(date +%s)"
             mkdir $RELEASE_DIR
