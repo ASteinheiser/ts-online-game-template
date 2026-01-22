@@ -43,6 +43,11 @@ jobs:
       - name: Run Prisma migrations
         run: pnpm db:deploy
 
+      - name: Start test DB
+        run: |
+          pnpm db:test:start
+          pnpm db:test:sync
+
       - name: Build game-api
         run: pnpm build --filter=game-api
 
