@@ -395,7 +395,7 @@ Now that you have a Droplet online, you can SSH into it for first time setup:
 ssh root@<DROPLET_IP>
 ```
 
-Once you are logged in to the Droplet, you should setup the `deployer` user, create firewall rules, then switch to the `deployer` user:
+Once you are logged in to the Droplet, you should setup the `deployer` user and create firewall rules:
 ```bash
 adduser deployer --disabled-password
 usermod -aG sudo deployer
@@ -403,6 +403,19 @@ usermod -aG sudo deployer
 ufw allow OpenSSH
 ufw allow 80,443/tcp
 ufw enable
+```
+
+Copy the SSH key from the `root` user to the `deployer`, then switch to the `deployer` user:
+```bash
+sudo -u deployer mkdir -p /home/deployer/.ssh
+sudo chown deployer:deployer /home/deployer/.ssh
+sudo chmod 700 /home/deployer/.ssh
+
+sudo cat /root/.ssh/authorized_keys \
+  | sudo -u deployer tee -a /home/deployer/.ssh/authorized_keys >/dev/null
+
+sudo chown deployer:deployer /home/deployer/.ssh/authorized_keys
+sudo chmod 600 /home/deployer/.ssh/authorized_keys
 
 su - deployer
 ```
