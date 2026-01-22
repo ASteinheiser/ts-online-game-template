@@ -42,3 +42,23 @@ jobs:
 
       - name: Run Prisma migrations
         run: pnpm db:deploy
+
+      - name: Build game-api
+        run: pnpm build --filter=game-api
+
+      - name: Zip build files for shipping
+        run: |
+          tar czf game-api.tar.gz \
+            apps/game-api/dist \
+            apps/game-api/package.json \
+            apps/game-api/node_modules
+
+      - name: Copy build zip to Droplet
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          username: deployer
+          host: ${{ secrets.DROPLET_IP }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          passphrase: ${{ secrets.DROPLET_SSH_PASSPHRASE }}
+          source: "game-api.tar.gz"
+          target: "~/"
