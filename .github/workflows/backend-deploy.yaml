@@ -57,7 +57,7 @@ jobs:
             apps/game-api/dist \
             apps/game-api/package.json \
             apps/game-api/node_modules \
-            apps/game-api/ecosystem.config.js
+            apps/game-api/ecosystem.config.cjs
 
       - name: Copy build zip to Droplet
         uses: appleboy/scp-action@v1.0.0
