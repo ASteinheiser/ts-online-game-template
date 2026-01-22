@@ -99,20 +99,14 @@ jobs:
 
             cd $RELEASE_DIR
 
-            # Ensure pm2 exists (installs only if missing)
-            if ! command -v pm2 >/dev/null 2>&1; then
-              echo "PM2 not found - installing globally..."
-              npm install -g pm2
-            fi
-
             # start or reload the game API server
-            if pm2 list | grep -q "game-api"; then
-              pm2 reload apps/game-api/ecosystem.config.js --update-env
+            if /home/deployer/.nvm/versions/node/v24.13.0/bin/pm2 list | grep -q "game-api"; then
+              /home/deployer/.nvm/versions/node/v24.13.0/bin/pm2 reload apps/game-api/ecosystem.config.js --update-env
             else
-              pm2 start apps/game-api/ecosystem.config.js
+              /home/deployer/.nvm/versions/node/v24.13.0/bin/pm2 start apps/game-api/ecosystem.config.js
             fi
 
-            pm2 save
+            /home/deployer/.nvm/versions/node/v24.13.0/bin/pm2 save
 
             # prune old releases (keep last 3)
             cd ~
