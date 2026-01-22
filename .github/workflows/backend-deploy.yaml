@@ -57,8 +57,7 @@ jobs:
             apps/game-api/dist \
             apps/game-api/package.json \
             apps/game-api/node_modules \
-            apps/game-api/ecosystem.config.js \
-            .nvmrc
+            apps/game-api/ecosystem.config.js
 
       - name: Copy build zip to Droplet
         uses: appleboy/scp-action@v1.0.0
@@ -97,7 +96,12 @@ jobs:
             EOV
 
             cd $RELEASE_DIR
-            nvm use
+
+            # Ensure pm2 exists (installs only if missing)
+            if ! command -v pm2 >/dev/null 2>&1; then
+              echo "PM2 not found - installing globally..."
+              npm install -g pm2
+            fi
 
             # start or reload the game API server
             if pm2 list | grep -q "game-api"; then
