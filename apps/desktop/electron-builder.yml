@@ -39,6 +39,7 @@ mac:
 dmg:
   artifactName: ${name}-${version}.${ext}
 linux:
+  executableName: demo-game
   target:
     - AppImage
   maintainer: me@iamandrew.io
