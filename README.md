@@ -388,7 +388,8 @@ Now you need to create a DigitalOcean Droplet:
   - If you want to use your custom domain for your API server, you can use this value to create a DNS record in your domain registrar
     - Create an "A record" for `api.domain.com` pointed to the Droplet's IPv4
   - Either the Droplet's IP or your custom domain can be used to create production `VITE_API_URL` and `VITE_WEBSOCKET_URL` environment secrets
-    - ex: `ws://api.domain.com` or `https://123.123.123.123`
+    - Make sure you use secure protocols for production URLs
+    - ex: `wss://api.domain.com` or `https://123.123.123.123`
 
 Now that you have a Droplet online, you can SSH into it for first time setup:
 ```bash
