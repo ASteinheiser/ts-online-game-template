@@ -7,10 +7,10 @@ import type { VideoSettings } from '../shared/types';
 import { getAvailableResolutions, loadVideoSettings, applyVideoSettings } from './video-settings';
 import { initAutoUpdater } from './auto-updater';
 
-const WIN_APP_USER_MODEL_ID = 'iamandrew.demo-game';
-
 const DEEP_LINK_PROTOCOL = import.meta.env.VITE_DEEP_LINK_PROTOCOL;
 if (!DEEP_LINK_PROTOCOL) throw new Error('VITE_DEEP_LINK_PROTOCOL is not set');
+
+const WIN_APP_USER_MODEL_ID = `io.iamandrew.${DEEP_LINK_PROTOCOL}`;
 
 let mainWindow: BrowserWindow | null = null;
 let pendingDeepLink: string | null = null;
