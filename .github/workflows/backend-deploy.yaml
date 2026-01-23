@@ -95,7 +95,7 @@ jobs:
 
             cd $RELEASE_DIR/apps/game-api
 
-            pm2 delete game-api
+            pm2 delete ecosystem.config.cjs
             pm2 start ecosystem.config.cjs --update-env
             pm2 save
 
