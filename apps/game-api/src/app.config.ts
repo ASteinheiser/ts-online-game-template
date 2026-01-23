@@ -34,6 +34,7 @@ export const makeApp = ({
     },
 
     initializeExpress: async (app) => {
+      await GQLServer.start();
       /**
        * Configure GraphQL route, middleware and context
        */
