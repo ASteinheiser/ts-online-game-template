@@ -14,6 +14,8 @@ export default defineConfig({
         ...builtinModules.map((m) => `node:${m}`),
         '@colyseus/bun-websockets',
         '@pm2/io',
+        'bufferutil',
+        'utf-8-validate',
       ],
     },
   },
