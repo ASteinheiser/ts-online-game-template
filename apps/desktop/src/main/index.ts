@@ -6,6 +6,7 @@ import { ELECTRON_EVENTS } from '../shared/constants';
 import type { VideoSettings } from '../shared/types';
 import { getAvailableResolutions, loadVideoSettings, applyVideoSettings } from './video-settings';
 import { initAutoUpdater } from './auto-updater';
+import { registerLinuxDeepLink } from './registerLinuxDeepLink';
 
 const DEEP_LINK_PROTOCOL = import.meta.env.VITE_DEEP_LINK_PROTOCOL;
 if (!DEEP_LINK_PROTOCOL) throw new Error('VITE_DEEP_LINK_PROTOCOL is not set');
@@ -71,6 +72,9 @@ const createWindow = () => {
 app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId(WIN_APP_USER_MODEL_ID);
+
+  // Ensure deep link config file is available on Linux
+  registerLinuxDeepLink();
 
   // Register protocol for deep links
   if (process.defaultApp) {
