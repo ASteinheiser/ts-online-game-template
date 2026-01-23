@@ -55,10 +55,7 @@ jobs:
         run: |
           tar czf game-api.tar.gz \
             apps/game-api/ecosystem.config.cjs \
-            apps/game-api/dist \
-            apps/game-api/package.json \
-            pnpm-workspace.yaml \
-            pnpm-lock.yaml
+            apps/game-api/dist
 
       - name: Copy build zip to Droplet
         uses: appleboy/scp-action@v1.0.0
@@ -96,11 +93,7 @@ jobs:
             PORT=${{ secrets.PORT }}
             EOV
 
-            cd $RELEASE_DIR
-            cp pnpm-workspace.yaml apps/game-api/
-            cp pnpm-lock.yaml apps/game-api/
-            cd apps/game-api
-            pnpm install --prod --no-frozen-lockfile
+            cd $RELEASE_DIR/apps/game-api
 
             pm2 startOrReload ecosystem.config.cjs --update-env
             pm2 save

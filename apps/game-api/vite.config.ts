@@ -9,7 +9,15 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       output: { format: 'esm' },
-      external: [...builtinModules, ...builtinModules.map((m) => `node:${m}`)],
+      external: [
+        ...builtinModules,
+        ...builtinModules.map((m) => `node:${m}`),
+        '@colyseus/bun-websockets',
+        '@pm2/io',
+      ],
     },
+  },
+  ssr: {
+    noExternal: true,
   },
 });
