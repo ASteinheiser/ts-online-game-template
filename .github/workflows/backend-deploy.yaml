@@ -53,7 +53,7 @@ jobs:
 
       - name: Zip build files for shipping
         run: |
-          tar czf game-api.tar.gz \
+          tar czf game-api.tar.gz --dereference \
             apps/game-api/dist \
             apps/game-api/package.json \
             apps/game-api/node_modules \
