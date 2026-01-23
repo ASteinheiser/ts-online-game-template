@@ -54,10 +54,10 @@ jobs:
       - name: Zip build files for shipping
         run: |
           tar czf game-api.tar.gz \
+            apps/game-api/ecosystem.config.cjs \
             apps/game-api/dist \
             apps/game-api/package.json \
-            apps/game-api/node_modules \
-            apps/game-api/ecosystem.config.cjs
+            pnpm-lock.yaml
 
       - name: Copy build zip to Droplet
         uses: appleboy/scp-action@v1.0.0
@@ -96,8 +96,11 @@ jobs:
             EOV
 
             cd $RELEASE_DIR
+            cp pnpm-lock.yaml apps/game-api/
+            cd apps/game-api
+            pnpm install --frozen-lockfile
 
-            pm2 startOrReload apps/game-api/ecosystem.config.cjs --update-env
+            pm2 startOrReload ecosystem.config.cjs --update-env
             pm2 save
 
             # prune old releases
