@@ -53,7 +53,7 @@ jobs:
 
       - name: Zip build files for shipping
         run: |
-          tar czf game-api.tar.gz --dereference \
+          tar czf game-api.tar.gz \
             apps/game-api/dist \
             apps/game-api/package.json \
             apps/game-api/node_modules \
@@ -100,6 +100,6 @@ jobs:
             pm2 startOrReload apps/game-api/ecosystem.config.cjs --update-env
             pm2 save
 
-            # prune old releases (keep last 3)
+            # prune old releases
             cd ~
-            ls -dt game-api-* | tail -n +4 | xargs -r rm -rf
+            ls -dt game-api-* | tail -n +2 | xargs -r rm -rf
