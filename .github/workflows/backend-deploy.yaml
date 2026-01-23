@@ -87,12 +87,12 @@ jobs:
 
             # write env file
             cat > $RELEASE_DIR/apps/game-api/.env <<'EOV'
-            NODE_ENV: production
-            JWT_SECRET: ${{ secrets.JWT_SECRET }}
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
-            SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-            SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
-            PORT: ${{ secrets.PORT }}
+            NODE_ENV=production
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+            SUPABASE_SERVICE_ROLE=${{ secrets.SUPABASE_SERVICE_ROLE }}
+            PORT=${{ secrets.PORT }}
             EOV
 
             cd $RELEASE_DIR
