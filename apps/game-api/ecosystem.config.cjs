@@ -6,7 +6,7 @@ module.exports = {
   apps: [
     {
       name: 'game-api',
-      script: './dist/index.js',
+      script: 'node ./dist/index.js',
       cwd: process.cwd(),
       env_file: '.env',
       instances: 1,
