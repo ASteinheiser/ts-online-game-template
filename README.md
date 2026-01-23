@@ -420,6 +420,17 @@ sudo chmod 600 /home/deployer/.ssh/authorized_keys
 su - deployer
 ```
 
+**IMPORTANT:** On Ubuntu 24.04, you need to comment out the lines in your `~/.bashrc` file following the comment: `# If not running interactively, don't do anything`. These lines will prevent you from calling `pm2` from the GitHub Action (SSH non-interactive mode). Since you will only be using `deployer` to SSH during the deployment process, you do not need to update `root`'s `~/.bashrc` file. Your `deployer` user's `~/.bashrc` file should look like this:
+```bash
+...
+# If not running interactively, don't do anything
+#case $- in
+#    *i*) ;;
+#      *) return;;
+#esac
+...
+```
+
 Install `nvm`, `node` and `pm2`:
 ```bash
 curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
@@ -434,7 +445,7 @@ Ensure `pm2` resurrects on boot:
 pm2 startup systemd -u deployer --hp /home/deployer
 ```
 
-**NOTE:** This will output a command which you will need to run as `sudo`. Switch back to the `root` user and run the command. Once the command completes, you can switch back to the `deployer` user.
+**NOTE:** This will output a command which you will need to run as `sudo`. Switch back to the `root` user (`exit`) and run the command. Once the command completes, you need to switch back to the `deployer` user.
 
 Setup `pm2-logrotate`, which will help with the limited server resources by rotating and cleaning up `pm2` logs:
 ```bash
@@ -445,7 +456,7 @@ pm2 set pm2-logrotate:compress true
 pm2 save --force
 ```
 
-The final setup step for the Droplet is to install `caddy`, which will be used as a reverse proxy (with automatic TLS) for the game API server. Before continuing, you will need to switch back to the `root` user:
+The final step for setting up the Droplet is to install `caddy`, which will be used as a reverse proxy (with automatic TLS) for the game API server. Before continuing, you will need to switch back to the `root` user:
 ```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl caddy
