@@ -98,7 +98,7 @@ jobs:
             cd $RELEASE_DIR
             cp pnpm-lock.yaml apps/game-api/
             cd apps/game-api
-            pnpm install --no-frozen-lockfile
+            pnpm install --prod --no-frozen-lockfile
 
             pm2 startOrReload ecosystem.config.cjs --update-env
             pm2 save
