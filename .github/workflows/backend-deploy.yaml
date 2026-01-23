@@ -67,7 +67,7 @@ jobs:
           source: "game-api.tar.gz"
           target: "~/"
 
-      - name: Remote deploy & zero-downtime reload
+      - name: Deploy and restart game-api server
         uses: appleboy/ssh-action@v1.2.4
         with:
           username: deployer
@@ -95,7 +95,8 @@ jobs:
 
             cd $RELEASE_DIR/apps/game-api
 
-            pm2 startOrReload ecosystem.config.cjs --update-env
+            pm2 delete game-api
+            pm2 start ecosystem.config.cjs --update-env
             pm2 save
 
             # prune old releases
