@@ -74,6 +74,7 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
     height: newSettings.height ?? existingSettings.height,
   };
 
+  window.setResizable(true);
   if (mergedSettings.fullscreen) {
     window.setFullScreen(true);
   } else {
@@ -88,6 +89,7 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
     window.setSize(newWidth, newHeight);
     window.center();
   }
+  window.setResizable(false);
 
   saveVideoSettings(mergedSettings);
 };
