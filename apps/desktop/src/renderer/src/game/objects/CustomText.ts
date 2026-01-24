@@ -70,14 +70,12 @@ export class CustomText extends GameObjects.Text {
   }
 
   makeButton(hoverColor = '#ff00ff', callback = () => {}): this {
-    this.setInteractive()
+    this.setInteractive({ useHandCursor: true })
       .on('pointerover', () => {
         this.setColor(hoverColor);
-        this.scene.input.setDefaultCursor('pointer');
       })
       .on('pointerout', () => {
         this.setColor(this.color);
-        this.scene.input.setDefaultCursor('default');
       })
       .on('pointerdown', callback);
 
