@@ -15,8 +15,8 @@ export const PLAYER_FRAME_RATE = 8;
 export const PLAYER_MOVE_SPEED = 4;
 /** The size of the player in pixels */
 export const PLAYER_SIZE = {
-  width: 47,
-  height: 53,
+  width: 48,
+  height: 54,
 };
 
 /** The size of the attack in pixels */
@@ -28,7 +28,7 @@ export const ATTACK_SIZE = {
  * which is at the edge of the player's bounding box */
 export const ATTACK_OFFSET_X = PLAYER_SIZE.width / 2 - ATTACK_SIZE.width / 2;
 /** Magic number, this is how high the fist is above the center of the player */
-export const ATTACK_OFFSET_Y = 12.5;
+export const ATTACK_OFFSET_Y = 12;
 /** Attack animation takes 0.625 seconds total (5 frames at 8fps) */
 export const ATTACK_COOLDOWN = 625;
 /** Attack damage frame is at 0.375 seconds (frame 3 / 5) */
