@@ -1,6 +1,5 @@
 appId: io.iamandrew.demo-game
 productName: Demo Game
-productFilename: demo-game
 directories:
   buildResources: build
 files:
