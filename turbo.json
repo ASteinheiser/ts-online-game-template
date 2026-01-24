@@ -88,20 +88,20 @@
       "persistent": true
     },
     "build:win": {
-      "dependsOn": ["desktop#build"],
+      "dependsOn": ["demo-game#build"],
       "outputs": ["dist/**"],
       "env": ["AZURE_TENANT_ID", "AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET", "LOCALAPPDATA", "APPDATA"]
     },
     "build:mac": {
-      "dependsOn": ["desktop#build"],
+      "dependsOn": ["demo-game#build"],
       "outputs": ["dist/**"],
       "env": ["APPLE_ID", "APPLE_TEAM_ID", "APPLE_APP_SPECIFIC_PASSWORD"]
     },
     "build:linux": {
-      "dependsOn": ["desktop#build"],
+      "dependsOn": ["demo-game#build"],
       "outputs": ["dist/**"]
     },
-    "desktop#build": {
+    "demo-game#build": {
       "dependsOn": ["@repo/core-game#build"]
     }
   }

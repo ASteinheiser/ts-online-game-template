@@ -1,4 +1,4 @@
-appId: io.iamandrew.demo-game
+appId: io.iamandrew.${name}
 productName: Demo Game
 directories:
   buildResources: build
@@ -38,7 +38,7 @@ mac:
 dmg:
   artifactName: ${name}-${version}.${ext}
 linux:
-  executableName: demo-game
+  executableName: ${name}
   target:
     - AppImage
   maintainer: me@iamandrew.io
@@ -52,4 +52,4 @@ publish:
 protocols:
   - name: ${productName}
     schemes:
-      - demo-game
+      - ${name}
