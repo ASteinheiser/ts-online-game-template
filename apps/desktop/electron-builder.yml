@@ -1,5 +1,6 @@
 appId: io.iamandrew.demo-game
 productName: Demo Game
+productFilename: demo-game
 directories:
   buildResources: build
 files:
@@ -16,7 +17,6 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: ${productName}
   azureSignOptions:
     endpoint: "https://eus.codesigning.azure.net"
     codeSigningAccountName: "Andrew-Steinheiser"
