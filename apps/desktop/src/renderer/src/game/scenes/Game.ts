@@ -189,7 +189,7 @@ export class Game extends Scene {
       if (sessionId === this.room?.sessionId) {
         this.currentPlayer = newPlayer;
         // ensure the camera is following the current player
-        this.cameras.main.startFollow(entity, false, 0.1, 0.1);
+        this.cameras.main.startFollow(entity, true, 0.1, 0.1);
 
         // #region FOR DEBUGGING PURPOSES
         this.currentPlayerServer = this.add.rectangle(0, 0, entity.width, entity.height).setDepth(100);
