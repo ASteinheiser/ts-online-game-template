@@ -89,6 +89,7 @@ export class Game extends Scene {
       .setDisplaySize(MAP_SIZE.width, MAP_SIZE.height);
 
     const leaveText = new CustomText(this, 0, 0, 'Press Shift to leave the game', {
+      fontFamily: 'Tiny5',
       fontSize: 20,
     }).setScrollFactor(0);
 
@@ -176,8 +177,9 @@ export class Game extends Scene {
       const entity = this.physics.add.sprite(player.x, player.y, ASSET.PLAYER).setDepth(100);
 
       const nameText = new CustomText(this, player.x, player.y, player.username, {
+        fontFamily: 'Tiny5',
         fontSize: 12,
-      }).setOrigin(0.5, 2.5);
+      }).setOrigin(0.5, 2.75);
 
       const newPlayer = new Player(this, entity, nameText);
 

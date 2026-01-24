@@ -24,7 +24,7 @@ export class GameOver extends Scene {
     const bg = this.add.image(0, 0, ASSET.BACKGROUND).setAlpha(0.5).setOrigin(0.5);
 
     const titleText = new CustomText(this, 0, 0, 'Game Over', {
-      fontFamily: 'Arial Black',
+      fontFamily: 'Tiny5',
       fontSize: '64px',
       strokeThickness: 8,
     })
@@ -32,6 +32,7 @@ export class GameOver extends Scene {
       .typeWriter(150);
 
     const continueText = new CustomText(this, 0, 0, 'Press Shift to continue', {
+      fontFamily: 'Tiny5',
       fontSize: 20,
     }).fadeIn(1500);
 
@@ -42,7 +43,7 @@ export class GameOver extends Scene {
 
       const resultText = `${result.username} - ${killCountText} (${accuracy}% accuracy)`;
 
-      const text = new CustomText(this, 0, 0, resultText, { fontFamily: 'Arial' })
+      const text = new CustomText(this, 0, 0, resultText, { fontFamily: 'Iceberg' })
         .setOrigin(0.5)
         .fadeIn(500, 300 * (index + 1));
 

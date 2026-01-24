@@ -3,7 +3,7 @@ import { Scenes } from 'phaser';
 import { CustomText } from './CustomText';
 import { WS_EVENT } from '@repo/core-game';
 
-const MARGIN = 10;
+const MARGIN = 16;
 const PADDING = 6;
 const CORNER_RADIUS = 8;
 
@@ -20,7 +20,8 @@ export class PingDisplay {
     this.scene = scene;
 
     this.pingText = new CustomText(this.scene, 0, 0, '--', {
-      fontSize: '16px',
+      fontFamily: 'Montserrat',
+      fontSize: '14px',
       color: '#00ff00',
     })
       .setOrigin(1, 0)

@@ -13,15 +13,15 @@ export class MainMenu extends Scene {
     const bg = this.add.image(0, 0, ASSET.BACKGROUND).setOrigin(0.5);
 
     const titleText = new CustomText(this, 0, 0, 'Duck, Duck, Punch', {
-      fontFamily: 'Arial Black',
-      fontSize: '38px',
+      fontFamily: 'Tiny5',
+      fontSize: '52px',
       strokeThickness: 8,
     })
       .setOrigin(0.5)
       .fadeIn(1000);
 
     const startButton = new CustomText(this, 0, 0, 'Click here to start', {
-      fontFamily: 'Arial Black',
+      fontFamily: 'Tiny5',
       fontSize: '38px',
       strokeThickness: 8,
     })
@@ -32,7 +32,7 @@ export class MainMenu extends Scene {
       .fadeIn(1000);
 
     const profileButton = new CustomText(this, 0, 0, 'Profile', {
-      fontFamily: 'Arial Black',
+      fontFamily: 'Tiny5',
       fontSize: '38px',
       strokeThickness: 8,
     })
@@ -43,7 +43,7 @@ export class MainMenu extends Scene {
       .fadeIn(1000);
 
     const settingsButton = new CustomText(this, 0, 0, 'Settings', {
-      fontFamily: 'Arial Black',
+      fontFamily: 'Tiny5',
       fontSize: '38px',
       strokeThickness: 8,
     })
