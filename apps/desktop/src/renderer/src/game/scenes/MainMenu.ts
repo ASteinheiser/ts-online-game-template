@@ -14,7 +14,7 @@ export class MainMenu extends Scene {
 
     const titleText = new CustomText(this, 0, 0, 'Duck, Duck, Punch', {
       fontFamily: 'Tiny5',
-      fontSize: '52px',
+      fontSize: 52,
       strokeThickness: 8,
     })
       .setOrigin(0.5)
@@ -22,7 +22,7 @@ export class MainMenu extends Scene {
 
     const startButton = new CustomText(this, 0, 0, 'Click here to start', {
       fontFamily: 'Tiny5',
-      fontSize: '38px',
+      fontSize: 38,
       strokeThickness: 8,
     })
       .setOrigin(0.5)
@@ -33,7 +33,7 @@ export class MainMenu extends Scene {
 
     const profileButton = new CustomText(this, 0, 0, 'Profile', {
       fontFamily: 'Tiny5',
-      fontSize: '38px',
+      fontSize: 38,
       strokeThickness: 8,
     })
       .setOrigin(0.5)
@@ -44,7 +44,7 @@ export class MainMenu extends Scene {
 
     const settingsButton = new CustomText(this, 0, 0, 'Settings', {
       fontFamily: 'Tiny5',
-      fontSize: '38px',
+      fontSize: 38,
       strokeThickness: 8,
     })
       .setOrigin(0.5)

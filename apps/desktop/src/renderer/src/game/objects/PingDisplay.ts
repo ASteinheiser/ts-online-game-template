@@ -21,7 +21,7 @@ export class PingDisplay {
 
     this.pingText = new CustomText(this.scene, 0, 0, '--', {
       fontFamily: 'Montserrat',
-      fontSize: '14px',
+      fontSize: 14,
       color: '#00ff00',
     })
       .setOrigin(1, 0)

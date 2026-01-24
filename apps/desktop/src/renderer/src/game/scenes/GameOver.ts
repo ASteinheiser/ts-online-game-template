@@ -25,7 +25,7 @@ export class GameOver extends Scene {
 
     const titleText = new CustomText(this, 0, 0, 'Game Over', {
       fontFamily: 'Tiny5',
-      fontSize: '64px',
+      fontSize: 64,
       strokeThickness: 8,
     })
       .setOrigin(0.5)
@@ -54,7 +54,7 @@ export class GameOver extends Scene {
       const { width, height } = this.scale;
       bg.setPosition(width / 2, height / 2).setDisplaySize(width, height);
 
-      continueText.setPosition((width - continueText.width) / 2, 30);
+      continueText.setPosition((width - continueText.width) / 2, 20);
 
       titleText.setPosition(width / 2, height / 2 - 100);
 

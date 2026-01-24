@@ -95,7 +95,7 @@ export class Game extends Scene {
 
     const layout = () => {
       const { width } = this.scale;
-      leaveText.setPosition((width - leaveText.width) / 2, 30);
+      leaveText.setPosition((width - leaveText.width) / 2, 20);
     };
 
     layout();

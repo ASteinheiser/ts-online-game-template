@@ -12,8 +12,8 @@ export class CustomText extends GameObjects.Text {
     style?: Phaser.Types.GameObjects.Text.TextStyle
   ) {
     const defaultStyle: Phaser.Types.GameObjects.Text.TextStyle = {
-      fontFamily: 'Courier',
-      fontSize: '24px',
+      fontFamily: 'Roboto',
+      fontSize: 24,
       color: '#ffffff',
       stroke: '#000000',
       strokeThickness: 4,
