@@ -50,12 +50,16 @@ export const Game = () => {
     setPhaserInputEnabled();
   }, [setPhaserInputEnabled]);
 
-  const onCurrentSceneChange = (scene: Phaser.Scene) => {
+  const onCurrentSceneChange = (_scene: Phaser.Scene) => {
     // ensure that new scenes have the correct "input enabled" setting
     // for example, handles the case where the scene changes with a modal open
     setPhaserInputEnabled();
 
-    console.log(scene);
+    // handle closing modals when leaving a scene
+    setIsProfileModalOpen(false);
+    setIsNewPasswordModalOpen(false);
+    setIsSettingsModalOpen(false);
+    setIsCoinModalOpen(false);
   };
 
   // NOTE: the server will kick any clients with an expired token, however
