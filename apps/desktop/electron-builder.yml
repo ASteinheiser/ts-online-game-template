@@ -1,4 +1,4 @@
-appId: io.iamandrew.${name}
+appId: io.iamandrew.demo-game
 productName: Demo Game
 directories:
   buildResources: build
