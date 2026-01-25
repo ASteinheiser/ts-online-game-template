@@ -7,7 +7,7 @@ import { join } from 'path';
 import type { VideoSettings } from '../shared/types';
 
 /** Common desktop game resolutions – will be filtered by display size */
-const COMMON_RESOLUTIONS = [
+export const COMMON_RESOLUTIONS = [
   { width: 1280, height: 720 },
   { width: 1920, height: 1080 },
   { width: 2560, height: 1440 },
@@ -74,18 +74,19 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
     height: newSettings.height ?? existingSettings.height,
   };
 
+  const { x, y } = window.getBounds();
+  const currentDisplay = screen.getDisplayNearestPoint({ x, y });
+
   window.setResizable(true);
   if (mergedSettings.fullscreen) {
-    window.setFullScreen(true);
+    // set the size and location of the window in one call
+    window.setBounds(currentDisplay.workArea);
   } else {
-    const { x, y } = window.getBounds();
-    const currentDisplay = screen.getDisplayNearestPoint({ x, y });
     const { width: displayWidth, height: displayHeight } = currentDisplay.workArea;
     // ensure the window is not larger than the display
     const newWidth = displayWidth < mergedSettings.width ? displayWidth : mergedSettings.width;
     const newHeight = displayHeight < mergedSettings.height ? displayHeight : mergedSettings.height;
 
-    window.setFullScreen(false);
     window.setSize(newWidth, newHeight);
     window.center();
   }

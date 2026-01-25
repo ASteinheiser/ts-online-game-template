@@ -1,10 +1,14 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { optimizer, is } from '@electron-toolkit/utils';
-import icon from '../../resources/icon.png?asset';
 import { ELECTRON_EVENTS } from '../shared/constants';
 import type { VideoSettings } from '../shared/types';
-import { getAvailableResolutions, loadVideoSettings, applyVideoSettings } from './video-settings';
+import {
+  getAvailableResolutions,
+  loadVideoSettings,
+  applyVideoSettings,
+  COMMON_RESOLUTIONS,
+} from './video-settings';
 import { initAutoUpdater } from './auto-updater';
 import { registerLinuxApp } from './registerLinuxApp';
 
@@ -16,11 +20,18 @@ let pendingDeepLink: string | null = null;
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
+    // set default window size
+    width: COMMON_RESOLUTIONS[0].width,
+    height: COMMON_RESOLUTIONS[0].height,
     // settings to create an OS-agnostic experience
     frame: false,
-    transparent: true,
+    resizable: true,
     autoHideMenuBar: true,
-    resizable: false,
+    hasShadow: false,
+    transparent: false,
+    // set this to the same as the `background` color
+    // in the ui package's `theme.css` file
+    backgroundColor: '#09090b',
     // preload script for renderer process
     webPreferences: {
       preload: join(__dirname, '../preload/index.mjs'),
