@@ -60,6 +60,20 @@ export const registerLinuxApp = async () => {
     await fs.copyFile(bundledIcon, targetIcon);
   }
 
+  // ensure index.theme exists so desktop environments recognize the hicolor icons
+  const bundledTheme = path.join(
+    app.getAppPath(),
+    '..',
+    '..',
+    'usr',
+    'share',
+    'icons',
+    'hicolor',
+    'index.theme'
+  );
+  const targetTheme = path.join(iconBaseDir, 'index.theme');
+  await fs.copyFile(bundledTheme, targetTheme);
+
   // patch Exec line to point to the current AppImage
   const desktopContents = await fs.readFile(bundledDesktop, 'utf8');
   const appImagePath = process.env.APPIMAGE!;
