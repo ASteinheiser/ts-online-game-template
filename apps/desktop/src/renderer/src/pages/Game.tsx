@@ -39,12 +39,12 @@ export const Game = () => {
   const [isCoinModalOpen, setIsCoinModalOpen] = useState(false);
 
   const setPhaserInputEnabled = useCallback(() => {
-    const disabled = isProfileModalOpen || isNewPasswordModalOpen || isSettingsModalOpen;
+    const disabled = isProfileModalOpen || isNewPasswordModalOpen || isSettingsModalOpen || isCoinModalOpen;
 
     if (phaserRef?.current?.game?.input) {
       phaserRef.current.game.input.enabled = !disabled;
     }
-  }, [isProfileModalOpen, isNewPasswordModalOpen, isSettingsModalOpen, phaserRef?.current]);
+  }, [isProfileModalOpen, isNewPasswordModalOpen, isSettingsModalOpen, isCoinModalOpen, phaserRef?.current]);
 
   useEffect(() => {
     setPhaserInputEnabled();
