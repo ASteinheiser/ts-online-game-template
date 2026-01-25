@@ -1,6 +1,23 @@
 import { useState, useEffect } from 'react';
-import { Button, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui';
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
+import {
+  Button,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  LoadingSpinner,
+} from '@repo/ui';
 import packageJson from '../../package.json';
+import type { Web_GetTotalPlayersQuery, Web_GetTotalPlayersQueryVariables } from '../graphql';
+
+const GET_TOTAL_PLAYERS = gql`
+  query Web_GetTotalPlayers {
+    totalPlayers
+  }
+`;
 
 type OsOption = 'macos' | 'windows' | 'linux';
 
@@ -16,6 +33,11 @@ export const Download = () => {
   const [os, setOs] = useState<OsOption | undefined>(detectOS());
   const [downloadUrl, setDownloadUrl] = useState<string>();
   const [loading, setLoading] = useState(false);
+
+  const { data, loading: playerCountLoading } = useQuery<
+    Web_GetTotalPlayersQuery,
+    Web_GetTotalPlayersQueryVariables
+  >(GET_TOTAL_PLAYERS);
 
   useEffect(() => {
     const fetchLatestRelease = async () => {
@@ -64,8 +86,12 @@ export const Download = () => {
 
   return (
     <div className="fullscreen-center">
-      <div className="flex flex-col gap-5 w-full max-w-xs mx-auto">
-        <h1 className="text-5xl font-pixel text-primary text-center">Select your OS</h1>
+      <div className="flex flex-col w-full max-w-sm mx-auto">
+        <h1 className="text-5xl font-pixel text-primary flex flex-row items-center text-center justify-center gap-5 pb-10">
+          {playerCountLoading ? <LoadingSpinner /> : data?.totalPlayers} Players Total
+        </h1>
+
+        <h1 className="text-4xl font-label text-primary text-center pb-5">Select your OS</h1>
 
         <div className="flex flex-col gap-4 items-center">
           <Select value={os} onValueChange={(value) => setOs(value as OsOption)}>

@@ -1,21 +1,9 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client/react';
 import { ChevronDown } from '@repo/ui/icons';
 import { cn } from '@repo/ui/utils';
-import type { Web_GetTotalPlayersQuery, Web_GetTotalPlayersQueryVariables } from '../graphql';
-
-const GET_TOTAL_PLAYERS = gql`
-  query Web_GetTotalPlayers {
-    totalPlayers
-  }
-`;
 
 export const Home = () => {
-  const { data } = useQuery<Web_GetTotalPlayersQuery, Web_GetTotalPlayersQueryVariables>(GET_TOTAL_PLAYERS);
-  console.log({ totalPlayers: data?.totalPlayers ?? 0 });
-
   const homeContentRef = useRef<HTMLDivElement>(null);
 
   const handleScollToContent = () => {
