@@ -74,13 +74,9 @@ export const registerLinuxApp = async () => {
   await fs.writeFile(targetTheme, minimalTheme);
 
   // Rebuild icon cache then MIME database
-  safeExec('gtk-update-icon-cache', [iconBaseDir], () => {
-    safeExec('update-desktop-database', [userAppsDir], () => {
+  execFile('gtk-update-icon-cache', [iconBaseDir], () => {
+    execFile('update-desktop-database', [userAppsDir], () => {
       execFile('xdg-mime', ['default', DESKTOP_FILE_NAME, LINUX_DEEP_LINK_SCHEME]);
     });
   });
-};
-
-const safeExec = (cmd: string, args: string[], next: () => void) => {
-  execFile(cmd, args, () => next());
 };
