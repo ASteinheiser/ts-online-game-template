@@ -79,8 +79,7 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
 
   window.setResizable(true);
   if (mergedSettings.fullscreen) {
-    // set the size and location of the window in one call
-    window.setBounds(currentDisplay.workArea);
+    setFullScreen(window, true);
   } else {
     const { width: displayWidth, height: displayHeight } = currentDisplay.size;
     // if the display is smaller than the requested size
@@ -99,10 +98,19 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
       }
     }
 
+    setFullScreen(window, false);
     window.setSize(mergedSettings.width, mergedSettings.height);
     window.center();
   }
   window.setResizable(false);
 
   saveVideoSettings(mergedSettings);
+};
+
+const setFullScreen = (window: BrowserWindow, fullscreen: boolean) => {
+  if (process.platform === 'darwin') {
+    window.setSimpleFullScreen(fullscreen);
+  } else {
+    window.setFullScreen(fullscreen);
+  }
 };
