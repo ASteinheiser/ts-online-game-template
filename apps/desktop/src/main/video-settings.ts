@@ -82,12 +82,24 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
     // set the size and location of the window in one call
     window.setBounds(currentDisplay.workArea);
   } else {
-    const { width: displayWidth, height: displayHeight } = currentDisplay.workArea;
-    // ensure the window is not larger than the display
-    const newWidth = displayWidth < mergedSettings.width ? displayWidth : mergedSettings.width;
-    const newHeight = displayHeight < mergedSettings.height ? displayHeight : mergedSettings.height;
+    const { width: displayWidth, height: displayHeight } = currentDisplay.size;
+    // if the display is smaller than the requested size
+    if (displayWidth < mergedSettings.width || displayHeight < mergedSettings.height) {
+      const requestedSizeIndex = COMMON_RESOLUTIONS.findIndex(
+        ({ width, height }) => width === mergedSettings.width && height === mergedSettings.height
+      );
+      // select the next size down if it exists
+      if (requestedSizeIndex > 0) {
+        mergedSettings.width = COMMON_RESOLUTIONS[requestedSizeIndex - 1].width;
+        mergedSettings.height = COMMON_RESOLUTIONS[requestedSizeIndex - 1].height;
+      } // otherwise, just use the work area size (actual usable area of the display)
+      else {
+        mergedSettings.width = currentDisplay.workAreaSize.width;
+        mergedSettings.height = currentDisplay.workAreaSize.height;
+      }
+    }
 
-    window.setSize(newWidth, newHeight);
+    window.setSize(mergedSettings.width, mergedSettings.height);
     window.center();
   }
   window.setResizable(false);
