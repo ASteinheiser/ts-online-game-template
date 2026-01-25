@@ -5,7 +5,7 @@ import { ELECTRON_EVENTS } from '../shared/constants';
 import type { VideoSettings } from '../shared/types';
 import { getAvailableResolutions, loadVideoSettings, applyVideoSettings } from './video-settings';
 import { initAutoUpdater } from './auto-updater';
-import { registerLinuxApp } from './registerLinuxApp';
+import { registerLinuxApp } from './register-linux-app';
 
 const DEEP_LINK_PROTOCOL = import.meta.env.VITE_DEEP_LINK_PROTOCOL;
 if (!DEEP_LINK_PROTOCOL) throw new Error('VITE_DEEP_LINK_PROTOCOL is not set');
