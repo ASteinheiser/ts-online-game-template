@@ -21,8 +21,6 @@ const createWindow = () => {
     transparent: true,
     autoHideMenuBar: true,
     resizable: false,
-    // icon for linux
-    ...(process.platform === 'linux' ? { icon } : {}),
     // preload script for renderer process
     webPreferences: {
       preload: join(__dirname, '../preload/index.mjs'),
