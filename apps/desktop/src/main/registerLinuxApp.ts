@@ -38,7 +38,7 @@ export const registerLinuxApp = async () => {
 
   // patch Exec line to point to the current AppImage, then write the desktop file
   const desktopContents = await fs.readFile(bundledDesktop, 'utf8');
-  const appImagePath = process.env.APPIMAGE!.replace(/ /g, '\\ ');
+  const appImagePath = process.env.APPIMAGE!;
   const patchedDesktop = desktopContents.replace(/^Exec=.*$/m, `Exec="${appImagePath}" %U`);
   await fs.writeFile(targetDesktop, patchedDesktop, { mode: 0o644 });
 
