@@ -9,12 +9,12 @@ import coinModel3D from '../assets/Coin.glb?url';
 
 useGLTF.preload(coinModel3D);
 
-interface ThreeModalProps {
+interface CoinModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export const ThreeModal = ({ isOpen, onOpenChange }: ThreeModalProps) => {
+export const CoinModal = ({ isOpen, onOpenChange }: CoinModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} aria-describedby={undefined}>
