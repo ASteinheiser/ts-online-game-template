@@ -36,12 +36,6 @@ export const registerLinuxApp = async () => {
   await fs.mkdir(userAppsDir, { recursive: true });
   const targetDesktop = path.join(userAppsDir, DESKTOP_FILE_NAME);
 
-  // patch Exec line to point to the current AppImage, then write the desktop file
-  const desktopContents = await fs.readFile(bundledDesktop, 'utf8');
-  const appImagePath = process.env.APPIMAGE!;
-  const patchedDesktop = desktopContents.replace(/^Exec=.*$/m, `Exec="${appImagePath}" %U`);
-  await fs.writeFile(targetDesktop, patchedDesktop, { mode: 0o644 });
-
   // handle creating the app icon
   const homeDir = path.dirname(userAppsDir);
   const userIconDir = path.join(homeDir, 'icons', 'hicolor', '512x512', 'apps');
@@ -63,6 +57,14 @@ export const registerLinuxApp = async () => {
   const targetIcon = path.join(userIconDir, ICON_FILE_NAME);
 
   await fs.copyFile(bundledIcon, targetIcon);
+
+  // patch Exec line to point to the current AppImage, then write the desktop file
+  const desktopContents = await fs.readFile(bundledDesktop, 'utf8');
+  const appImagePath = process.env.APPIMAGE!;
+  const patchedDesktop = desktopContents
+    .replace(/^Exec=.*$/m, `Exec="${appImagePath}" %U`)
+    .replace(/^Icon=.*$/m, `Icon=${targetIcon}`);
+  await fs.writeFile(targetDesktop, patchedDesktop, { mode: 0o644 });
 
   // Rebuild the desktop MIME cache
   execFile('update-desktop-database', [userAppsDir], () => {
