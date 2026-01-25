@@ -41,27 +41,8 @@ export const registerLinuxApp = async () => {
   const iconBaseDir = path.join(homeDir, 'icons', 'hicolor');
   const sizes = ['48x48', '64x64', '128x128', '256x256', '512x512'];
 
-  for (const size of sizes) {
-    const userIconDir = path.join(iconBaseDir, size, 'apps');
-    await fs.mkdir(userIconDir, { recursive: true });
-    const bundledIcon = path.join(
-      app.getAppPath(),
-      '..',
-      '..',
-      'usr',
-      'share',
-      'icons',
-      'hicolor',
-      size,
-      'apps',
-      `${ICON_BASENAME}.png`
-    );
-    const targetIcon = path.join(userIconDir, `${ICON_BASENAME}.png`);
-    await fs.copyFile(bundledIcon, targetIcon);
-  }
-
-  // ensure index.theme exists so desktop environments recognize the hicolor icons
-  const bundledTheme = path.join(
+  // inside AppImage only 512x512 exists
+  const bundledIcon = path.join(
     app.getAppPath(),
     '..',
     '..',
@@ -69,10 +50,22 @@ export const registerLinuxApp = async () => {
     'share',
     'icons',
     'hicolor',
-    'index.theme'
+    '512x512',
+    'apps',
+    `${ICON_BASENAME}.png`
   );
+
+  for (const size of sizes) {
+    const userIconDir = path.join(iconBaseDir, size, 'apps');
+    await fs.mkdir(userIconDir, { recursive: true });
+    const targetIcon = path.join(userIconDir, `${ICON_BASENAME}.png`);
+    await fs.copyFile(bundledIcon, targetIcon);
+  }
+
+  // ensure index.theme exists so desktop environments recognize the hicolor icons
+  const minimalTheme = `[Icon Theme]\nName=Hicolor\nDirectories=${sizes.map((s) => s + '/apps').join(';')}\n`;
   const targetTheme = path.join(iconBaseDir, 'index.theme');
-  await fs.copyFile(bundledTheme, targetTheme);
+  await fs.writeFile(targetTheme, minimalTheme);
 
   // patch Exec line to point to the current AppImage
   const desktopContents = await fs.readFile(bundledDesktop, 'utf8');
@@ -80,12 +73,10 @@ export const registerLinuxApp = async () => {
   const patchedDesktop = desktopContents.replace(/^Exec=.*$/m, `Exec="${appImagePath}" %U`);
   await fs.writeFile(targetDesktop, patchedDesktop, { mode: 0o644 });
 
-  // Rebuild icon and desktop caches then MIME database
-  safeExec('gtk-update-icon-cache', ['--ignore-theme-index', iconBaseDir], () => {
-    safeExec('kbuildsycoca5', ['--noincremental'], () => {
-      safeExec('update-desktop-database', [userAppsDir], () => {
-        execFile('xdg-mime', ['default', DESKTOP_FILE_NAME, LINUX_DEEP_LINK_SCHEME]);
-      });
+  // Rebuild icon cache then MIME database
+  safeExec('gtk-update-icon-cache', [iconBaseDir], () => {
+    safeExec('update-desktop-database', [userAppsDir], () => {
+      execFile('xdg-mime', ['default', DESKTOP_FILE_NAME, LINUX_DEEP_LINK_SCHEME]);
     });
   });
 };
