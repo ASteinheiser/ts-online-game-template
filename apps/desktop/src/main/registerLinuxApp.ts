@@ -8,7 +8,7 @@ if (!DEEP_LINK_PROTOCOL) throw new Error('VITE_DEEP_LINK_PROTOCOL is not set');
 
 const DESKTOP_FILE_NAME = `${DEEP_LINK_PROTOCOL}.desktop`;
 const LINUX_DEEP_LINK_SCHEME = `x-scheme-handler/${DEEP_LINK_PROTOCOL}`;
-const ICON_FILE_NAME = `${DEEP_LINK_PROTOCOL}.png`;
+const ICON_BASENAME = DEEP_LINK_PROTOCOL;
 
 /**
  * This "installs" the app for Linux users (deep linking, app icon, etc.)
@@ -36,39 +36,46 @@ export const registerLinuxApp = async () => {
   await fs.mkdir(userAppsDir, { recursive: true });
   const targetDesktop = path.join(userAppsDir, DESKTOP_FILE_NAME);
 
-  // handle creating the app icon
+  // handle creating the app icons in hicolor theme
   const homeDir = path.dirname(userAppsDir);
-  const userIconDir = path.join(homeDir, 'icons', 'hicolor', '512x512', 'apps');
-  await fs.mkdir(userIconDir, { recursive: true });
+  const iconBaseDir = path.join(homeDir, 'icons', 'hicolor');
+  const sizes = ['48x48', '512x512'];
 
-  // use the image saved in the mounted AppImage
-  const bundledIcon = path.join(
-    app.getAppPath(),
-    '..',
-    '..',
-    'usr',
-    'share',
-    'icons',
-    'hicolor',
-    '512x512',
-    'apps',
-    ICON_FILE_NAME
-  );
-  const targetIcon = path.join(userIconDir, ICON_FILE_NAME);
+  for (const size of sizes) {
+    const userIconDir = path.join(iconBaseDir, size, 'apps');
+    await fs.mkdir(userIconDir, { recursive: true });
+    const bundledIcon = path.join(
+      app.getAppPath(),
+      '..',
+      '..',
+      'usr',
+      'share',
+      'icons',
+      'hicolor',
+      size,
+      'apps',
+      `${ICON_BASENAME}.png`
+    );
+    const targetIcon = path.join(userIconDir, `${ICON_BASENAME}.png`);
+    await fs.copyFile(bundledIcon, targetIcon);
+  }
 
-  await fs.copyFile(bundledIcon, targetIcon);
-
-  // patch Exec line to point to the current AppImage, then write the desktop file
+  // patch Exec line to point to the current AppImage
   const desktopContents = await fs.readFile(bundledDesktop, 'utf8');
   const appImagePath = process.env.APPIMAGE!;
-  const patchedDesktop = desktopContents
-    .replace(/^Exec=.*$/m, `Exec="${appImagePath}" %U`)
-    .replace(/^Icon=.*$/m, `Icon=${targetIcon}`);
+  const patchedDesktop = desktopContents.replace(/^Exec=.*$/m, `Exec="${appImagePath}" %U`);
   await fs.writeFile(targetDesktop, patchedDesktop, { mode: 0o644 });
 
-  // Rebuild the desktop MIME cache
-  execFile('update-desktop-database', [userAppsDir], () => {
-    // Tell xdg-mime that our desktop file handles the deep link scheme
-    execFile('xdg-mime', ['default', DESKTOP_FILE_NAME, LINUX_DEEP_LINK_SCHEME]);
+  // Rebuild icon and desktop caches then MIME database
+  safeExec('gtk-update-icon-cache', ['--ignore-theme-index', iconBaseDir], () => {
+    safeExec('kbuildsycoca5', ['--noincremental'], () => {
+      safeExec('update-desktop-database', [userAppsDir], () => {
+        execFile('xdg-mime', ['default', DESKTOP_FILE_NAME, LINUX_DEEP_LINK_SCHEME]);
+      });
+    });
   });
+};
+
+const safeExec = (cmd: string, args: string[], next: () => void) => {
+  execFile(cmd, args, () => next());
 };
