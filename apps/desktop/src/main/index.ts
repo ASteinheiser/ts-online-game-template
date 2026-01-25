@@ -1,6 +1,7 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { optimizer, is } from '@electron-toolkit/utils';
+import icon from '../../resources/icon.png?asset';
 import { ELECTRON_EVENTS } from '../shared/constants';
 import type { VideoSettings } from '../shared/types';
 import {
@@ -32,6 +33,8 @@ const createWindow = () => {
     // set this to the same as the `background` color
     // in the ui package's `theme.css` file
     backgroundColor: '#09090b',
+    // icon for linux
+    ...(process.platform === 'linux' ? { icon } : {}),
     // preload script for renderer process
     webPreferences: {
       preload: join(__dirname, '../preload/index.mjs'),
