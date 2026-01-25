@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
 import { useSession } from '@repo/client-auth/provider';
@@ -12,6 +12,7 @@ import type { Desktop_GetTotalPlayersQuery, Desktop_GetTotalPlayersQueryVariable
 import { ProfileModal } from '../modals/ProfileModal';
 import { NewPasswordModal } from '../modals/NewPasswordModal';
 import { SettingsModal } from '../modals/SettingsModal';
+import { CoinModal } from '../modals/CoinModal';
 import { SEARCH_PARAMS } from '../router/constants';
 import { useAudioSettings } from '../providers/AudioSettingsProvider';
 
@@ -35,6 +36,7 @@ export const Game = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useSearchParamFlag(SEARCH_PARAMS.PROFILE);
   const [isNewPasswordModalOpen, setIsNewPasswordModalOpen] = useSearchParamFlag(SEARCH_PARAMS.NEW_PASSWORD);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useSearchParamFlag(SEARCH_PARAMS.SETTINGS);
+  const [isCoinModalOpen, setIsCoinModalOpen] = useState(false);
 
   const setPhaserInputEnabled = useCallback(() => {
     const disabled = isProfileModalOpen || isNewPasswordModalOpen || isSettingsModalOpen;
@@ -81,12 +83,14 @@ export const Game = () => {
   useEffect(() => {
     EventBus.on(EVENT_BUS.PROFILE_OPEN, () => setIsProfileModalOpen(true));
     EventBus.on(EVENT_BUS.SETTINGS_OPEN, () => setIsSettingsModalOpen(true));
+    EventBus.on(EVENT_BUS.COIN_OPEN, () => setIsCoinModalOpen(true));
     EventBus.on(EVENT_BUS.JOIN_ERROR, (error) => toast.error(error.message));
     EventBus.on(EVENT_BUS.RECONNECTION_ATTEMPT, (attempt) => toast.info(`Reconnecting... (${attempt})`));
 
     return () => {
       EventBus.off(EVENT_BUS.PROFILE_OPEN);
       EventBus.off(EVENT_BUS.SETTINGS_OPEN);
+      EventBus.off(EVENT_BUS.COIN_OPEN);
       EventBus.off(EVENT_BUS.JOIN_ERROR);
       EventBus.off(EVENT_BUS.RECONNECTION_ATTEMPT);
     };
@@ -107,6 +111,7 @@ export const Game = () => {
       <SettingsModal isOpen={isSettingsModalOpen} onOpenChange={setIsSettingsModalOpen} />
       <ProfileModal isOpen={isProfileModalOpen} onOpenChange={setIsProfileModalOpen} />
       <NewPasswordModal isOpen={isNewPasswordModalOpen} onOpenChange={setIsNewPasswordModalOpen} />
+      <CoinModal isOpen={isCoinModalOpen} onOpenChange={setIsCoinModalOpen} />
     </>
   );
 };

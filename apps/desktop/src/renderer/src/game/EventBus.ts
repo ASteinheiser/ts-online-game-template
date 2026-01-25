@@ -12,5 +12,6 @@ export const EVENT_BUS = {
   JOIN_ERROR: 'join-error',
   PROFILE_OPEN: 'menu-open__profile',
   SETTINGS_OPEN: 'menu-open__settings',
+  COIN_OPEN: 'coin-open',
   RECONNECTION_ATTEMPT: 'reconnection-attempt',
 } as const;

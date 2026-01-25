@@ -15,6 +15,7 @@ export class Player {
   nameText: Phaser.GameObjects.Text;
   punchSfx: Phaser.Sound.BaseSound;
   hitSfx: Phaser.Sound.BaseSound;
+  killCount = 0;
 
   constructor(
     scene: Phaser.Scene,

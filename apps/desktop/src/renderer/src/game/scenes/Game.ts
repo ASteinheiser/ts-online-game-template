@@ -194,8 +194,10 @@ export class Game extends Scene {
         // #region FOR DEBUGGING PURPOSES
         this.currentPlayerServer = this.add.rectangle(0, 0, entity.width, entity.height).setDepth(100);
         this.currentPlayerServer.setStrokeStyle(1, 0xff0000);
+        // #endregion FOR DEBUGGING PURPOSES
 
         $(player).onChange(() => {
+          // #region FOR DEBUGGING PURPOSES
           if (this.currentPlayerServer) {
             this.currentPlayerServer.x = player.x;
             this.currentPlayerServer.y = player.y;
@@ -204,9 +206,16 @@ export class Game extends Scene {
               new PunchBox(this, player.attackDamageFrameX, player.attackDamageFrameY, 0x0000ff);
             }
           }
+          // #endregion FOR DEBUGGING PURPOSES
 
-          // Server-side reconciliation (ensure CSP is in sync with server authority)
           if (this.currentPlayer) {
+            // show a coin modal when the player kills an enemy
+            if (this.currentPlayer.killCount !== player.killCount) {
+              this.currentPlayer.killCount = player.killCount;
+              EventBus.emit(EVENT_BUS.COIN_OPEN);
+            }
+
+            // Server-side reconciliation (ensure CSP is in sync with server authority)
             const nextServerAckSeq = player.lastProcessedInputSeq ?? 0;
             // Ignore out-of-order acks
             if (nextServerAckSeq < this.serverAckSeq) return;
@@ -241,7 +250,6 @@ export class Game extends Scene {
             }
           }
         });
-        // #endregion FOR DEBUGGING PURPOSES
       } else {
         // update the other players positions from the server
         $(player).onChange(() => {
