@@ -1,6 +1,6 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
-import { electronApp, optimizer, is } from '@electron-toolkit/utils';
+import { optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 import { ELECTRON_EVENTS } from '../shared/constants';
 import type { VideoSettings } from '../shared/types';
@@ -10,8 +10,6 @@ import { registerLinuxApp } from './registerLinuxApp';
 
 const DEEP_LINK_PROTOCOL = import.meta.env.VITE_DEEP_LINK_PROTOCOL;
 if (!DEEP_LINK_PROTOCOL) throw new Error('VITE_DEEP_LINK_PROTOCOL is not set');
-
-const WIN_APP_USER_MODEL_ID = `io.iamandrew.${DEEP_LINK_PROTOCOL}`;
 
 let mainWindow: BrowserWindow | null = null;
 let pendingDeepLink: string | null = null;
@@ -70,9 +68,6 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  // Set app user model id for windows
-  electronApp.setAppUserModelId(WIN_APP_USER_MODEL_ID);
-
   // Ensure app is "installed" for Linux users
   registerLinuxApp();
 
