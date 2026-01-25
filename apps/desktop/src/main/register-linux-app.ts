@@ -39,7 +39,7 @@ export const registerLinuxApp = async () => {
   // handle creating the app icons in hicolor theme
   const homeDir = path.dirname(userAppsDir);
   const iconBaseDir = path.join(homeDir, 'icons', 'hicolor');
-  const sizes = ['48x48', '512x512'];
+  const sizes = ['48x48', '64x64', '128x128', '256x256', '512x512'];
 
   for (const size of sizes) {
     const userIconDir = path.join(iconBaseDir, size, 'apps');
