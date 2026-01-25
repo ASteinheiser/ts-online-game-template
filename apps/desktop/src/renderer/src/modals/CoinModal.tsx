@@ -4,7 +4,7 @@ import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { useGLTF } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Dialog, DialogContent, DialogTitle } from '@repo/ui';
+import { Button, Dialog, DialogContent, DialogTitle, DialogFooter } from '@repo/ui';
 import coinModel3D from '../assets/Coin.glb?url';
 
 useGLTF.preload(coinModel3D);
@@ -16,14 +16,28 @@ interface CoinModalProps {
 
 export const CoinModal = ({ isOpen, onOpenChange }: CoinModalProps) => {
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} aria-describedby={undefined}>
+    <Dialog open={isOpen}>
+      <DialogContent
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        aria-describedby={undefined}
+        disableCloseButton
+        className="bg-transparent shadow-none"
+      >
         <DialogTitle className="hidden">Coin</DialogTitle>
 
         <Canvas>
           <spotLight position={[10, 10, 10]} angle={0.3} penumbra={1} decay={0} intensity={Math.PI * 2} />
           <SpinningCoin scale={4} />
         </Canvas>
+
+        <DialogFooter className="flex flex-col justify-center items-center gap-4">
+          <h1 className="text-4xl font-pixel text-center">{'You got a "kill coin"!'}</h1>
+          <h1 className="text-lg font-label text-center">{'"What am I supposed to do with this?"'}</h1>
+
+          <Button size="lg" className="py-7 px-8" onClick={() => onOpenChange(false)}>
+            <h1 className="text-2xl font-pixel">Hell yeah!</h1>
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
