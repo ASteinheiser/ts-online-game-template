@@ -27,6 +27,8 @@
   },
   "dependencies": {
     "@apollo/client": "catalog:",
+    "@react-three/drei": "catalog:",
+    "@react-three/fiber": "catalog:",
     "@repo/client-auth": "workspace:*",
     "@repo/core-game": "workspace:*",
     "@repo/ui": "workspace:*",
@@ -37,7 +39,8 @@
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-router-dom": "catalog:",
-    "rxjs": "catalog:"
+    "rxjs": "catalog:",
+    "three": "catalog:"
   },
   "devDependencies": {
     "@electron-toolkit/preload": "^3.0.2",
@@ -51,6 +54,7 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "@types/three": "catalog:",
     "@vitejs/plugin-react": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "electron": "catalog:",

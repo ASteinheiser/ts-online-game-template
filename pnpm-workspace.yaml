@@ -21,6 +21,10 @@ catalog:
   "@graphql-typed-document-node/core": ^3.2.0
   "@parcel/watcher": ^2.5.1
   phaser: 4.0.0-rc.6
+  three: ^0.182.0
+  "@types/three": ^0.182.0
+  "@react-three/fiber": ^8.18.0
+  "@react-three/drei": ^9.122.0
   react: ^18.3.1
   react-dom: ^18.3.1
   react-router-dom: ^7.6.0
