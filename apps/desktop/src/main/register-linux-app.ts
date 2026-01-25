@@ -36,6 +36,12 @@ export const registerLinuxApp = async () => {
   await fs.mkdir(userAppsDir, { recursive: true });
   const targetDesktop = path.join(userAppsDir, DESKTOP_FILE_NAME);
 
+  // patch Exec line to point to the current AppImage
+  const desktopContents = await fs.readFile(bundledDesktop, 'utf8');
+  const appImagePath = process.env.APPIMAGE!;
+  const patchedDesktop = desktopContents.replace(/^Exec=.*$/m, `Exec="${appImagePath}" %U`);
+  await fs.writeFile(targetDesktop, patchedDesktop, { mode: 0o644 });
+
   // handle creating the app icons in hicolor theme
   const homeDir = path.dirname(userAppsDir);
   const iconBaseDir = path.join(homeDir, 'icons', 'hicolor');
@@ -66,12 +72,6 @@ export const registerLinuxApp = async () => {
   const minimalTheme = `[Icon Theme]\nName=Hicolor\nDirectories=${sizes.map((s) => s + '/apps').join(';')}\n`;
   const targetTheme = path.join(iconBaseDir, 'index.theme');
   await fs.writeFile(targetTheme, minimalTheme);
-
-  // patch Exec line to point to the current AppImage
-  const desktopContents = await fs.readFile(bundledDesktop, 'utf8');
-  const appImagePath = process.env.APPIMAGE!;
-  const patchedDesktop = desktopContents.replace(/^Exec=.*$/m, `Exec="${appImagePath}" %U`);
-  await fs.writeFile(targetDesktop, patchedDesktop, { mode: 0o644 });
 
   // Rebuild icon cache then MIME database
   safeExec('gtk-update-icon-cache', [iconBaseDir], () => {
