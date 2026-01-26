@@ -99,10 +99,13 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
       }
     }
 
-    window.setFullScreen(false);
-    window.setContentSize(mergedSettings.width, mergedSettings.height);
-    window.center();
-    window.setResizable(false);
+    if (window.isFullScreen()) {
+      window.setFullScreen(false);
+    } else {
+      window.setContentSize(mergedSettings.width, mergedSettings.height);
+      window.center();
+      window.setResizable(false);
+    }
   }
 
   saveVideoSettings(mergedSettings);
