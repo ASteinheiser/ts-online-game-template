@@ -147,6 +147,8 @@ if (!gotLock) {
   app.on('open-url', (event, url) => {
     event.preventDefault();
     if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
       mainWindow.webContents.send(ELECTRON_EVENTS.DEEP_LINK, url);
     } else {
       pendingDeepLink = url;
