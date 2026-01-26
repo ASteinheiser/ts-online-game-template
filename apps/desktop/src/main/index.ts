@@ -31,6 +31,18 @@ const createWindow = () => {
   // Initialize auto-updater
   initAutoUpdater(mainWindow);
 
+  mainWindow.on('enter-full-screen', () => {
+    mainWindow?.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, true);
+    mainWindow?.setResizable(false);
+  });
+  mainWindow.on('leave-full-screen', () => {
+    mainWindow?.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, false);
+    const videoSettings = loadVideoSettings();
+    mainWindow?.setContentSize(videoSettings.width, videoSettings.height);
+    mainWindow?.center();
+    mainWindow?.setResizable(false);
+  });
+
   mainWindow.on('ready-to-show', () => {
     mainWindow?.show();
     // handles setting resolution and fullscreen on startup

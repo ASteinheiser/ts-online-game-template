@@ -5,7 +5,6 @@ import { app, screen, type BrowserWindow } from 'electron';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'path';
 import type { VideoSettings } from '../shared/types';
-import { ELECTRON_EVENTS } from '../shared/constants';
 
 /** Common desktop game resolutions – will be filtered by display size */
 export const COMMON_RESOLUTIONS = [
@@ -81,11 +80,6 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
   window.setResizable(true);
 
   if (mergedSettings.fullscreen) {
-    window.removeAllListeners('enter-full-screen');
-    window.once('enter-full-screen', () => {
-      window.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, true);
-      window.setResizable(false);
-    });
     window.setFullScreen(true);
   } else {
     const { width: displayWidth, height: displayHeight } = currentDisplay.size;
@@ -105,22 +99,10 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
       }
     }
 
-    const setWindowSize = () => {
-      window.setContentSize(mergedSettings.width, mergedSettings.height);
-      window.center();
-      window.setResizable(false);
-    };
-
-    if (window.isFullScreen()) {
-      window.removeAllListeners('leave-full-screen');
-      window.once('leave-full-screen', () => {
-        window.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, false);
-        setWindowSize();
-      });
-      window.setFullScreen(false);
-    } else {
-      setWindowSize();
-    }
+    window.setFullScreen(false);
+    window.setContentSize(mergedSettings.width, mergedSettings.height);
+    window.center();
+    window.setResizable(false);
   }
 
   saveVideoSettings(mergedSettings);
