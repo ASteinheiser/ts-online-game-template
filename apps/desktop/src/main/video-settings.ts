@@ -77,11 +77,8 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
   const { x, y } = window.getBounds();
   const currentDisplay = screen.getDisplayNearestPoint({ x, y });
 
-  window.setResizable(true);
-
   if (mergedSettings.fullscreen) {
     window.setFullScreen(true);
-    window.setResizable(false);
   } else {
     const { width: displayWidth, height: displayHeight } = currentDisplay.size;
     // if the display is smaller than the requested size
@@ -105,7 +102,6 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
     } else {
       window.setContentSize(mergedSettings.width, mergedSettings.height);
       window.center();
-      window.setResizable(false);
     }
   }
 

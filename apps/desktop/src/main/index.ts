@@ -35,10 +35,16 @@ const createWindow = () => {
   // Initialize auto-updater
   initAutoUpdater(mainWindow);
 
+  // prevent manual resize when not in fullscreen
+  mainWindow.on('will-resize', (event) => {
+    if (!mainWindow?.isFullScreen()) event.preventDefault();
+  });
+  // handle manual and programmatic fullscreen changes
   mainWindow.on('enter-full-screen', () => {
     mainWindow?.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, true);
     saveVideoSettings({ ...loadVideoSettings(), fullscreen: true });
   });
+  // handle manual and programmatic fullscreen exit
   mainWindow.on('leave-full-screen', () => {
     mainWindow?.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, false);
 
@@ -54,7 +60,6 @@ const createWindow = () => {
 
       mainWindow?.setContentSize(videoSettings.width, videoSettings.height);
       mainWindow?.center();
-      mainWindow?.setResizable(false);
       saveVideoSettings({ ...videoSettings, fullscreen: false });
     });
   });
