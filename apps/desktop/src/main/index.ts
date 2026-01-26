@@ -25,8 +25,10 @@ const createWindow = () => {
     // settings to create an OS-agnostic experience
     frame: false,
     autoHideMenuBar: true,
-    // ensure this is set to the same color as the "background" CSS variable (packages/ui)
-    backgroundColor: '#09090b',
+    transparent: true,
+    hasShadow: false,
+    // windows needs to always be resizable
+    resizable: process.platform === 'win32',
     // preload script for renderer process
     webPreferences: {
       preload: join(__dirname, '../preload/index.mjs'),
@@ -37,7 +39,7 @@ const createWindow = () => {
   // Initialize auto-updater
   initAutoUpdater(mainWindow);
 
-  // prevent manual resize when not in fullscreen
+  // prevent manual resize when not in fullscreen (for windows)
   mainWindow.on('will-resize', (event) => {
     if (!mainWindow?.isFullScreen()) event.preventDefault();
   });
