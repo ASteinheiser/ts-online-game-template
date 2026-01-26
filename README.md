@@ -33,7 +33,7 @@ Try the demo: https://ts-game.online/download
 - `eslint-config`: Shared ESlint configs
 
 <br />
-<img src="./images/dev.gif" width="800px" height="auto">
+<img src="./images/dev-demo.gif" width="800px" height="auto">
 
 ## Third-party Dependencies
 
