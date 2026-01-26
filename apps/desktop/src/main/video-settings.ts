@@ -81,12 +81,12 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
   window.setResizable(true);
 
   if (mergedSettings.fullscreen) {
-    window.setFullScreen(true);
     window.removeAllListeners('enter-full-screen');
     window.once('enter-full-screen', () => {
       window.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, true);
       window.setResizable(false);
     });
+    window.setFullScreen(true);
   } else {
     const { width: displayWidth, height: displayHeight } = currentDisplay.size;
     // if the display is smaller than the requested size
@@ -112,12 +112,12 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
     };
 
     if (window.isFullScreen()) {
-      window.setFullScreen(false);
       window.removeAllListeners('leave-full-screen');
       window.once('leave-full-screen', () => {
         window.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, false);
         setWindowSize();
       });
+      window.setFullScreen(false);
     } else {
       setWindowSize();
     }
