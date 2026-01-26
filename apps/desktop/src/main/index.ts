@@ -38,16 +38,17 @@ const createWindow = () => {
 
   mainWindow.on('enter-full-screen', () => {
     mainWindow?.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, true);
-    mainWindow?.setResizable(false);
     saveVideoSettings({ ...loadVideoSettings(), fullscreen: true });
   });
   mainWindow.on('leave-full-screen', () => {
     mainWindow?.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, false);
-    const videoSettings = loadVideoSettings();
-    mainWindow?.setContentSize(videoSettings.width, videoSettings.height);
-    mainWindow?.center();
-    mainWindow?.setResizable(false);
-    saveVideoSettings({ ...videoSettings, fullscreen: false });
+
+    setImmediate(() => {
+      const videoSettings = loadVideoSettings();
+      mainWindow?.setContentSize(videoSettings.width, videoSettings.height);
+      mainWindow?.center();
+      saveVideoSettings({ ...videoSettings, fullscreen: false });
+    });
   });
 
   mainWindow.on('ready-to-show', () => {
