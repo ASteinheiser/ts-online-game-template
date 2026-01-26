@@ -105,7 +105,7 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
     }
 
     const setWindowSize = () => {
-      window.setSize(mergedSettings.width, mergedSettings.height);
+      window.setContentSize(mergedSettings.width, mergedSettings.height);
       window.center();
       window.setResizable(false);
     };
