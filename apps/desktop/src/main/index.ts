@@ -3,7 +3,12 @@ import { join } from 'path';
 import { optimizer, is } from '@electron-toolkit/utils';
 import { ELECTRON_EVENTS } from '../shared/constants';
 import type { VideoSettings } from '../shared/types';
-import { getAvailableResolutions, loadVideoSettings, applyVideoSettings } from './video-settings';
+import {
+  getAvailableResolutions,
+  loadVideoSettings,
+  applyVideoSettings,
+  saveVideoSettings,
+} from './video-settings';
 import { initAutoUpdater } from './auto-updater';
 import { registerLinuxApp } from './register-linux-app';
 
@@ -34,6 +39,7 @@ const createWindow = () => {
   mainWindow.on('enter-full-screen', () => {
     mainWindow?.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, true);
     mainWindow?.setResizable(false);
+    saveVideoSettings({ ...loadVideoSettings(), fullscreen: true });
   });
   mainWindow.on('leave-full-screen', () => {
     mainWindow?.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, false);
@@ -41,6 +47,7 @@ const createWindow = () => {
     mainWindow?.setContentSize(videoSettings.width, videoSettings.height);
     mainWindow?.center();
     mainWindow?.setResizable(false);
+    saveVideoSettings({ ...videoSettings, fullscreen: false });
   });
 
   mainWindow.on('ready-to-show', () => {

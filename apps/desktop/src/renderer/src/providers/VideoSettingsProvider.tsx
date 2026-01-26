@@ -55,7 +55,9 @@ export const VideoSettingsProvider = ({ children }: { children: React.ReactNode 
   };
 
   const changeFullscreen = async (fullscreen: boolean) => {
-    await window.api.video.setVideoSettings({ fullscreen });
+    if (fullscreen !== isFullscreen) {
+      await window.api.video.setVideoSettings({ fullscreen });
+    }
     setIsFullscreen(fullscreen);
   };
 

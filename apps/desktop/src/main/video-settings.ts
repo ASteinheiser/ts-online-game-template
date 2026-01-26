@@ -34,7 +34,7 @@ export const getAvailableResolutions = (window: BrowserWindow | null) => {
 const getConfigFile = () => join(app.getPath('userData'), 'video-settings.json');
 
 /** Persists the video settings to a JSON file */
-const saveVideoSettings = (settings: VideoSettings) => {
+export const saveVideoSettings = (settings: VideoSettings) => {
   try {
     writeFileSync(getConfigFile(), JSON.stringify(settings, null, 2), 'utf-8');
   } catch (err) {
