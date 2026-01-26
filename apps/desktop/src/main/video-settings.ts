@@ -82,6 +82,7 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
 
   if (mergedSettings.fullscreen) {
     window.setFullScreen(true);
+    window.removeAllListeners('enter-full-screen');
     window.once('enter-full-screen', () => {
       window.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, true);
       window.setResizable(false);
@@ -112,6 +113,7 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
 
     if (window.isFullScreen()) {
       window.setFullScreen(false);
+      window.removeAllListeners('leave-full-screen');
       window.once('leave-full-screen', () => {
         window.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, false);
         setWindowSize();
