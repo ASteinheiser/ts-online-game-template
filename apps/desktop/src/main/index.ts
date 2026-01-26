@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron';
+import { app, screen, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { optimizer, is } from '@electron-toolkit/utils';
 import { ELECTRON_EVENTS } from '../shared/constants';
@@ -25,7 +25,9 @@ const createWindow = () => {
     autoHideMenuBar: true,
     resizable: false,
     hasShadow: false,
-    transparent: true,
+    transparent: false,
+    // ensure this is set to the same color as the "background" CSS variable (packages/ui)
+    backgroundColor: '#09090b',
     // preload script for renderer process
     webPreferences: {
       preload: join(__dirname, '../preload/index.mjs'),
@@ -45,6 +47,14 @@ const createWindow = () => {
 
     setImmediate(() => {
       const videoSettings = loadVideoSettings();
+
+      const { x, y } = mainWindow?.getBounds() ?? { x: 0, y: 0 };
+      const currentDisplay = screen.getDisplayNearestPoint({ x, y });
+      const { width, height } = currentDisplay.workAreaSize;
+
+      if (width < videoSettings.width) videoSettings.width = width;
+      if (height < videoSettings.height) videoSettings.height = height;
+
       mainWindow?.setContentSize(videoSettings.width, videoSettings.height);
       mainWindow?.center();
       saveVideoSettings({ ...videoSettings, fullscreen: false });
