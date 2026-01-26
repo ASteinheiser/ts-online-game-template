@@ -54,6 +54,7 @@ const createWindow = () => {
 
       mainWindow?.setContentSize(videoSettings.width, videoSettings.height);
       mainWindow?.center();
+      mainWindow?.setResizable(false);
       saveVideoSettings({ ...videoSettings, fullscreen: false });
     });
   });
