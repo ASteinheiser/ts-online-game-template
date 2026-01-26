@@ -74,36 +74,46 @@ export const applyVideoSettings = (window: BrowserWindow | null, newSettings: Pa
     height: newSettings.height ?? existingSettings.height,
   };
 
-  const { x, y } = window.getBounds();
-  const currentDisplay = screen.getDisplayNearestPoint({ x, y });
-
   if (mergedSettings.fullscreen) {
     window.setFullScreen(true);
+    saveVideoSettings(mergedSettings);
+  } else if (window.isFullScreen()) {
+    window.setFullScreen(false);
+    saveVideoSettings(mergedSettings);
   } else {
-    const { width: displayWidth, height: displayHeight } = currentDisplay.size;
-    // if the display is smaller than the requested size
-    if (displayWidth < mergedSettings.width || displayHeight < mergedSettings.height) {
-      const requestedSizeIndex = COMMON_RESOLUTIONS.findIndex(
-        ({ width, height }) => width === mergedSettings.width && height === mergedSettings.height
-      );
-      // select the next size down if it exists
-      if (requestedSizeIndex > 0) {
-        mergedSettings.width = COMMON_RESOLUTIONS[requestedSizeIndex - 1].width;
-        mergedSettings.height = COMMON_RESOLUTIONS[requestedSizeIndex - 1].height;
-      } // otherwise, just use the work area size (actual usable area of the display)
-      else {
-        mergedSettings.width = currentDisplay.workAreaSize.width;
-        mergedSettings.height = currentDisplay.workAreaSize.height;
-      }
-    }
+    handleExitFullscreen(window, mergedSettings);
+  }
+};
 
-    if (window.isFullScreen()) {
-      window.setFullScreen(false);
-    } else {
-      window.setContentSize(mergedSettings.width, mergedSettings.height);
-      window.center();
+export const handleExitFullscreen = (window: BrowserWindow | null, videoSettings: VideoSettings) => {
+  const { x, y } = window?.getBounds() ?? { x: 0, y: 0 };
+  const currentDisplay = screen.getDisplayNearestPoint({ x, y });
+  const { width, height } = currentDisplay.workAreaSize;
+
+  let actualWidth = videoSettings.width;
+  let actualHeight = videoSettings.height;
+  if (width < videoSettings.width) actualWidth = width;
+  if (height < videoSettings.height) actualHeight = height;
+
+  window?.setContentSize(actualWidth, actualHeight);
+  window?.center();
+  saveVideoSettings({ ...videoSettings, fullscreen: false });
+};
+
+export const detectDisplayChange = (window: BrowserWindow | null) => {
+  const existingSettings = loadVideoSettings();
+
+  const { x, y } = window?.getBounds() ?? { x: 0, y: 0 };
+  const currentDisplay = screen.getDisplayNearestPoint({ x, y });
+  const { width: displayWidth, height: displayHeight } = currentDisplay.size;
+
+  if (displayWidth < existingSettings.width || displayHeight < existingSettings.height) {
+    const requestedSizeIndex = COMMON_RESOLUTIONS.findIndex(
+      ({ width, height }) => width === existingSettings.width && height === existingSettings.height
+    );
+    if (requestedSizeIndex > 0) {
+      return COMMON_RESOLUTIONS[requestedSizeIndex - 1];
     }
   }
-
-  saveVideoSettings(mergedSettings);
+  return existingSettings;
 };

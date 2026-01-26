@@ -1,4 +1,4 @@
-import { app, screen, shell, BrowserWindow, ipcMain } from 'electron';
+import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { optimizer, is } from '@electron-toolkit/utils';
 import { ELECTRON_EVENTS } from '../shared/constants';
@@ -8,6 +8,8 @@ import {
   loadVideoSettings,
   applyVideoSettings,
   saveVideoSettings,
+  handleExitFullscreen,
+  detectDisplayChange,
 } from './video-settings';
 import { initAutoUpdater } from './auto-updater';
 import { registerLinuxApp } from './register-linux-app';
@@ -47,27 +49,18 @@ const createWindow = () => {
   // handle manual and programmatic fullscreen exit
   mainWindow.on('leave-full-screen', () => {
     mainWindow?.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, false);
-
     setImmediate(() => {
       const videoSettings = loadVideoSettings();
-
-      const { x, y } = mainWindow?.getBounds() ?? { x: 0, y: 0 };
-      const currentDisplay = screen.getDisplayNearestPoint({ x, y });
-      const { width, height } = currentDisplay.workAreaSize;
-
-      if (width < videoSettings.width) videoSettings.width = width;
-      if (height < videoSettings.height) videoSettings.height = height;
-
-      mainWindow?.setContentSize(videoSettings.width, videoSettings.height);
-      mainWindow?.center();
-      saveVideoSettings({ ...videoSettings, fullscreen: false });
+      handleExitFullscreen(mainWindow, videoSettings);
     });
   });
 
   mainWindow.on('ready-to-show', () => {
     mainWindow?.show();
+    // handle display change on startup
+    const initialResolution = detectDisplayChange(mainWindow);
     // handles setting resolution and fullscreen on startup
-    applyVideoSettings(mainWindow, {});
+    applyVideoSettings(mainWindow, initialResolution);
 
     if (pendingDeepLink) {
       mainWindow?.webContents.send(ELECTRON_EVENTS.DEEP_LINK, pendingDeepLink);
