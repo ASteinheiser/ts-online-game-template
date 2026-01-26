@@ -23,7 +23,8 @@ const createWindow = () => {
     // settings to create an OS-agnostic experience
     frame: false,
     autoHideMenuBar: true,
-    resizable: false,
+    // this will be locked back to false when not resizing
+    resizable: true,
     hasShadow: false,
     transparent: false,
     // ensure this is set to the same color as the "background" CSS variable (packages/ui)
