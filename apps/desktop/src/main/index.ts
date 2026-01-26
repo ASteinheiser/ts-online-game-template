@@ -30,22 +30,16 @@ const createWindow = () => {
 
   // Initialize auto-updater
   initAutoUpdater(mainWindow);
-  // handles setting resolution and fullscreen on startup
-  applyVideoSettings(mainWindow, {});
 
   mainWindow.on('ready-to-show', () => {
     mainWindow?.show();
+    // handles setting resolution and fullscreen on startup
+    applyVideoSettings(mainWindow, {});
+
     if (pendingDeepLink) {
       mainWindow?.webContents.send(ELECTRON_EVENTS.DEEP_LINK, pendingDeepLink);
       pendingDeepLink = null;
     }
-  });
-
-  mainWindow.on('enter-full-screen', () => {
-    mainWindow?.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, true);
-  });
-  mainWindow.on('leave-full-screen', () => {
-    mainWindow?.webContents.send(ELECTRON_EVENTS.ON_FULLSCREEN_CHANGED, false);
   });
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
