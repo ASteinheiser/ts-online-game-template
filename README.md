@@ -183,9 +183,41 @@ pnpm db:test:sync
 
 ## Production Load Testing
 
+**WARNING:** This is a **VERY** powerful tool used to test the scalability of your api server/game rooms. Keep in mind that you can impact users if you run this against your production server. At the start, running against prod is fine, however, once you have actual users, you should consider running this against a staging server.
+
+When running the prod load test, you won't be able to seed your DB automatically, unlike the local version. In both local and prod load tests, you'll use the prod `JWT_SECRET` (present in the local `.env`) to create test tokens. These tokens will be used by the server to find a user in the DB, using the decoded `id`. These users will not be created in the prod DB automatically. To quickly solve this issue, I recommend uploading a CSV with test user data via your Supabase Dashboard. A CSV with 200 test users can be found in: `apps/game-api/test/load/prod-test-users.csv`
+
+Once you have test users in the prod DB, you can run the load test against your production server:
 ```bash
 pnpm test:load:prod
 ```
+
+**NOTE:** While running the prod load test, you should monitor the server's CPU and memory usage. I like to watch the DigitalOcean Droplet's graphs to see total server resources used:
+```
+cloud.digitalocean.com/droplets/<DROPLET_ID>/graphs
+```
+I also like to SSH into the server to see current usage and logs:
+```bash
+ssh deployer@api.ts-game.online
+pm2 monit
+```
+
+### Results Snapshot
+
+This production load test snapshot was created on 1/27/2026. All tests were run against the cheapest DigitalOcean Droplet:
+- 512MB RAM
+- 1 vCPU
+- 10GB SSD
+- Ubuntu 24.04 LTS
+- US West - San Francisco
+
+| Players | Room Size | CPU Peak | Memory Peak |
+|---------|-----------|----------|-------------|
+| 0 (idle) | 4 | 1% | 68% |
+| 4 | 4 | - | - |
+| 40 | 4 | - | - |
+| 100 | 4 | - | - |
+| 200 | 4 | - | - |
 
 ## Available Commands
 
