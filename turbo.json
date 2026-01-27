@@ -46,6 +46,10 @@
       "cache": false,
       "persistent": true
     },
+    "test:load:prod": {
+      "cache": false,
+      "persistent": true
+    },
     "db:start": { "cache": false },
     "db:stop": { "cache": false },
     "db:sync": { "cache": false },

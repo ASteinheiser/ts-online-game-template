@@ -13,6 +13,7 @@
     "test": "turbo run test",
     "test:watch": "turbo run test:watch",
     "test:load": "turbo run test:load",
+    "test:load:prod": "turbo run test:load:prod",
     "check-types": "turbo run check-types",
     "generate:gql-types": "turbo run generate:gql-types",
     "generate:gql-types:watch": "turbo run generate:gql-types:watch",

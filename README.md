@@ -11,6 +11,7 @@ Try the demo: https://ts-game.online/download
 - [Local PostgreSQL DB](#local-postgresql-db)
 - [Testing](#testing)
 - [Load Testing](#load-testing)
+- [Production Load Testing](#production-load-testing)
 - [Available Commands](#available-commands)
 - [Deployment Setup](#deployment-setup)
 - [Deploys, Releases and Tags](#deploys-releases-and-tags)
@@ -180,6 +181,12 @@ pnpm db:test:sync
 <br />
 <img src="./images/test-load.gif" width="800px" height="auto">
 
+## Production Load Testing
+
+```bash
+pnpm test:load:prod
+```
+
 ## Available Commands
 
 | Command | Description |
@@ -189,6 +196,7 @@ pnpm db:test:sync
 | `pnpm test` | Runs the typecheck, linter and tests for each repo |
 | `pnpm test:watch` | Runs the test suite in each repo and watches for changes |
 | `pnpm test:load` | Builds and runs the `game-api` then starts the load test |
+| `pnpm test:load:prod` | Runs the load test script pointed at the production server |
 | `pnpm lint` | Runs the code linting check in each repo |
 | `pnpm lint:fix` | Runs the linter and fixes code when possible |
 | `pnpm check-types` | Runs the typescript check in each repo |
@@ -481,10 +489,14 @@ sudo systemctl reload caddy
 ```bash
 # List all running PM2 processes
 pm2 list
-# Tail the logs for the game API server
+# View the logs for the game-api server
 pm2 logs game-api --lines 200
 # Clear out logs manually
 pm2 flush
+# Show verbose info about the game-api process
+pm2 show game-api
+# Monitor the game-api process (CPU/Memory usage and logs)
+pm2 monit
 ```
 
 For the GitHub Action to properly deploy the backend, you'll need to create three more environment secrets in `game-server`:

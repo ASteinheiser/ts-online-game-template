@@ -6,6 +6,8 @@ import type { GameRoomState } from '../../src/rooms/GameRoom/roomState';
 import { prisma } from '../../src/repo/client';
 import { generateTestJWT, setupTestDb, cleanupTestDb, TEST_USERS } from '../integration/utils';
 
+const IS_PROD = process.env.NODE_ENV === 'production';
+
 const JOIN_DELAY_MS = 500;
 const TEST_USER_EXPIRES_IN_MS = 3 * 60 * 1000; // 3 minutes
 
@@ -17,8 +19,8 @@ export async function main(options: Options) {
   console.log('joining room...', options);
   await new Promise((resolve) => setTimeout(resolve, JOIN_DELAY_MS));
 
-  const websocketUrl = `ws://${options.endpoint}`;
-  const graphqlUrl = `http://${options.endpoint}/graphql`;
+  const websocketUrl = `${IS_PROD ? 'wss' : 'ws'}://${options.endpoint}`;
+  const graphqlUrl = `${IS_PROD ? 'https' : 'http'}://${options.endpoint}/graphql`;
 
   const client = new Client(websocketUrl);
   client.auth.token = generateTestJWT({
@@ -98,7 +100,9 @@ export async function main(options: Options) {
   });
 }
 
-await cleanupTestDb(prisma);
-await setupTestDb(prisma);
+if (!IS_PROD) {
+  await cleanupTestDb(prisma);
+  await setupTestDb(prisma);
+}
 
 cli(main);
