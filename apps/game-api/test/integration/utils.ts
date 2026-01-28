@@ -16,7 +16,8 @@ interface TestUser {
   userName: string;
   email: string;
 }
-export const TEST_USERS: Array<TestUser> = Array(5)
+const TEST_USER_COUNT = 200;
+export const TEST_USERS: Array<TestUser> = Array(TEST_USER_COUNT)
   .fill(null)
   .map((_, i) => ({
     id: `test-user-id-${i + 1}`,
