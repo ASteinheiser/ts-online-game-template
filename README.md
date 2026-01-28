@@ -40,7 +40,7 @@ Try the demo: https://ts-game.online/download
 
 This project relies on [Supabase](https://supabase.com/) for [JWT authentication](https://auth0.com/docs/secure/tokens/json-web-tokens). They offer a very generous free tier ([50k MAU](https://supabase.com/pricing)) and a straight-forward developer experience. It's also [open source](https://github.com/supabase/supabase?tab=readme-ov-file#supabase), so you can self-host if the need arises!
 
-You'll need to create a free tier [project](https://supabase.com/dashboard/) and add the relevant keys to your local environment. Keys can be found by navigating to your [Supabase project](https://supabase.com/dashboard/), then from the sidebar, "Project Settings" > "Data API". Here you should see a few important sections: "Project URL", "Project API Keys" and "JWT Settings". **Use the values from these sections to create the following files based on the `.env.example` files:**
+You'll need to create a free tier [project](https://supabase.com/dashboard/) and add the relevant keys to your local environment. Keys can be found by navigating to your [Supabase project](https://supabase.com/dashboard/), then from the sidebar, "Project Settings" > "API Keys". You can also see some of the strings you'll need via the "Connect" button near the top center of the screen. **Use the values from these sections to create the following files based on the `.env.example` files:**
 - `apps/desktop/.env`
 - `apps/game-api/.env`
 - `apps/web/.env`
