@@ -211,14 +211,17 @@ This snapshot was created on `2026-01-27`. All tests were run for 3 minutes agai
 - Ubuntu 24.04 LTS
 - US West - San Francisco
 
-| Players | Room Size | CPU Peak | Memory Peak |
+| Room Size | Players | CPU Peak | Memory Peak |
 |---------|-----------|----------|-------------|
-| - (idle) | - | < 1% | 65% (77 mb) |
-| - (idle `pm2 monit`) | - | 3% | 75% (77 mb) |
+| - | - (idle) | < 1% | 65% (77 mb) |
+| - | - (idle `pm2 monit`) | 3% | 75% (77 mb) |
 | 4 | 4 | 7% | 75% (102 mb) |
-| 40 | 4 | 35% | 79% (106 mb) |
-| 100 | 4 | 61% | 85% (114 mb) |
-| 200 | 4 | 88% | 90% (111 mb) |
+| 4 | 40 | 35% | 79% (106 mb) |
+| 4 | 100 | 61% | 85% (114 mb) |
+| 4 | 200 | 88% | 90% (111 mb) |
+| 10 | 10 | 10% | 78% (101 mb) |
+| 10 | 100 | 51% | 84% (109 mb) |
+| 10 | 200 | 80% | 90% (115 mb) |
 
 **NOTE:** The CPU and memory usage percentages are relative to the Droplet's total resources (from the DigitalOcean graphs). The memory usage for the `game-api` server alone is shown in parenthesis (from the `pm2 monit` output).
 
