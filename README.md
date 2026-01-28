@@ -222,6 +222,7 @@ This snapshot was created on `2026-01-27`. All tests were run for 3 minutes agai
 | 10 | 10 | 10% | 78% (101 mb) |
 | 10 | 100 | 51% | 84% (109 mb) |
 | 10 | 200 | 80% | 90% (115 mb) |
+| 100 | 100 (fails at ~80) | 22% | 82% (117 mb) |
 
 **NOTE:** The CPU and memory usage percentages are relative to the Droplet's total resources (from the DigitalOcean graphs). The memory usage for the `game-api` server alone is shown in parenthesis (from the `pm2 monit` output).
 
