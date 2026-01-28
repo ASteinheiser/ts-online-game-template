@@ -228,9 +228,13 @@ This snapshot was created on `2026-01-27`. All tests were run for 3 minutes agai
 | 50 | 50 | 23% | 77% (121 mb) |
 | 50 | 100 | 38% | 81% (127 mb) |
 | 50 | 200 | 61% | 82% (113 mb) |
-| 100 | 100 (fails at ~80) | 22% | 82% (117 mb) |
+| 100 | 100 (overflows at ~80) | 39% | 78% (130 mb) |
 
 **NOTE:** The CPU and memory usage percentages are relative to the Droplet's total resources (from the DigitalOcean graphs). The memory usage for the `game-api` server alone is shown in parenthesis (from the `pm2 monit` output).
+
+### Learnings
+
+It appears to be more efficient on the server to have larger rooms, but at a certain size, you will get buffer overflows. This is due to the sheer size of the room state (many players, each with their own state). You should try to strike a balance between room size and state. The smaller you can make the room state, the more players you can support in a single room. Conversely, if you have a lot of state to track, you will need to limit your maximum room size accordingly.
 
 ## Available Commands
 
