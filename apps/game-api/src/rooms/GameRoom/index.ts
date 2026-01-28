@@ -28,7 +28,7 @@ import { logger } from '../../logger';
 import { ROOM_ERROR } from '../error';
 import { GameRoomState, Player, Enemy } from './roomState';
 
-const MAX_PLAYERS_PER_ROOM = 100;
+const MAX_PLAYERS_PER_ROOM = 10;
 /** This is the speed at which we stream updates to the client.
  * Updates should be interpolated clientside to appear smoother */
 const SERVER_PATCH_RATE = 1000 / 20; // 20fps = 50ms
