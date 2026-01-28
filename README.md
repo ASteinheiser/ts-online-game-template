@@ -204,7 +204,7 @@ pm2 monit
 
 ### Results Snapshot
 
-This production load test snapshot was created on 1/27/2026. All tests were run against the cheapest DigitalOcean Droplet:
+This snapshot was created on `2026-01-27`. All tests were run for 3 minutes against the cheapest DigitalOcean Droplet:
 - 512MB RAM
 - 1 vCPU
 - 10GB SSD
@@ -213,11 +213,13 @@ This production load test snapshot was created on 1/27/2026. All tests were run 
 
 | Players | Room Size | CPU Peak | Memory Peak |
 |---------|-----------|----------|-------------|
-| 0 (idle) | 4 | 1% | 68% |
+| 0 (idle) | 4 | < 1% | 65% (77 mb) |
 | 4 | 4 | - | - |
 | 40 | 4 | - | - |
 | 100 | 4 | - | - |
 | 200 | 4 | - | - |
+
+**NOTE:** The CPU and memory usage percentages are relative to the Droplet's total resources (from the DigitalOcean graphs). The memory usage for the `game-api` server alone is shown in parenthesis (from the `pm2 monit` output).
 
 ## Available Commands
 
