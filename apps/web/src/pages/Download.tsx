@@ -109,7 +109,7 @@ export const Download = () => {
             className="w-[200px]"
             disabled={!os || !downloadUrl}
             loading={loading}
-            onClick={() => window.open(downloadUrl, '_blank')}
+            onClick={() => window.open(downloadUrl, '_self')}
           >
             Download
           </Button>
