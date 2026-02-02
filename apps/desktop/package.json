@@ -16,7 +16,7 @@
     "test:watch": "vitest --watch --coverage",
     "generate:gql-types": "graphql-codegen",
     "generate:gql-types:watch": "graphql-codegen --watch",
-    "generate:app-icons": "sleep 0.1 && cp ../web/public/pwa-512x512.png ./resources/icon.png && cp ../web/public/pwa-512x512.png ./build/icon.png",
+    "generate:app-icons": "cp ../web/public/pwa-512x512.png ./resources/icon.png && cp ../web/public/pwa-512x512.png ./build/icon.png",
     "check-types": "tsc --build",
     "dev": "electron-vite dev",
     "preview": "electron-vite preview",

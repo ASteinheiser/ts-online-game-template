@@ -70,12 +70,12 @@
       "outputs": ["public/favicon.ico", "public/*.png"]
     },
     "generate:app-icons": {
-      "dependsOn": ["generate:pwa-assets"],
+      "dependsOn": ["web#generate:pwa-assets"],
       "inputs": ["../../apps/web/public/logo.svg"],
       "outputs": ["build/icon.png", "resources/icon.png"]
     },
     "build": {
-      "dependsOn": ["^build", "generate:app-icons", "test"],
+      "dependsOn": ["^build", "demo-game#generate:app-icons", "test"],
       "outputs": ["dist/**"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "env": [
