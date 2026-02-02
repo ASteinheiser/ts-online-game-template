@@ -105,8 +105,13 @@ export const Download = () => {
             </SelectContent>
           </Select>
 
-          <Button asChild className="w-[200px]" disabled={!os || !downloadUrl} loading={loading}>
-            <a href={downloadUrl}>Download</a>
+          <Button
+            className="w-[200px]"
+            disabled={!os || !downloadUrl}
+            loading={loading}
+            onClick={() => window.open(downloadUrl, '_blank')}
+          >
+            Download
           </Button>
         </div>
       </div>
