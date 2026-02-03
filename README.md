@@ -407,7 +407,9 @@ On all platforms (macOS/Windows/Linux), the app will automatically check for upd
 
 ### Auth Setup
 
-You should already have a Supabase project setup with JWT auth. So that piece is covered!
+You should already have a Supabase project set up with JWT auth. However, for production emails, you'll need to set up a custom email provider for Supabase. I recommend using [AWS SES](https://aws.amazon.com/ses/) for this because of their cheap pricing and solid deliverability. You can also use [Mailgun](https://www.mailgun.com/), [SendGrid](https://sendgrid.com/), or any other SMTP provider you'd like.
+
+Once you have your SMTP provider set up, you'll need to configure Supabase to use it. You can do this by navigating to your Supabase project, then clicking on "Authentication" > "Email" > "SMTP Settings". Now flip the setting on for "Enable custom SMTP" and enter your SMTP provider's credentials.
 
 ### Database Setup
 
@@ -608,8 +610,10 @@ A focal point of this project is to be as cost-effective as possible at the star
 |GitHub Pages|Web Hosting|Free|
 |GitHub Releases|Desktop App Hosting|Free|
 |Supabase|Auth and DB|Free|
+|AWS SES|SMTP Server|Negligible|
+|AWS Route 53|Domain Name Server|~$2/month (varies by TLD)|
 |DigitalOcean|Persistent Server|~$4/month|
-|Apple|macOS signing cert|~$8/month ($100/year)|
-|Microsoft Azure|Windows signing cert|$10/month|
+|Apple|macOS Signing Cert|~$8/month ($100/year)|
+|Microsoft Azure|Windows Signing Cert|$10/month|
 
-**TOTAL:** ~$22/month or ~$264/year
+**TOTAL:** ~$24/month or ~$288/year
