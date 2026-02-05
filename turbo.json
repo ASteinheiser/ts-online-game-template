@@ -102,11 +102,8 @@
       "env": ["APPLE_ID", "APPLE_TEAM_ID", "APPLE_APP_SPECIFIC_PASSWORD"]
     },
     "build:linux": {
-      "dependsOn": ["demo-game#build"],
+      "dependsOn": ["demo-game#build", "@repo/core-game#build"],
       "outputs": ["dist/**"]
-    },
-    "demo-game#build": {
-      "dependsOn": ["@repo/core-game#build"]
     }
   }
 }
