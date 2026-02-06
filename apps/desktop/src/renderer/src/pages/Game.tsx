@@ -90,6 +90,7 @@ export const Game = () => {
     EventBus.on(EVENT_BUS.COIN_OPEN, () => setIsCoinModalOpen(true));
     EventBus.on(EVENT_BUS.JOIN_ERROR, (error) => toast.error(error.message));
     EventBus.on(EVENT_BUS.RECONNECTION_ATTEMPT, (attempt) => toast.info(`Reconnecting... (${attempt})`));
+    EventBus.on(EVENT_BUS.RECONNECTION_SUCCESS, () => toast.success(`Reconnection successful!`));
 
     return () => {
       EventBus.off(EVENT_BUS.PROFILE_OPEN);
@@ -97,6 +98,7 @@ export const Game = () => {
       EventBus.off(EVENT_BUS.COIN_OPEN);
       EventBus.off(EVENT_BUS.JOIN_ERROR);
       EventBus.off(EVENT_BUS.RECONNECTION_ATTEMPT);
+      EventBus.off(EVENT_BUS.RECONNECTION_SUCCESS);
     };
   }, []);
 

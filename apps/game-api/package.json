@@ -60,7 +60,7 @@
   "dependencies": {
     "@apollo/server": "catalog:",
     "@as-integrations/express5": "^1.1.2",
-    "@colyseus/core": "^0.17.30",
+    "@colyseus/core": "^0.17.31",
     "@colyseus/monitor": "^0.17.7",
     "@colyseus/playground": "^0.17.9",
     "@colyseus/schema": "^4.0.8",

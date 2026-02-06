@@ -14,4 +14,5 @@ export const EVENT_BUS = {
   SETTINGS_OPEN: 'menu-open__settings',
   COIN_OPEN: 'coin-open',
   RECONNECTION_ATTEMPT: 'reconnection-attempt',
+  RECONNECTION_SUCCESS: 'reconnection-success',
 } as const;

@@ -34,6 +34,7 @@ export class Game extends Scene {
   room?: Room;
   pingDisplay?: PingDisplay;
   elapsedTime = 0;
+  reconnectionAttempt = 0;
 
   playerEntities: Record<string, Player> = {};
   currentPlayer?: Player;
@@ -110,6 +111,7 @@ export class Game extends Scene {
     if (reconnectToken) {
       try {
         this.room = await this.client.reconnect(reconnectToken);
+        EventBus.emit(EVENT_BUS.RECONNECTION_SUCCESS);
       } catch (reconnectError) {
         console.warn('Reconnection failed, falling back to joinOrCreate:', reconnectError);
       }
@@ -137,15 +139,28 @@ export class Game extends Scene {
     if (!this.room) return;
     // cleanup any old entities
     this.cleanup();
+    this.reconnectionAttempt = 0;
+    this.room.reconnection.maxRetries = 8;
 
     this.pingDisplay = new PingDisplay(this);
     this.pingDisplay.start(this.room);
 
     this.room.onError((code, message) => {
-      const errorMessage = `Room error: ${code} - ${message}`;
-      console.error(errorMessage);
+      let errorMessage = 'Unexpected error with room connection';
+      if (code || message) {
+        errorMessage = `Room error: ${code} - ${message}`;
+      }
+      EventBus.emit(EVENT_BUS.JOIN_ERROR, new Error(errorMessage));
+    });
 
-      this.sendToMainMenu(new Error(errorMessage));
+    this.room.onDrop(() => {
+      this.reconnectionAttempt++;
+      EventBus.emit(EVENT_BUS.RECONNECTION_ATTEMPT, this.reconnectionAttempt);
+    });
+
+    this.room.onReconnect(() => {
+      this.reconnectionAttempt = 0;
+      EventBus.emit(EVENT_BUS.RECONNECTION_SUCCESS);
     });
 
     this.room.onLeave(async (code) => {
@@ -435,6 +450,7 @@ export class Game extends Scene {
         this.setupRoomEventListeners();
         // store the new reconnection token for future reconnection
         this.storeReconnectionToken(newRoom.reconnectionToken);
+        EventBus.emit(EVENT_BUS.RECONNECTION_SUCCESS);
         return true;
       } catch (error) {
         console.warn(`Reconnection attempt ${attemptDisplay} failed:`, error);
