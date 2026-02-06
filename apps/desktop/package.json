@@ -27,12 +27,12 @@
   },
   "dependencies": {
     "@apollo/client": "catalog:",
+    "@colyseus/sdk": "catalog:",
     "@react-three/drei": "catalog:",
     "@react-three/fiber": "catalog:",
     "@repo/client-auth": "workspace:*",
     "@repo/core-game": "workspace:*",
     "@repo/ui": "workspace:*",
-    "colyseus.js": "catalog:",
     "electron-updater": "^6.7.3",
     "graphql": "catalog:",
     "phaser": "catalog:",

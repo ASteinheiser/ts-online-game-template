@@ -8,8 +8,8 @@ catalog:
   dotenv: ^17.0.1
   eslint: ^9.26.0
   prettier: ^3.5.3
-  colyseus: ^0.16.4
-  colyseus.js: ^0.16.16
+  colyseus: ^0.17.8
+  "@colyseus/sdk": ^0.17.26
   prisma: ^7.2.0
   "@prisma/client": ^7.2.0
   "@prisma/adapter-pg": ^7.2.0

@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { Client } from 'colyseus.js';
+import { Client } from '@colyseus/sdk';
 import { cli, type Options } from '@colyseus/loadtest';
 import { WS_ROOM, WS_EVENT, type InputPayload } from '@repo/core-game';
 import type { GameRoomState } from '../../src/rooms/GameRoom/roomState';

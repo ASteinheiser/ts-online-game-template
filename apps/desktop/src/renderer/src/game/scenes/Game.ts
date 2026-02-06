@@ -1,5 +1,5 @@
 import { Scene, Scenes } from 'phaser';
-import { Client, getStateCallbacks, type Room } from 'colyseus.js';
+import { Client, getStateCallbacks, type Room } from '@colyseus/sdk';
 import {
   calculateMovement,
   FIXED_TIME_STEP,

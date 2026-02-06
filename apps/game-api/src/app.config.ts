@@ -1,4 +1,5 @@
-import makeColyseusApp from '@colyseus/tools';
+import { defineServer, defineRoom } from 'colyseus';
+import { WebSocketTransport } from '@colyseus/ws-transport';
 import { monitor } from '@colyseus/monitor';
 import { playground } from '@colyseus/playground';
 import { expressMiddleware } from '@as-integrations/express5';
@@ -25,15 +26,14 @@ export const makeApp = ({
   prisma,
   connectionCheckInterval = CONNECTION_CHECK_INTERVAL,
 }: MakeAppArgs) => {
-  return makeColyseusApp({
-    initializeGameServer: (gameServer) => {
-      /**
-       * Define your room handlers:
-       */
-      gameServer.define(WS_ROOM.GAME_ROOM, GameRoom, { prisma, connectionCheckInterval });
+  return defineServer({
+    rooms: {
+      [WS_ROOM.GAME_ROOM]: defineRoom(GameRoom, { prisma, connectionCheckInterval }),
     },
 
-    initializeExpress: async (app) => {
+    transport: new WebSocketTransport(),
+
+    express: async (app) => {
       await GQLServer.start();
       /**
        * Configure GraphQL route, middleware and context

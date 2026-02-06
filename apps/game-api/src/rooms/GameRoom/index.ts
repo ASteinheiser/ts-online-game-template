@@ -1,4 +1,5 @@
 import { Room, ServerError, type AuthContext, type Client } from '@colyseus/core';
+import { CloseCode } from 'colyseus';
 import { nanoid } from 'nanoid';
 import {
   calculateMovement,
@@ -55,7 +56,7 @@ interface GameRoomArgs {
   connectionCheckInterval: number;
 }
 
-export class GameRoom extends Room<GameRoomState> {
+export class GameRoom extends Room {
   maxClients = MAX_PLAYERS_PER_ROOM;
   patchRate = SERVER_PATCH_RATE;
 
@@ -367,8 +368,9 @@ export class GameRoom extends Room<GameRoomState> {
     client.leave(code, message);
   }
 
-  async onLeave(client: Client, consented?: boolean) {
+  async onLeave(client: Client, code: number) {
     const { sessionId } = client;
+    const consented = code === CloseCode.CONSENTED;
 
     logger.info({
       message: `Client left...`,
@@ -439,7 +441,7 @@ export class GameRoom extends Room<GameRoomState> {
     // log any uncaught errors for debugging purposes
     logger.error({
       message: `Uncaught exception`,
-      data: { roomId: this.roomId, methodName, error },
+      data: { roomId: this.roomId, methodName, error: error.message },
     });
 
     // possibly handle saving game state

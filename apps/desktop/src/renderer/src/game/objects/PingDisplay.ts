@@ -1,4 +1,4 @@
-import type { Room } from 'colyseus.js';
+import type { Room } from '@colyseus/sdk';
 import { Scenes } from 'phaser';
 import { CustomText } from './CustomText';
 import { WS_EVENT } from '@repo/core-game';

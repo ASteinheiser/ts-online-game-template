@@ -8,4 +8,4 @@ watch-files:
   - src/**/*.ts
   - test/integration/**/*.test.ts
 timeout: 10000
-retries: 2
+retries: 0
