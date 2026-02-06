@@ -68,10 +68,7 @@ const DialogFooter = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) =
 DialogFooter.displayName = 'DialogFooter';
 
 const DialogTitle = ({ className, ...props }: ComponentProps<typeof DialogPrimitive.Title>) => (
-  <DialogPrimitive.Title
-    className={cn('text-lg font-semibold leading-none tracking-tight', className)}
-    {...props}
-  />
+  <DialogPrimitive.Title className={cn('text-lg leading-none tracking-tight', className)} {...props} />
 );
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
 

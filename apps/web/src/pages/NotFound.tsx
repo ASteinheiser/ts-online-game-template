@@ -14,9 +14,7 @@ export const NotFound = () => {
 
   return (
     <div className="fullscreen-center px-4">
-      <span className="text-2xl font-bold font-title text-center">
-        Oops! Page not found. Redirecting home...
-      </span>
+      <span className="text-2xl font-title text-center">Oops! Page not found. Redirecting home...</span>
     </div>
   );
 };

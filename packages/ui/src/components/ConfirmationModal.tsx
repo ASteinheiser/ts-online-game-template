@@ -20,7 +20,7 @@ export const ConfirmationModal = ({ isOpen, onClose, onConfirm }: ConfirmationMo
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent aria-describedby={undefined}>
-        <DialogTitle className="text-4xl font-bold font-pixel text-center text-muted-foreground">
+        <DialogTitle className="text-4xl font-pixel text-center text-muted-foreground">
           Are you sure?
         </DialogTitle>
         <DialogFooter>
