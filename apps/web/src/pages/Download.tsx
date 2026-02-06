@@ -91,7 +91,7 @@ export const Download = () => {
           {playerCountLoading ? <LoadingSpinner /> : data?.totalPlayers} Players Total
         </h1>
 
-        <h1 className="text-4xl font-label text-primary text-center pb-5">Select your OS</h1>
+        <h1 className="text-4xl font-label text-muted text-center pb-5">Select your OS</h1>
 
         <div className="flex flex-col gap-4 items-center">
           <Select value={os} onValueChange={(value) => setOs(value as OsOption)}>
