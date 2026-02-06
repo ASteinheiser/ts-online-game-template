@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client/react';
 import { useSession } from '@repo/client-auth/provider';
 import { useSearchParamFlag } from '@repo/ui/hooks';
 import { toast } from '@repo/ui';
-import { PhaserGame, type IRefPhaserGame } from '../game/PhaserGame';
+import { PhaserGame, type PhaserGameRef } from '../game/PhaserGame';
 import type { MainMenu } from '../game/scenes/MainMenu';
 import type { Game as GameScene } from '../game/scenes/Game';
 import { EventBus, EVENT_BUS } from '../game/EventBus';
@@ -26,7 +26,7 @@ export const Game = () => {
   const { session } = useSession();
   const { isMuted, volume } = useAudioSettings();
 
-  const phaserRef = useRef<IRefPhaserGame | null>(null);
+  const phaserRef = useRef<PhaserGameRef | null>(null);
 
   const { data } = useQuery<Desktop_GetTotalPlayersQuery, Desktop_GetTotalPlayersQueryVariables>(
     GET_TOTAL_PLAYERS

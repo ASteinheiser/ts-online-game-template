@@ -1,32 +1,25 @@
-import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, type RefObject } from 'react';
 import { StartGame } from './main';
 import { EventBus, EVENT_BUS } from './EventBus';
 import { GAME_CONTAINER_ID } from './constants';
 
-export interface IRefPhaserGame {
+export interface PhaserGameRef {
   game: Phaser.Game | null;
   scene: Phaser.Scene | null;
 }
 
-interface IProps {
+interface PhaserGameProps {
+  ref: RefObject<PhaserGameRef | null>;
   currentActiveScene?: (scene_instance: Phaser.Scene) => void;
 }
 
-export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame(
-  { currentActiveScene },
-  ref
-) {
+export const PhaserGame = ({ currentActiveScene, ref }: PhaserGameProps) => {
   const game = useRef<Phaser.Game | null>(null);
 
   useLayoutEffect(() => {
     if (game.current === null) {
       game.current = StartGame(GAME_CONTAINER_ID);
-
-      if (typeof ref === 'function') {
-        ref({ game: game.current, scene: null });
-      } else if (ref) {
-        ref.current = { game: game.current, scene: null };
-      }
+      ref.current = { game: game.current, scene: null };
     }
 
     return () => {
@@ -44,12 +37,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
       if (currentActiveScene && typeof currentActiveScene === 'function') {
         currentActiveScene(scene_instance);
       }
-
-      if (typeof ref === 'function') {
-        ref({ game: game.current, scene: scene_instance });
-      } else if (ref) {
-        ref.current = { game: game.current, scene: scene_instance };
-      }
+      ref.current = { game: game.current, scene: scene_instance };
     });
 
     return () => {
@@ -58,4 +46,4 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
   }, [currentActiveScene, ref]);
 
   return <div id={GAME_CONTAINER_ID}></div>;
-});
+};

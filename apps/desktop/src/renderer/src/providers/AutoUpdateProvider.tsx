@@ -8,7 +8,7 @@ interface AutoUpdateProviderProps {
 
 export const AutoUpdateProvider = ({ children }: AutoUpdateProviderProps) => {
   const [showUpdateMessage, setShowUpdateMessage] = useState(false);
-  const toastIdRef = useRef<string | number | undefined>();
+  const toastIdRef = useRef<string | number>(undefined);
 
   useEffect(() => {
     window.api.updates.onDownloadProgress((progress: ProgressInfo) => {
