@@ -88,8 +88,8 @@ catalogs:
       specifier: ^17.0.1
       version: 17.2.4
     electron:
-      specifier: ^39.2.7
-      version: 39.5.1
+      specifier: ^40.2.1
+      version: 40.2.1
     eslint:
       specifier: ^9.26.0
       version: 9.39.2
@@ -201,8 +201,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       electron-updater:
-        specifier: ^6.7.3
-        version: 6.7.3
+        specifier: ^6.8.2
+        version: 6.8.2
       graphql:
         specifier: 'catalog:'
         version: 16.12.0
@@ -227,13 +227,13 @@ importers:
     devDependencies:
       '@electron-toolkit/preload':
         specifier: ^3.0.2
-        version: 3.0.2(electron@39.5.1)
+        version: 3.0.2(electron@40.2.1)
       '@electron-toolkit/tsconfig':
         specifier: ^2.0.0
         version: 2.0.0(@types/node@24.10.11)
       '@electron-toolkit/utils':
         specifier: ^4.0.0
-        version: 4.0.0(electron@39.5.1)
+        version: 4.0.0(electron@40.2.1)
       '@graphql-codegen/cli':
         specifier: 'catalog:'
         version: 6.1.1(@parcel/watcher@2.5.6)(@types/node@24.10.11)(encoding@0.1.13)(graphql@16.12.0)(typescript@5.9.3)
@@ -269,9 +269,9 @@ importers:
         version: 4.0.18(vitest@4.0.18(@types/node@24.10.11)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       electron:
         specifier: 'catalog:'
-        version: 39.5.1
+        version: 40.2.1
       electron-builder:
-        specifier: ^26.4.0
+        specifier: ^26.7.0
         version: 26.7.0(electron-builder-squirrel-windows@26.7.0)
       electron-vite:
         specifier: ^5.0.0
@@ -3588,9 +3588,6 @@ packages:
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
 
-  '@types/node@22.19.9':
-    resolution: {integrity: sha512-PD03/U8g1F9T9MI+1OBisaIARhSzeidsUjQaf51fOxrfjeiKN9bLVO06lHuHYjxdnqLWJijJHfqXPSJri2EM2A==}
-
   '@types/node@24.10.11':
     resolution: {integrity: sha512-/Af7O8r1frCVgOz0I62jWUtMohJ0/ZQU/ZoketltOJPZpnb17yoNc9BSoVuV9qlaIXJiPNOpsfq4ByFajSArNQ==}
 
@@ -4676,8 +4673,8 @@ packages:
   electron-to-chromium@1.5.286:
     resolution: {integrity: sha512-9tfDXhJ4RKFNerfjdCcZfufu49vg620741MNs26a9+bhLThdB+plgMeou98CAaHu/WATj2iHOOHTp1hWtABj2A==}
 
-  electron-updater@6.7.3:
-    resolution: {integrity: sha512-EgkT8Z9noqXKbwc3u5FkJA+r48jwZ5DTUiOkJMOTEEH//n5Am6wfQGz7nvSFEA2oIAMv9jRzn5JKTyWeSKOPgg==}
+  electron-updater@6.8.2:
+    resolution: {integrity: sha512-czF0Fu8PHHUYtDneJpdtoMWqA2xJFVDi7994+pnZJQ5nZquTTClXB6g/Sj/RCoPpDXoTc0ZbP/8NuJXyJi9qBw==}
 
   electron-vite@5.0.0:
     resolution: {integrity: sha512-OHp/vjdlubNlhNkPkL/+3JD34ii5ov7M0GpuXEVdQeqdQ3ulvVR7Dg/rNBLfS5XPIFwgoBLDf9sjjrL+CuDyRQ==}
@@ -4694,8 +4691,8 @@ packages:
     resolution: {integrity: sha512-bO3y10YikuUwUuDUQRM4KfwNkKhnpVO7IPdbsrejwN9/AABJzzTQ4GeHwyzNSrVO+tEH3/Np255a3sVZpZDjvg==}
     engines: {node: '>=8.0.0'}
 
-  electron@39.5.1:
-    resolution: {integrity: sha512-6s/sBQar+bbW59XSqohZj04MPic+kdVUAWjLbfQB/uLOeNw9jWX5FHaTxpHK29Xp3mKOHef7wErsjwMyCuWltg==}
+  electron@40.2.1:
+    resolution: {integrity: sha512-0zOeyN8LB1KHIjVV5jyMmQmkqx3J8OkkVlab3p7vOM28jI46blxW7M52Tcdi6X2m5o2jj8ejOlAh5+boL3w8aQ==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -7497,9 +7494,6 @@ packages:
   undefsafe@2.0.5:
     resolution: {integrity: sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA==}
 
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
-
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
@@ -8995,17 +8989,17 @@ snapshots:
 
   '@electric-sql/pglite@0.3.15': {}
 
-  '@electron-toolkit/preload@3.0.2(electron@39.5.1)':
+  '@electron-toolkit/preload@3.0.2(electron@40.2.1)':
     dependencies:
-      electron: 39.5.1
+      electron: 40.2.1
 
   '@electron-toolkit/tsconfig@2.0.0(@types/node@24.10.11)':
     dependencies:
       '@types/node': 24.10.11
 
-  '@electron-toolkit/utils@4.0.0(electron@39.5.1)':
+  '@electron-toolkit/utils@4.0.0(electron@40.2.1)':
     dependencies:
-      electron: 39.5.1
+      electron: 40.2.1
 
   '@electron/asar@3.4.1':
     dependencies:
@@ -11214,10 +11208,6 @@ snapshots:
 
   '@types/ms@2.1.0': {}
 
-  '@types/node@22.19.9':
-    dependencies:
-      undici-types: 6.21.0
-
   '@types/node@24.10.11':
     dependencies:
       undici-types: 7.16.0
@@ -12528,7 +12518,7 @@ snapshots:
 
   electron-to-chromium@1.5.286: {}
 
-  electron-updater@6.7.3:
+  electron-updater@6.8.2:
     dependencies:
       builder-util-runtime: 9.5.1
       fs-extra: 10.1.0
@@ -12565,10 +12555,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@39.5.1:
+  electron@40.2.1:
     dependencies:
       '@electron/get': 2.0.3
-      '@types/node': 22.19.9
+      '@types/node': 24.10.11
       extract-zip: 2.0.1
     transitivePeerDependencies:
       - supports-color
@@ -15687,8 +15677,6 @@ snapshots:
       unconfig-core: 7.4.2
 
   undefsafe@2.0.5: {}
-
-  undici-types@6.21.0: {}
 
   undici-types@7.16.0: {}
 
