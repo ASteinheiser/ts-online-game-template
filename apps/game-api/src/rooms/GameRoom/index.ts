@@ -40,7 +40,7 @@ export class GameRoom extends Room {
 
   private elapsedTime = 0;
   public state = new GameRoomState();
-  public enemies = new Enemies(this);
+  private enemies = new Enemies(this);
   private playerInput = new PlayerInput(this);
   private playerMovement = new PlayerMovement(this);
   private playerCombat = new PlayerCombat(this);
