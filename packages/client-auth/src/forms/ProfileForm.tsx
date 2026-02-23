@@ -124,7 +124,7 @@ export const ProfileForm = ({
       if (error?.message.includes(SUPABASE_AUTH.ERROR.EMAIL_ALREADY_SENT)) {
         toast.success('Please check your email for a confirmation link');
       } else if (error) {
-        toast.error(error.message);
+        toast.error(error.message || 'Unknown error while updating email');
       } else {
         toast.success('Please check your email for a confirmation link');
       }

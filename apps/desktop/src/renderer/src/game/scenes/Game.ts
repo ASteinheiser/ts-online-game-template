@@ -111,7 +111,7 @@ export class Game extends Scene {
     if (reconnectToken) {
       try {
         this.room = await this.client.reconnect(reconnectToken);
-        EventBus.emit(EVENT_BUS.RECONNECTION_SUCCESS);
+        EventBus.emit(EVENT_BUS.TOAST_SUCCESS, 'Reconnection successful!');
       } catch (reconnectError) {
         console.warn('Reconnection failed, falling back to joinOrCreate:', reconnectError);
       }
@@ -124,7 +124,7 @@ export class Game extends Scene {
       console.error('Failed to join room:', error);
     }
     if (!this.room) {
-      this.sendToMainMenu(new Error('Failed to join room'));
+      this.sendToMainMenu('Failed to join room');
       return;
     }
     // store the reconnection token for future reconnection
@@ -150,17 +150,17 @@ export class Game extends Scene {
       if (code || message) {
         errorMessage = `Room error: ${code} - ${message}`;
       }
-      EventBus.emit(EVENT_BUS.JOIN_ERROR, new Error(errorMessage));
+      EventBus.emit(EVENT_BUS.TOAST_ERROR, errorMessage);
     });
 
     this.room.onDrop(() => {
       this.reconnectionAttempt++;
-      EventBus.emit(EVENT_BUS.RECONNECTION_ATTEMPT, this.reconnectionAttempt);
+      EventBus.emit(EVENT_BUS.TOAST_INFO, `Reconnecting... (${this.reconnectionAttempt})`);
     });
 
     this.room.onReconnect(() => {
       this.reconnectionAttempt = 0;
-      EventBus.emit(EVENT_BUS.RECONNECTION_SUCCESS);
+      EventBus.emit(EVENT_BUS.TOAST_SUCCESS, 'Reconnection successful!');
     });
 
     this.room.onLeave(async (code) => {
@@ -172,17 +172,17 @@ export class Game extends Scene {
         case WS_CODE.BAD_REQUEST:
         case WS_CODE.TIMEOUT:
           if (!(await this.handleReconnection())) {
-            this.sendToMainMenu(new Error('Failed to reconnect'));
+            this.sendToMainMenu('Failed to reconnect');
           }
           break;
         case WS_CODE.UNAUTHORIZED:
         case WS_CODE.FORBIDDEN:
         case WS_CODE.NOT_FOUND:
           this.clearStoredReconnectionToken();
-          this.sendToMainMenu(new Error('You were removed from the game'));
+          this.sendToMainMenu('You were removed from the game');
           break;
         default:
-          this.sendToMainMenu(new Error(`Oops, something went wrong. Please try to reconnect.`));
+          this.sendToMainMenu('Oops, something went wrong. Please try to reconnect.');
       }
     });
 
@@ -399,9 +399,9 @@ export class Game extends Scene {
     delete this.room;
   }
 
-  sendToMainMenu(error: unknown) {
-    console.error(error);
-    EventBus.emit(EVENT_BUS.JOIN_ERROR, error);
+  sendToMainMenu(message: string) {
+    console.error(message);
+    EventBus.emit(EVENT_BUS.TOAST_ERROR, message);
 
     this.cleanup();
     this.cleanupRoom();
@@ -438,7 +438,7 @@ export class Game extends Scene {
 
     for (let attempt = 0; attempt < MAX_RECONNECT_ATTEMPTS; attempt++) {
       const attemptDisplay = attempt + 1;
-      EventBus.emit(EVENT_BUS.RECONNECTION_ATTEMPT, attemptDisplay);
+      EventBus.emit(EVENT_BUS.TOAST_INFO, `Reconnecting... (${attemptDisplay})`);
 
       try {
         const newRoom = await this.client.reconnect(reconnectToken);
@@ -450,7 +450,7 @@ export class Game extends Scene {
         this.setupRoomEventListeners();
         // store the new reconnection token for future reconnection
         this.storeReconnectionToken(newRoom.reconnectionToken);
-        EventBus.emit(EVENT_BUS.RECONNECTION_SUCCESS);
+        EventBus.emit(EVENT_BUS.TOAST_SUCCESS, 'Reconnection successful!');
         return true;
       } catch (error) {
         console.warn(`Reconnection attempt ${attemptDisplay} failed:`, error);

@@ -37,7 +37,7 @@ export const NewPasswordForm = ({ profileRedirectPath = AUTH_ROUTES.PROFILE }: N
     try {
       const { error } = await newPassword(password);
       if (error) {
-        toast.error(error.message);
+        toast.error(error.message || 'Unknown error while updating password');
         return;
       }
       toast.success('Password updated successfully');

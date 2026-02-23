@@ -9,10 +9,10 @@ export const EventBus = new Events.EventEmitter();
 export const EVENT_BUS = {
   CURRENT_SCENE_READY: 'current-scene-ready',
   GAME_START: 'game-start',
-  JOIN_ERROR: 'join-error',
   PROFILE_OPEN: 'menu-open__profile',
   SETTINGS_OPEN: 'menu-open__settings',
   COIN_OPEN: 'coin-open',
-  RECONNECTION_ATTEMPT: 'reconnection-attempt',
-  RECONNECTION_SUCCESS: 'reconnection-success',
+  TOAST_INFO: 'toast-info',
+  TOAST_SUCCESS: 'toast-success',
+  TOAST_ERROR: 'toast-error',
 } as const;

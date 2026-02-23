@@ -56,7 +56,7 @@ export const AuthRedirect = () => {
       }
       navigate(webUrl, { replace: true });
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      const errorMessage = error instanceof Error && error.message ? error.message : 'Unknown error';
       toast.error(`Error: ${errorMessage}`);
       navigate(WEB_PATH_FALLBACK, { replace: true });
     }
