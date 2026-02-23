@@ -68,7 +68,7 @@ export const Game = () => {
     if (!session?.access_token) return;
 
     const scene = phaserRef?.current?.scene as GameScene;
-    scene?.refreshToken?.({ token: session.access_token });
+    scene?.roomSystem?.refreshToken?.({ token: session.access_token });
   }, [session]);
 
   useEffect(() => {
@@ -109,6 +109,23 @@ export const Game = () => {
   useEffect(() => {
     phaserRef?.current?.game?.sound.setVolume(volume / 100);
   }, [volume]);
+
+  // handle removing clients that are connected to dead rooms
+  useEffect(() => {
+    const handleFocus = async () => {
+      const scene = phaserRef?.current?.scene as GameScene;
+      if (!scene?.roomSystem?.room) return;
+
+      const isAlive = await scene.roomSystem.isConnectionAlive();
+
+      if (!scene.roomSystem.room.connection.isOpen || !isAlive) {
+        scene.sendToMainMenu('Connection lost. Please try again.');
+      }
+    };
+
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, []);
 
   return (
     <>
