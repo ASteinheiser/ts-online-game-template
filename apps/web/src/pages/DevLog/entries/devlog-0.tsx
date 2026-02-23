@@ -27,7 +27,7 @@ export const DevLogEntry0 = () => {
           download button and auth)
         </li>
         <li>
-          Do it all in a monorepo so you can easily share UI, game logic, or anything really across
+          Do it all in a monorepo so you can easily share UI, game logic, or anything really across{' '}
           <code>apps</code>
         </li>
         <li>
