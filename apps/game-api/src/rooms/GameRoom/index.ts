@@ -128,8 +128,8 @@ export class GameRoom extends Room {
   fixedTick() {
     this.state.players.forEach((player, sessionId) => {
       const client = this.clients.getById(sessionId);
-      // only process players that are still connected (and properly set up)
-      if (!client?.view) return;
+      // only process players that are still connected
+      if (!client) return;
 
       try {
         this.playerInput.processPlayerInput(player, (input) => {
