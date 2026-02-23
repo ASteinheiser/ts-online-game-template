@@ -35,6 +35,7 @@ export class PlayerCombat {
       player.isAttacking = true;
       player.attackCount++;
       player.lastAttackTime = currentTime;
+      RESULTS[this.room.roomId][player.userId].attackCount++;
     } else {
       player.isAttacking = false;
     }

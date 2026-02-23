@@ -1,6 +1,6 @@
 import { MAP_SIZE, PLAYER_SIZE, calculateMovement, type InputPayload, type Player } from '@repo/core-game';
 import { logger } from '../../../logger';
-import type { GameRoom } from '../index';
+import { RESULTS, type GameRoom } from '../index';
 
 export class PlayerMovement {
   constructor(private room: GameRoom) {}
@@ -21,6 +21,13 @@ export class PlayerMovement {
     }
 
     this.room.state.players.set(clientId, player);
+
+    if (!RESULTS[this.room.roomId]) RESULTS[this.room.roomId] = {};
+    RESULTS[this.room.roomId][player.userId] = {
+      username: player.username,
+      attackCount: player.attackCount,
+      killCount: player.killCount,
+    };
   }
 
   public handleInput(player: Player, input: InputPayload) {
