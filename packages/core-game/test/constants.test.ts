@@ -2,15 +2,12 @@ import { describe, it, expect } from 'vitest';
 import { PLAYER_MOVE_SPEED, PLAYER_SIZE, FIXED_TIME_STEP, MAP_SIZE } from '../src/constants';
 
 describe('constants', () => {
-  describe('game', () => {
+  describe('world', () => {
     describe('FIXED_TIME_STEP', () => {
       it('should be a number', () => {
         expect(typeof FIXED_TIME_STEP).toBe('number');
       });
     });
-  });
-
-  describe('map', () => {
     describe('MAP_SIZE', () => {
       it('should be an object', () => {
         expect(typeof MAP_SIZE).toBe('object');
