@@ -22,12 +22,14 @@ import {
   InputSchema,
   type AuthPayload,
   type InputPayload,
+  GameRoomState,
+  Player,
+  Enemy,
 } from '@repo/core-game';
 import type { PrismaClient, Profile } from '../../repo/prisma-client/client';
 import { validateJwt } from '../../auth/jwt';
 import { logger } from '../../logger';
 import { ROOM_ERROR } from '../error';
-import { GameRoomState, Player, Enemy } from './roomState';
 
 const MAX_PLAYERS_PER_ROOM = 10;
 /** This is the speed at which we stream updates to the client.
@@ -64,9 +66,9 @@ export class GameRoom extends Room {
   elapsedTime = 0;
   lastEnemySpawnTime = 0;
 
-  prisma: PrismaClient;
+  prisma!: PrismaClient;
 
-  connectionCheckTimeout: NodeJS.Timeout;
+  connectionCheckTimeout?: NodeJS.Timeout;
   reconnectionTimeout = RECONNECTION_TIMEOUT;
   expectingReconnections = new Set<string>();
   forcedDisconnects = new Set<string>();
@@ -176,14 +178,14 @@ export class GameRoom extends Room {
             player.attackDamageFrameY = player.y - ATTACK_OFFSET_Y;
 
             // check if the attack hit an enemy
-            for (const enemy of this.state.enemies) {
+            for (const [enemyId, enemy] of this.state.enemies) {
               if (
                 enemy.x - ENEMY_SIZE.width / 2 < player.attackDamageFrameX + ATTACK_SIZE.width / 2 &&
                 enemy.x + ENEMY_SIZE.width / 2 > player.attackDamageFrameX - ATTACK_SIZE.width / 2 &&
                 enemy.y - ENEMY_SIZE.height / 2 < player.attackDamageFrameY + ATTACK_SIZE.height / 2 &&
                 enemy.y + ENEMY_SIZE.height / 2 > player.attackDamageFrameY - ATTACK_SIZE.height / 2
               ) {
-                this.state.enemies.splice(this.state.enemies.indexOf(enemy), 1);
+                this.state.enemies.delete(enemyId);
                 player.killCount++;
                 RESULTS[this.roomId][player.userId].killCount++;
               }
@@ -217,7 +219,7 @@ export class GameRoom extends Room {
 
     const canSpawn = Date.now() >= this.lastEnemySpawnTime + ENEMY_SPAWN_RATE;
 
-    if (this.state.enemies.length < MAX_ENEMIES && canSpawn) {
+    if (this.state.enemies.size < MAX_ENEMIES && canSpawn) {
       this.lastEnemySpawnTime = Date.now();
 
       const enemy = new Enemy();
@@ -225,7 +227,7 @@ export class GameRoom extends Room {
       enemy.x = Math.random() * MAP_SIZE.width;
       enemy.y = Math.random() * MAP_SIZE.height;
 
-      this.state.enemies.push(enemy);
+      this.state.enemies.set(enemy.id, enemy);
     }
 
     // move the enemies randomly

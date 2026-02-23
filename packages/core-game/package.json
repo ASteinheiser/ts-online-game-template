@@ -36,6 +36,7 @@
     "vitest": "catalog:"
   },
   "dependencies": {
+    "@colyseus/schema": "catalog:",
     "zod": "catalog:"
   }
 }

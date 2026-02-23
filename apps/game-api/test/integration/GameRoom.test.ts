@@ -10,9 +10,9 @@ import {
   INACTIVITY_TIMEOUT,
   PLAYER_MOVE_SPEED,
   type InputPayload,
+  Player,
 } from '@repo/core-game';
 import type { GameRoom } from '../../src/rooms/GameRoom';
-import { Player } from '../../src/rooms/GameRoom/roomState';
 import { makeApp } from '../../src/app.config';
 import { ROOM_ERROR } from '../../src/rooms/error';
 import { prisma } from '../../src/repo/client';
@@ -155,8 +155,8 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       const reconnectionToken = client.reconnectionToken;
 
       const room = getRoom(client.roomId);
-      room.state.players.get(client.sessionId).attackCount = 100;
-      room.state.players.get(client.sessionId).killCount = 50;
+      room.state.players.get(client.sessionId)!.attackCount = 100;
+      room.state.players.get(client.sessionId)!.killCount = 50;
       // get a snapshot of the player state
       const oldPlayer = room.state.toJSON().players[client.sessionId];
 
@@ -217,8 +217,8 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       const client = await joinTestRoom({ server, token: generateTestJWT({}) });
       const room = getRoom(client.roomId);
 
-      room.state.players.get(client.sessionId).attackCount = 100;
-      room.state.players.get(client.sessionId).killCount = 50;
+      room.state.players.get(client.sessionId)!.attackCount = 100;
+      room.state.players.get(client.sessionId)!.killCount = 50;
       // get a snapshot of the player state
       const oldPlayer = room.state.toJSON().players[client.sessionId];
 
@@ -308,8 +308,8 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       const client = await joinTestRoom({ server, token: generateTestJWT({}) });
       const room = getRoom(client.roomId);
 
-      room.state.players.get(client.sessionId).attackCount = 100;
-      room.state.players.get(client.sessionId).killCount = 50;
+      room.state.players.get(client.sessionId)!.attackCount = 100;
+      room.state.players.get(client.sessionId)!.killCount = 50;
       // get a snapshot of the player state
       const oldPlayer = room.state.toJSON().players[client.sessionId];
 
@@ -374,7 +374,7 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
 
       assertBasicPlayerState({ room, clientIds: [client.sessionId] });
 
-      room.state.players.get(client.sessionId).inputQueue = null;
+      room.state.players.get(client.sessionId)!.inputQueue = null as unknown as InputPayload[];
       await room.waitForNextSimulationTick();
 
       assert.strictEqual(room.forcedDisconnects.size, 0);
@@ -416,7 +416,7 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
 
       assertBasicPlayerState({ room, clientIds: [client.sessionId] });
 
-      room.state.players.get(client.sessionId).tokenExpiresAt = Date.now();
+      room.state.players.get(client.sessionId)!.tokenExpiresAt = Date.now();
       await client.send(WS_EVENT.REFRESH_TOKEN, { token: generateTestJWT({}) });
       await waitForConnectionCheck();
 
@@ -524,7 +524,7 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
 
       assertBasicPlayerState({ room, clientIds: [client.sessionId] });
 
-      room.state.players.get(client.sessionId).tokenExpiresAt = Date.now();
+      room.state.players.get(client.sessionId)!.tokenExpiresAt = Date.now();
       await waitForConnectionCheck();
 
       assert.strictEqual(room.expectingReconnections.size, 0);
@@ -541,8 +541,8 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
         clientIds: [client1.sessionId, client2.sessionId],
       });
 
-      room.state.players.get(client1.sessionId).lastActivityTime = Date.now() - INACTIVITY_TIMEOUT;
-      room.state.players.get(client2.sessionId).lastActivityTime = Date.now() - INACTIVITY_TIMEOUT;
+      room.state.players.get(client1.sessionId)!.lastActivityTime = Date.now() - INACTIVITY_TIMEOUT;
+      room.state.players.get(client2.sessionId)!.lastActivityTime = Date.now() - INACTIVITY_TIMEOUT;
       await waitForConnectionCheck();
 
       assert.strictEqual(room.expectingReconnections.size, 2);
@@ -607,7 +607,7 @@ interface AssertPlayerFieldsStateArgs {
 }
 /** Asserts that the player has the correct fields */
 const assertPlayerFieldsState = ({ room, playerId, expectedPlayer }: AssertPlayerFieldsStateArgs) => {
-  const actualPlayer = room.state.players.get(playerId);
+  const actualPlayer = room.state.players.get(playerId)!;
 
   assert.strictEqual(actualPlayer.x, expectedPlayer.x);
   assert.strictEqual(actualPlayer.y, expectedPlayer.y);

@@ -63,7 +63,7 @@
     "@colyseus/core": "^0.17.31",
     "@colyseus/monitor": "^0.17.7",
     "@colyseus/playground": "^0.17.9",
-    "@colyseus/schema": "^4.0.8",
+    "@colyseus/schema": "catalog:",
     "@colyseus/tools": "^0.17.16",
     "@colyseus/ws-transport": "^0.17.9",
     "@prisma/adapter-pg": "catalog:",
