@@ -5,6 +5,7 @@ import {
   type InputPayload,
   type Player as ServerPlayer,
 } from '@repo/core-game';
+import { EventBus, EVENT_BUS } from '../EventBus';
 import { Player } from '../objects/Player';
 import { PunchBox } from '../objects/PunchBox';
 import type { Game } from '../scenes/Game';
@@ -87,6 +88,7 @@ export class PlayerSystem {
 
     $(player).onChange(() => {
       this.handleDebugFieldsUpdated(player);
+      this.handleKillCountUpdated(player);
       this.handleServerReconciliation(player);
     });
   };
@@ -99,6 +101,17 @@ export class PlayerSystem {
 
     if (player.attackDamageFrameX !== undefined && player.attackDamageFrameY !== undefined) {
       new PunchBox(this.scene, player.attackDamageFrameX, player.attackDamageFrameY, 0x0000ff);
+    }
+  }
+
+  /** Shows a coin modal when the player kills an enemy */
+  private handleKillCountUpdated(player: ServerPlayer) {
+    if (!this.currentPlayer) return;
+
+    if (this.currentPlayer.killCount !== player.killCount) {
+      this.currentPlayer.hit();
+      this.currentPlayer.killCount = player.killCount;
+      EventBus.emit(EVENT_BUS.COIN_OPEN);
     }
   }
 
