@@ -5,7 +5,7 @@ export const DevLogEntry1 = () => {
   return (
     <DevLogEntry id={0} title="The Vision" date="February 22, 2026" author="Andrew Steinheiser">
       <p>
-        So initially, I was going to leave this DevLog section on the template blank (lorem ipsum
+        So initially, I was going to leave this DevLog section on the template blank (<i>lorem ipsum</i>{' '}
         placeholder), but I decided I might as well write a little about what&apos;s going on with this
         project.
       </p>
@@ -21,14 +21,14 @@ export const DevLogEntry1 = () => {
       <p>
         Here is a <i>rough</i> list of my motivations and goals for this template:
       </p>
-      <ul className="list-disc pl-10 marker:content-['➤___']">
+      <ul className="list-disc pl-10 space-y-3 marker:content-['➤___']">
         <li>
           Create a desktop app (the game client), game server, and marketing site (with developer log,
           download button and auth)
         </li>
         <li>
           Do it all in a monorepo so you can easily share UI, game logic, or anything really across
-          &quot;apps&quot;
+          <code>apps</code>
         </li>
         <li>
           Create a more robust Phaser + Colyseus starter, which includes a &quot;Client Side Prediction and
@@ -37,23 +37,25 @@ export const DevLogEntry1 = () => {
         </li>
         <li>
           Clean slate to make whatever kind of game; which means you will need to BYOS (bring your own
-          systems), such as `miniplex` (ECS), etc. Make a classic mmorpg or maybe a card game! Whatever you
-          want!
+          systems), such as <code>miniplex</code> (ECS), etc. Make a classic mmorpg or maybe a card game!
+          Whatever you want!
         </li>
         <li>
           Complete CI/CD flow that allows you to deploy and test your game live from day 1, with instructions
           on how to set it all up
         </li>
         <li>Keep the hosting costs low, especially at the start</li>
-        <li>Test suites setup for each &quot;app&quot; and &quot;package&quot; in the monorepo</li>
+        <li>
+          Test suites setup for each <code>app</code> and <code>package</code> in the monorepo
+        </li>
         <li>
           Ensure fewer UI/visual bugs by leaning on Electron; all game clients will be running Chromium and
           built for Windows, macOS and Linux
         </li>
         <li>
           Ensure a consistent auth experience for users across the marketing site and desktop app (including
-          deep links). Currently, I use Supabase, but you could easily swap it out in the `client-auth`
-          package.
+          deep links). Currently, I use Supabase, but you could easily swap it out in the{' '}
+          <code>client-auth</code> package.
         </li>
       </ul>
     </DevLogEntry>
