@@ -146,7 +146,7 @@ export class RoomSystem {
     switch (code) {
       case WS_CODE.SUCCESS:
         this.clearStoredReconnectionToken();
-        this.scene.sendToGameOver();
+        await this.scene.sendToGameOver();
         break;
       case WS_CODE.INTERNAL_SERVER_ERROR:
       case WS_CODE.BAD_REQUEST:

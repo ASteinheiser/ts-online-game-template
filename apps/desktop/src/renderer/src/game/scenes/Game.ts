@@ -1,4 +1,7 @@
 import { FIXED_TIME_STEP, type AuthPayload } from '@repo/core-game';
+import { gql } from '@apollo/client';
+import { client } from '../../graphql/client';
+import type { Desktop_GetGameResultsQuery, Desktop_GetGameResultsQueryVariables } from '../../graphql';
 import { EventBus, EVENT_BUS } from '../EventBus';
 import { SCENE } from '../constants';
 import { RoomSystem } from '../systems/RoomSystem';
@@ -92,9 +95,32 @@ export class Game extends Phaser.Scene {
     this.scene.start(SCENE.MAIN_MENU);
   }
 
-  public sendToGameOver() {
+  public async sendToGameOver() {
+    const roomId = this.roomSystem.room?.roomId;
+    if (!roomId) return;
+
+    const gameResults = await this.getGameResults(roomId);
+
     this.roomSystem.cleanupRoom();
     this.cleanupScene();
-    this.scene.start(SCENE.GAME_OVER);
+    this.scene.start(SCENE.GAME_OVER, { gameResults });
+  }
+
+  private async getGameResults(roomId: string) {
+    const { data } = await client.query<Desktop_GetGameResultsQuery, Desktop_GetGameResultsQueryVariables>({
+      variables: { roomId },
+      fetchPolicy: 'network-only',
+      query: gql`
+        query Desktop_GetGameResults($roomId: String!) {
+          gameResults(roomId: $roomId) {
+            username
+            attackCount
+            killCount
+          }
+        }
+      `,
+    });
+
+    return data?.gameResults ?? [];
   }
 }
