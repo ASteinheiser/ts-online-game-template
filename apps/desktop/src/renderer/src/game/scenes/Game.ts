@@ -70,6 +70,7 @@ export class Game extends Phaser.Scene {
 
     this.playerSystem.interpolateLocalPlayer(delta, this.elapsedTime);
     this.remotePlayerSystem.interpolateRemotePlayers(delta);
+    this.enemySystem.interpolateEnemies(delta);
 
     this.uiSystem?.fpsDisplay.update(delta);
   }

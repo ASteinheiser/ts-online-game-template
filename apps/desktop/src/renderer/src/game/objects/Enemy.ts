@@ -2,8 +2,10 @@ import { ENEMY_SIZE } from '@repo/core-game';
 import { ASSET } from '../constants';
 
 export class Enemy {
-  private entity: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+  public entity: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
   private hitbox: Phaser.GameObjects.Rectangle;
+  public serverX?: number;
+  public serverY?: number;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     this.entity = scene.physics.add.sprite(x, y, ASSET.ENEMY);
