@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { DevLogEntry } from '../../../components/DevLogEntry';
 
-export const DevLogEntry1 = () => {
+export const DevLogEntry0 = () => {
   return (
     <DevLogEntry id={0} title="The Vision" date="February 22, 2026" author="Andrew Steinheiser">
       <p>
