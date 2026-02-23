@@ -56,14 +56,14 @@ export const makeApp = ({
        */
       if (!isProduction) {
         app.use(API_ROUTES.PLAYGROUND, playground());
-      }
 
-      /**
-       * Use @colyseus/monitor
-       * It is recommended to protect this route with a password
-       * Read more: https://docs.colyseus.io/tools/monitor/#restrict-access-to-the-panel-using-a-password
-       */
-      app.use(API_ROUTES.MONITOR, monitor());
+        /**
+         * Use @colyseus/monitor
+         * It is recommended to protect this route with a password
+         * Read more: https://docs.colyseus.io/tools/monitor/#restrict-access-to-the-panel-using-a-password
+         */
+        app.use(API_ROUTES.MONITOR, monitor());
+      }
     },
 
     beforeListen: () => {
