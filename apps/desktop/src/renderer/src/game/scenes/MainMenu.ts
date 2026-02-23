@@ -1,10 +1,9 @@
-import { Scene, Scenes } from 'phaser';
 import type { AuthPayload } from '@repo/core-game';
 import { EventBus, EVENT_BUS } from '../EventBus';
 import { CustomText } from '../objects/CustomText';
 import { ASSET, SCENE } from '../constants';
 
-export class MainMenu extends Scene {
+export class MainMenu extends Phaser.Scene {
   constructor() {
     super(SCENE.MAIN_MENU);
   }
@@ -67,14 +66,14 @@ export class MainMenu extends Scene {
 
     layout();
     this.scale.on(Phaser.Scale.Events.RESIZE, layout);
-    this.events.once(Scenes.Events.SHUTDOWN, () => {
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.scale.off(Phaser.Scale.Events.RESIZE, layout);
     });
 
     EventBus.emit(EVENT_BUS.CURRENT_SCENE_READY, this);
   }
 
-  startGame({ token }: AuthPayload) {
+  public startGame({ token }: AuthPayload) {
     this.scene.start(SCENE.GAME, { token });
   }
 }

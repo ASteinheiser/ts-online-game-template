@@ -1,8 +1,7 @@
-import { Scene, Scenes } from 'phaser';
 import background from '../../assets/bg.png';
 import { ASSET, SCENE } from '../constants';
 
-export class Boot extends Scene {
+export class Boot extends Phaser.Scene {
   constructor() {
     super(SCENE.BOOT);
   }
@@ -24,7 +23,7 @@ export class Boot extends Scene {
 
     layout();
     this.scale.on(Phaser.Scale.Events.RESIZE, layout);
-    this.events.once(Scenes.Events.SHUTDOWN, () => {
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.scale.off(Phaser.Scale.Events.RESIZE, layout);
     });
 

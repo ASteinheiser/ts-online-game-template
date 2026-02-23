@@ -1,10 +1,9 @@
-import { Scene, Scenes } from 'phaser';
 import { EventBus, EVENT_BUS } from '../EventBus';
 import { CustomText } from '../objects/CustomText';
 import { ASSET, SCENE } from '../constants';
 
-export class GameOver extends Scene {
-  cursorKeys?: Phaser.Types.Input.Keyboard.CursorKeys;
+export class GameOver extends Phaser.Scene {
+  private cursorKeys?: Phaser.Types.Input.Keyboard.CursorKeys;
 
   constructor() {
     super(SCENE.GAME_OVER);
@@ -65,7 +64,7 @@ export class GameOver extends Scene {
 
     layout();
     this.scale.on(Phaser.Scale.Events.RESIZE, layout);
-    this.events.once(Scenes.Events.SHUTDOWN, () => {
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.scale.off(Phaser.Scale.Events.RESIZE, layout);
     });
 
@@ -78,7 +77,7 @@ export class GameOver extends Scene {
     }
   }
 
-  changeScene() {
+  public changeScene() {
     this.scene.start(SCENE.MAIN_MENU);
   }
 }

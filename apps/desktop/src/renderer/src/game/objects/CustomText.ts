@@ -1,8 +1,7 @@
-import { GameObjects } from 'phaser';
-
-export class CustomText extends GameObjects.Text {
-  color: string | CanvasGradient | CanvasPattern;
-  bounceTween?: Phaser.Tweens.Tween;
+/** Applies a default style to the text. Can also add animations and interactions. */
+export class CustomText extends Phaser.GameObjects.Text {
+  private color: string | CanvasGradient | CanvasPattern;
+  private bounceTween?: Phaser.Tweens.Tween;
 
   constructor(
     scene: Phaser.Scene,
@@ -23,14 +22,14 @@ export class CustomText extends GameObjects.Text {
     const mergedStyle = { ...defaultStyle, ...style };
 
     super(scene, x, y, text, mergedStyle);
-    this.setDepth(100);
+    this.setDepth(103);
 
     this.color = mergedStyle.color as string;
 
     scene.add.existing(this);
   }
 
-  bounce(height = 10, duration = 1000): this {
+  public bounce(height = 10, duration = 1000): this {
     if (this.bounceTween) {
       this.bounceTween.stop();
       this.bounceTween.destroy();
@@ -48,7 +47,7 @@ export class CustomText extends GameObjects.Text {
     return this;
   }
 
-  typeWriter(speed = 50): this {
+  public typeWriter(speed = 50): this {
     const fullText = String(this.text);
     this.text = '';
 
@@ -69,7 +68,7 @@ export class CustomText extends GameObjects.Text {
     return this;
   }
 
-  makeButton(hoverColor = '#ff00ff', callback = () => {}): this {
+  public makeButton(hoverColor = '#ff00ff', callback = () => {}): this {
     this.setInteractive({ useHandCursor: true })
       .on('pointerover', () => {
         this.setColor(hoverColor);
@@ -82,7 +81,7 @@ export class CustomText extends GameObjects.Text {
     return this;
   }
 
-  fadeIn(duration = 500, delay = 0): this {
+  public fadeIn(duration = 500, delay = 0): this {
     this.setAlpha(0);
     this.scene.tweens.add({
       targets: this,
@@ -94,7 +93,7 @@ export class CustomText extends GameObjects.Text {
     return this;
   }
 
-  fadeOut(duration = 500): this {
+  public fadeOut(duration = 500): this {
     this.scene.tweens.add({
       targets: this,
       alpha: 0,
