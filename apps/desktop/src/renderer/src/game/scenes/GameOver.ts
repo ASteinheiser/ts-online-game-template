@@ -1,3 +1,4 @@
+import type { Desktop_GetGameResultsQuery } from '../../graphql';
 import { EventBus, EVENT_BUS } from '../EventBus';
 import { CustomText } from '../objects/CustomText';
 import { ASSET, SCENE } from '../constants';
@@ -13,11 +14,7 @@ export class GameOver extends Phaser.Scene {
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
   }
 
-  create({
-    gameResults,
-  }: {
-    gameResults: Array<{ username: string; attackCount: number; killCount: number }>;
-  }) {
+  create({ gameResults }: { gameResults: NonNullable<Desktop_GetGameResultsQuery['gameResults']> }) {
     this.cameras.main.setBackgroundColor(0xff0000);
 
     const bg = this.add.image(0, 0, ASSET.BACKGROUND).setAlpha(0.5).setOrigin(0.5);
