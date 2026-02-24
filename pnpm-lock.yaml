@@ -12,6 +12,9 @@ catalogs:
     '@apollo/server':
       specifier: ^5.2.0
       version: 5.4.0
+    '@colyseus/schema':
+      specifier: ^4.0.8
+      version: 4.0.8
     '@colyseus/sdk':
       specifier: ^0.17.26
       version: 0.17.26
@@ -307,7 +310,7 @@ importers:
         specifier: ^0.17.9
         version: 0.17.10(@colyseus/auth@0.17.6(@colyseus/core@0.17.32)(express@5.2.1))(@colyseus/core@0.17.32)(express@5.2.1)(zod@4.3.6)
       '@colyseus/schema':
-        specifier: ^4.0.8
+        specifier: 'catalog:'
         version: 4.0.8(typescript@5.9.3)
       '@colyseus/tools':
         specifier: ^0.17.16
@@ -573,6 +576,9 @@ importers:
 
   packages/core-game:
     dependencies:
+      '@colyseus/schema':
+        specifier: 'catalog:'
+        version: 4.0.8(typescript@5.9.3)
       zod:
         specifier: 'catalog:'
         version: 4.3.6

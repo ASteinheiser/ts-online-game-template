@@ -1,14 +1,5 @@
 import { PLAYER_MOVE_SPEED, MAP_SIZE } from './constants';
-
-export interface EntityPosition {
-  x: number;
-  y: number;
-}
-
-export interface EntitySize {
-  width: number;
-  height: number;
-}
+import type { Rectangle, EntityPosition } from './types';
 
 export interface MovementInput {
   left: boolean;
@@ -17,7 +8,7 @@ export interface MovementInput {
   down: boolean;
 }
 
-export type CalculateMovementArgs = EntityPosition & EntitySize & MovementInput;
+export type CalculateMovementArgs = Rectangle & MovementInput;
 export type CalculateMovementResult = EntityPosition;
 
 export const calculateMovement = ({

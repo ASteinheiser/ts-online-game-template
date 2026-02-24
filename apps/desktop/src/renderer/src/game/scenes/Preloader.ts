@@ -1,4 +1,3 @@
-import { Loader, Scene, Scenes } from 'phaser';
 import { PLAYER_FRAME_RATE, PLAYER_SIZE, ENEMY_SIZE } from '@repo/core-game';
 import enemy from '../../assets/evil-dude.png';
 import player from '../../assets/muscle-duck-sprite.png';
@@ -11,7 +10,7 @@ const PROGRESS_BAR_WIDTH = 468;
 const PROGRESS_BAR_HEIGHT = 32;
 const PROGRESS_BAR_PADDING = 4;
 
-export class Preloader extends Scene {
+export class Preloader extends Phaser.Scene {
   constructor() {
     super(SCENE.PRELOADER);
   }
@@ -35,11 +34,11 @@ export class Preloader extends Scene {
 
     layout();
     this.scale.on(Phaser.Scale.Events.RESIZE, layout);
-    this.events.once(Scenes.Events.SHUTDOWN, () => {
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.scale.off(Phaser.Scale.Events.RESIZE, layout);
     });
 
-    this.load.on(Loader.Events.PROGRESS, (progress: number) => {
+    this.load.on(Phaser.Loader.Events.PROGRESS, (progress: number) => {
       progressFill.width = (PROGRESS_BAR_WIDTH - PROGRESS_BAR_PADDING) * progress;
     });
   }

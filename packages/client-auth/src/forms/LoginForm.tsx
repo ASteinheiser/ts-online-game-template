@@ -33,7 +33,7 @@ export const LoginForm = ({ loginRedirectPath }: LoginFormProps) => {
     try {
       const { error } = await login(email, password);
       if (error) {
-        toast.error(error.message);
+        toast.error(error.message || 'Unknown error while logging in');
         return;
       }
       navigate(loginRedirectPath);

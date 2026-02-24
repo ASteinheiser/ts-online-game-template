@@ -2,8 +2,10 @@ import { ENEMY_SIZE } from '@repo/core-game';
 import { ASSET } from '../constants';
 
 export class Enemy {
-  entity: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
-  hitbox: Phaser.GameObjects.Rectangle;
+  public entity: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+  private hitbox: Phaser.GameObjects.Rectangle;
+  public serverX?: number;
+  public serverY?: number;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     this.entity = scene.physics.add.sprite(x, y, ASSET.ENEMY);
@@ -11,15 +13,15 @@ export class Enemy {
     this.hitbox.setStrokeStyle(1, 0xff00ff);
   }
 
-  move(x: number, y: number) {
+  public destroy() {
+    this.entity.destroy();
+    this.hitbox.destroy();
+  }
+
+  public move(x: number, y: number) {
     this.entity.x = x;
     this.entity.y = y;
     this.hitbox.x = x;
     this.hitbox.y = y;
-  }
-
-  destroy() {
-    this.entity.destroy();
-    this.hitbox.destroy();
   }
 }

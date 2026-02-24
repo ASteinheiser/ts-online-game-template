@@ -1,4 +1,4 @@
-import { AUTO, Game, Scale } from 'phaser';
+import { AUTO, Game } from 'phaser';
 import { Boot } from './scenes/Boot';
 import { Preloader } from './scenes/Preloader';
 import { MainMenu } from './scenes/MainMenu';
@@ -12,7 +12,7 @@ const config: Phaser.Types.Core.GameConfig = {
   scene: [Boot, Preloader, MainMenu, MainGame, GameOver],
   pixelArt: true,
   scale: {
-    mode: Scale.RESIZE,
+    mode: Phaser.Scale.RESIZE,
   },
   physics: {
     default: 'arcade',

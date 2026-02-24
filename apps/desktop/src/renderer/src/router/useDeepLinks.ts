@@ -29,7 +29,7 @@ export const useDeepLinks = () => {
 
         navigate(`${redirectPath}${hash}`, { replace: true });
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        const errorMessage = error instanceof Error && error.message ? error.message : 'Unknown error';
         toast.error(`Invalid deep link: ${errorMessage}`);
       }
     });

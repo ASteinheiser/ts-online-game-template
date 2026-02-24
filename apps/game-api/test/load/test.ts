@@ -1,8 +1,7 @@
 import 'dotenv/config';
 import { Client } from '@colyseus/sdk';
 import { cli, type Options } from '@colyseus/loadtest';
-import { WS_ROOM, WS_EVENT, type InputPayload } from '@repo/core-game';
-import type { GameRoomState } from '../../src/rooms/GameRoom/roomState';
+import { WS_ROOM, WS_EVENT, type InputPayload, type GameRoomState } from '@repo/core-game';
 import { prisma } from '../../src/repo/client';
 import { generateTestJWT, setupTestDb, cleanupTestDb, TEST_USERS } from '../integration/utils';
 
@@ -37,6 +36,7 @@ export async function main(options: Options) {
   let killCount = 0;
   room.onStateChange((state) => {
     const player = state.players.get(room.sessionId);
+    if (!player) return;
 
     if (player.killCount > killCount) {
       killCount = player.killCount;
@@ -56,7 +56,7 @@ export async function main(options: Options) {
       }
     });
 
-    const closestEnemy = state.enemies.find((enemy) => enemiesTracked[player.userId] === enemy.id);
+    const closestEnemy = state.enemies.get(enemiesTracked[player.userId]);
     if (closestEnemy) {
       const input: InputPayload = {
         seq: 0,

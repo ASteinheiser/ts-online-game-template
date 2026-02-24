@@ -31,7 +31,7 @@ export const ForgotPasswordForm = () => {
       if (error?.message.includes(SUPABASE_AUTH.ERROR.EMAIL_ALREADY_SENT)) {
         toast.success('Please check your email for a password reset link');
       } else if (error) {
-        toast.error(error.message);
+        toast.error(error.message || 'Unknown error while sending reset email');
       } else {
         toast.success('Password reset email sent! Please check your inbox');
       }

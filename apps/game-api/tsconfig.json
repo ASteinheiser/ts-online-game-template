@@ -1,10 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@repo/typescript-config/vite.json",
-  "include": ["src", "test", "codegen.ts"],
-  "compilerOptions": {
-    "experimentalDecorators": true,
-    "strictNullChecks": false,
-    "useDefineForClassFields": false
-  }
+  "include": ["src", "test", "codegen.ts"]
 }

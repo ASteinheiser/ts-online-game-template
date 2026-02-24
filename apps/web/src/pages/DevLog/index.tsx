@@ -1,3 +1,4 @@
+import { DevLogEntry0 } from './entries/devlog-0';
 import { DevLogEntry1 } from './entries/devlog-1';
 
 export const DevLog = () => {
@@ -6,6 +7,7 @@ export const DevLog = () => {
       <h1 className="text-5xl sm:text-7xl text-center font-pixel text-primary">Developer Log</h1>
 
       <DevLogEntry1 />
+      <DevLogEntry0 />
     </div>
   );
 };

@@ -38,7 +38,7 @@ export const SignupForm = () => {
       if (error?.message.includes(SUPABASE_AUTH.ERROR.EMAIL_ALREADY_SENT)) {
         toast.success('Please check your email for a verification link');
       } else if (error) {
-        toast.error(error.message);
+        toast.error(error.message || 'Unknown error while signing up');
       }
       // this is the only way to check if the email is already in use via supabase auth
       else if (data?.user?.identities?.length === 0) {

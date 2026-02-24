@@ -1,61 +1,27 @@
-import { Link } from 'react-router-dom';
 import { DevLogEntry } from '../../../components/DevLogEntry';
 
 export const DevLogEntry1 = () => {
   return (
-    <DevLogEntry id={0} title="The Vision" date="February 22, 2026" author="Andrew Steinheiser">
+    <DevLogEntry id={1} title="Demo Cleanup" date="February 23, 2026" author="Andrew Steinheiser">
       <p>
-        So initially, I was going to leave this DevLog section on the template blank (lorem ipsum
-        placeholder), but I decided I might as well write a little about what&apos;s going on with this
-        project.
+        My goal with <code>v0.0.2</code> was to clean up the main client <code>Scene</code> and server{' '}
+        <code>Room</code> files. You should be able to jump right into setting up whatever{' '}
+        <code>Systems</code> you want now! I&apos;m starting to think that, even if you were going to set up
+        an ECS, you&apos;ll most likely still want some of the basic <code>Systems</code> in this template.
+        These handle things like room management, authentication, player input, etc.
       </p>
       <p>
-        My goal is to create a template that makes it easy to make real-time, online games using TypeScript!
-        I&apos;ll be using the template myself{' '}
-        <Link to="https://ore-rush.online" target="_blank" className="text-primary underline">
-          to make a game
-        </Link>
-        , and hope others might find it useful as well! I figure the more people using a similar setup will
-        lead to more information being shared, advancements made, etc.
+        The demo now features interpolated movement for the &quot;enemy&quot; entities as well as
+        &quot;local&quot; and &quot;remote&quot; player entities. This looks smooth across different FPS
+        limits (60fps vs 120fps). I also added a simple FPS display so you can monitor that in real-time. For
+        example, I noticed that my external monitors will cap the client at 60fps while my MacBook Pro&apos;s
+        display will run at 120fps. That quirk combined with Phaser&apos;s built-in way to limit FPS was very
+        useful for testing.
       </p>
       <p>
-        Here is a <i>rough</i> list of my motivations and goals for this template:
+        I hope the update makes it easier to understand the client and server code, and get started with your
+        online game dev journey!
       </p>
-      <ul className="list-disc pl-10 marker:content-['➤___']">
-        <li>
-          Create a desktop app (the game client), game server, and marketing site (with developer log,
-          download button and auth)
-        </li>
-        <li>
-          Do it all in a monorepo so you can easily share UI, game logic, or anything really across
-          &quot;apps&quot;
-        </li>
-        <li>
-          Create a more robust Phaser + Colyseus starter, which includes a &quot;Client Side Prediction and
-          Server Reconciliation&quot; demo. All game logic is run on the server, so clients simply send their
-          input (basic anti-cheat setup).
-        </li>
-        <li>
-          Clean slate to make whatever kind of game; which means you will need to BYOS (bring your own
-          systems), such as `miniplex` (ECS), etc. Make a classic mmorpg or maybe a card game! Whatever you
-          want!
-        </li>
-        <li>
-          Complete CI/CD flow that allows you to deploy and test your game live from day 1, with instructions
-          on how to set it all up
-        </li>
-        <li>Keep the hosting costs low, especially at the start</li>
-        <li>Test suites setup for each &quot;app&quot; and &quot;package&quot; in the monorepo</li>
-        <li>
-          Ensure fewer UI/visual bugs by leaning on Electron; all game clients will be running Chromium and
-          built for Windows, macOS and Linux
-        </li>
-        <li>
-          Ensure a consistent auth experience for users across the marketing site and desktop app (including
-          deep links). Currently, I use Supabase, but you could easily swap it out in the `client-auth`
-          package.
-        </li>
-      </ul>
     </DevLogEntry>
   );
 };
