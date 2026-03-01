@@ -13,6 +13,7 @@ export default defineConfig({
     },
     sourcemap: true,
     rollupOptions: {
+      external: ['@colyseus/schema', 'zod'],
       plugins: [
         typescript({
           target: 'esnext',

@@ -26,6 +26,7 @@
     "build": "vite build"
   },
   "devDependencies": {
+    "@colyseus/schema": "catalog:",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@rollup/plugin-typescript": "catalog:",
@@ -33,9 +34,10 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plugin-dts": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "zod": "catalog:"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@colyseus/schema": "catalog:",
     "zod": "catalog:"
   }

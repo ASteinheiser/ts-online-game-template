@@ -185,6 +185,9 @@ importers:
       '@apollo/client':
         specifier: 'catalog:'
         version: 4.1.4(graphql-ws@6.0.7(graphql@16.12.0)(ws@8.19.0))(graphql@16.12.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(rxjs@7.8.2)
+      '@colyseus/schema':
+        specifier: 'catalog:'
+        version: 4.0.8(typescript@5.9.3)
       '@colyseus/sdk':
         specifier: 'catalog:'
         version: 0.17.26(@colyseus/core@0.17.32)(typescript@5.9.3)(zod@4.3.6)
@@ -227,6 +230,9 @@ importers:
       three:
         specifier: 'catalog:'
         version: 0.182.0
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
     devDependencies:
       '@electron-toolkit/preload':
         specifier: ^3.0.2
@@ -351,6 +357,9 @@ importers:
       nanoid:
         specifier: 'catalog:'
         version: 5.1.6
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
     devDependencies:
       '@colyseus/loadtest':
         specifier: ^0.17.8
@@ -427,6 +436,9 @@ importers:
       '@apollo/client':
         specifier: 'catalog:'
         version: 4.1.4(graphql-ws@6.0.7(graphql@16.12.0)(ws@8.19.0))(graphql@16.12.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(rxjs@7.8.2)
+      '@colyseus/schema':
+        specifier: 'catalog:'
+        version: 4.0.8(typescript@5.9.3)
       '@repo/client-auth':
         specifier: workspace:*
         version: link:../../packages/client-auth
@@ -451,6 +463,9 @@ importers:
       rxjs:
         specifier: 'catalog:'
         version: 7.8.2
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
     devDependencies:
       '@graphql-codegen/cli':
         specifier: 'catalog:'
@@ -575,14 +590,10 @@ importers:
         version: 4.0.18(@types/node@24.10.11)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
 
   packages/core-game:
-    dependencies:
+    devDependencies:
       '@colyseus/schema':
         specifier: 'catalog:'
         version: 4.0.8(typescript@5.9.3)
-      zod:
-        specifier: 'catalog:'
-        version: 4.3.6
-    devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
@@ -607,6 +618,9 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.0.18(@types/node@24.10.11)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
 
   packages/eslint-config:
     devDependencies:
@@ -7242,6 +7256,7 @@ packages:
   tar@7.5.7:
     resolution: {integrity: sha512-fov56fJiRuThVFXD6o6/Q354S7pnWMJIVlDBYijsTNx6jKSE4pvrDTs6lUnmGvNyfJwFQQwWy3owKz1ucIhveQ==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   temp-dir@2.0.0:
     resolution: {integrity: sha512-aoBAniQmmwtcKp/7BzsH8Cxzv8OL736p7v1ihGb5e9DJ9kTwGWHrQrVB5+lfVDzfGrdRzXch+ig7LHaY1JTOrg==}

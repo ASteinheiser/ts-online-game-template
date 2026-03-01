@@ -76,6 +76,7 @@
     "express": "catalog:",
     "graphql": "catalog:",
     "jsonwebtoken": "catalog:",
-    "nanoid": "catalog:"
+    "nanoid": "catalog:",
+    "zod": "catalog:"
   }
 }

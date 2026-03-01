@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@apollo/client": "catalog:",
+    "@colyseus/schema": "catalog:",
     "@colyseus/sdk": "catalog:",
     "@react-three/drei": "catalog:",
     "@react-three/fiber": "catalog:",
@@ -40,7 +41,8 @@
     "react-dom": "catalog:",
     "react-router-dom": "catalog:",
     "rxjs": "catalog:",
-    "three": "catalog:"
+    "three": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@electron-toolkit/preload": "^3.0.2",
