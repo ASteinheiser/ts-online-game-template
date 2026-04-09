@@ -9,6 +9,7 @@ import { client } from './graphql/client';
 import { router } from './router';
 import './theme.css';
 
+// TOOD: update this with your own GA4 measurement ID or remove if you don't want to use Google Analytics
 ReactGA.initialize('G-2PW3QM6SMP');
 ReactGA.send({ hitType: 'pageview', page: '/', title: 'TS Online Game Template' });
 
