@@ -7,7 +7,7 @@ export default defineConfig({
     ssr: 'src/index.ts',
     target: 'node22',
     sourcemap: true,
-    rollupOptions: {
+    rolldownOptions: {
       output: { format: 'esm' },
       external: [
         ...builtinModules,

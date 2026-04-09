@@ -4,6 +4,7 @@
   "compilerOptions": {
     "noEmit": true,
     "resolveJsonModule": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "types": ["node"]
   }
 }

@@ -1,8 +1,12 @@
 import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import pluginReact from 'eslint-plugin-react';
+import { fixupPluginRules } from '@eslint/compat';
 
 import baseConfig, { ALL_JS_FILES } from './base.config.js';
+
+/** Patched for ESLint 10 (react plugin still uses removed context.getFilename, etc.) */
+const reactPlugin = fixupPluginRules(pluginReact);
 
 export default defineConfig([
   {
@@ -15,7 +19,7 @@ export default defineConfig([
   },
   {
     files: ['**/*.{jsx,tsx}'],
-    plugins: { react: pluginReact },
+    plugins: { react: reactPlugin },
     settings: {
       react: { version: 'detect' },
     },
