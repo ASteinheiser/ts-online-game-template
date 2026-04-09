@@ -28,6 +28,7 @@
     "graphql": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "react-ga4": "^3.0.1",
     "react-router-dom": "catalog:",
     "rxjs": "catalog:",
     "zod": "catalog:"
