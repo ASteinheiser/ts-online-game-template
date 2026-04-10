@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": "https://github.com/asteinheiser/ts-online-game-template",
   "author": "Andrew Steinheiser <me@iamandrew.io>",
   "license": "MIT",
@@ -28,6 +28,7 @@
     "graphql": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "react-ga4": "^3.0.1",
     "react-router-dom": "catalog:",
     "rxjs": "catalog:",
     "zod": "catalog:"
@@ -39,6 +40,7 @@
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@tailwindcss/vite": "catalog:",
+    "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vite-pwa/assets-generator": "^1.0.0",
@@ -47,7 +49,7 @@
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-plugin-pwa": "^1.0.0",
+    "vite-plugin-pwa": "^1.2.0",
     "vitest": "catalog:"
   }
 }

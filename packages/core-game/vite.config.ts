@@ -12,7 +12,7 @@ export default defineConfig({
       fileName: (format) => `index.${format}.js`,
     },
     sourcemap: true,
-    rollupOptions: {
+    rolldownOptions: {
       external: ['@colyseus/schema', 'zod'],
       plugins: [
         typescript({

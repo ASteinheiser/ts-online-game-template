@@ -1,6 +1,6 @@
 {
   "name": "@repo/core-game",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Andrew Steinheiser <me@iamandrew.io>",
   "license": "MIT",
   "private": false,
@@ -30,7 +30,9 @@
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@rollup/plugin-typescript": "catalog:",
+    "@types/node": "catalog:",
     "@vitest/coverage-v8": "catalog:",
+    "tslib": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plugin-dts": "catalog:",

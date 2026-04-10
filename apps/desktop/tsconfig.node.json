@@ -6,6 +6,6 @@
     "composite": true,
     "moduleResolution": "Bundler",
     "noEmit": true,
-    "types": ["electron-vite/node"]
+    "types": ["node", "electron-vite/node"]
   }
 }
