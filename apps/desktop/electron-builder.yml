@@ -15,6 +15,8 @@ files:
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
   - resources/**
+  - '**/node_modules/@dimforge/**'
+  - '**/node_modules/@types/**'
 win:
   azureSignOptions:
     endpoint: "https://eus.codesigning.azure.net"
