@@ -21,7 +21,7 @@ catalog:
   "@graphql-codegen/cli": ^6.1.0
   "@graphql-typed-document-node/core": ^3.2.0
   "@parcel/watcher": ^2.5.1
-  phaser: 4.0.0-rc.7
+  phaser: 4.0.0
   three: ^0.182.0
   "@types/three": ^0.182.0
   "@react-three/fiber": ^9.5.0

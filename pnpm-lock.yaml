@@ -115,8 +115,8 @@ catalogs:
       specifier: ^3.1.10
       version: 3.1.11
     phaser:
-      specifier: 4.0.0-rc.7
-      version: 4.0.0-rc.7
+      specifier: 4.0.0
+      version: 4.0.0
     prettier:
       specifier: ^3.8.1
       version: 3.8.1
@@ -217,7 +217,7 @@ importers:
         version: 16.12.0
       phaser:
         specifier: 'catalog:'
-        version: 4.0.0-rc.7
+        version: 4.0.0
       react:
         specifier: 'catalog:'
         version: 19.2.4
@@ -6690,8 +6690,8 @@ packages:
   pgpass@1.0.5:
     resolution: {integrity: sha512-FdW9r/jQZhSeohs1Z3sI1yxFQNFvMcnmfuj4WBMUTxOrAyLMaTcE1aAMBiTlbMNaXvBCQuVi0R7hd8udDSP7ug==}
 
-  phaser@4.0.0-rc.7:
-    resolution: {integrity: sha512-4ResXEPHK4+jBdrYdq6HtfSSmX6bvTIw3js6Y9p4nniYog4Y0CZxmZ+xabCNCFDE9vBj2D/mxexJ4TPObJ5WCg==}
+  phaser@4.0.0:
+    resolution: {integrity: sha512-f9oYpu3/UymB5JJDZRqOsNQm5FkMMC7u8eL8yQuqGAa54wTbgE2QbTOn70vgvlOVuYeQcw2mOQ52PpJHBSBkfQ==}
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -14885,7 +14885,7 @@ snapshots:
     dependencies:
       split2: 4.2.0
 
-  phaser@4.0.0-rc.7:
+  phaser@4.0.0:
     dependencies:
       eventemitter3: 5.0.4
 
