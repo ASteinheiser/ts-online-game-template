@@ -1,3 +1,4 @@
+import type * as Phaser from 'phaser';
 import { ATTACK_DAMAGE__DELAY, type EntityPosition } from '@repo/core-game';
 import { ASSET, SOUND } from '../constants';
 import { CustomText } from './CustomText';

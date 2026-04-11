@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import type { AuthPayload } from '@repo/core-game';
 import { EventBus, EVENT_BUS } from '../EventBus';
 import { CustomText } from '../objects/CustomText';

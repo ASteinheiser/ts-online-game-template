@@ -1,3 +1,4 @@
+import type * as Phaser from 'phaser';
 import { ENEMY_SIZE } from '@repo/core-game';
 import { ASSET } from '../constants';
 

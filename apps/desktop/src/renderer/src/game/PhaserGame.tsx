@@ -1,3 +1,4 @@
+import type * as Phaser from 'phaser';
 import { useEffect, useLayoutEffect, useRef, type RefObject } from 'react';
 import { StartGame } from './main';
 import { EventBus, EVENT_BUS } from './EventBus';

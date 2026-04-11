@@ -1,3 +1,4 @@
+import type * as Phaser from 'phaser';
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';

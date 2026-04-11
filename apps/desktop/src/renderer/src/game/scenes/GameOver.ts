@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import type { Desktop_GetGameResultsQuery } from '../../graphql';
 import { EventBus, EVENT_BUS } from '../EventBus';
 import { CustomText } from '../objects/CustomText';

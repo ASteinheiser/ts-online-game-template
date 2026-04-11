@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import { CustomText } from './CustomText';
 
 const MARGIN = 16;

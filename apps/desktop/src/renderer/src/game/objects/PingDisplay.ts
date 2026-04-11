@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import { WS_EVENT } from '@repo/core-game';
 import type { Game } from '../scenes/Game';
 import { CustomText } from './CustomText';

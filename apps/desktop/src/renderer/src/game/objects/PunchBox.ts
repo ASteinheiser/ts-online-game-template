@@ -1,3 +1,4 @@
+import type * as Phaser from 'phaser';
 import { ATTACK_SIZE } from '@repo/core-game';
 
 /** How long the punch box should be visible in ms */

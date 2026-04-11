@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import { MAP_SIZE } from '@repo/core-game';
 import { CustomText } from '../objects/CustomText';
 import { FpsDisplay } from '../objects/FpsDisplay';

@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import { PLAYER_FRAME_RATE, PLAYER_SIZE, ENEMY_SIZE } from '@repo/core-game';
 import enemy from '../../assets/evil-dude.png';
 import player from '../../assets/muscle-duck-sprite.png';

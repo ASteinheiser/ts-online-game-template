@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import background from '../../assets/bg.png';
 import { ASSET, SCENE } from '../constants';
 

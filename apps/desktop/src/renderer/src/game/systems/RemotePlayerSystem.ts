@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import type { Player as ServerPlayer } from '@repo/core-game';
 import { Player } from '../objects/Player';
 import { PunchBox } from '../objects/PunchBox';

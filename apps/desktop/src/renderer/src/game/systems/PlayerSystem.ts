@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import {
   calculateMovement,
   PLAYER_SIZE,

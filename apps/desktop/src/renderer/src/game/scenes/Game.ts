@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import { FIXED_TIME_STEP, type AuthPayload } from '@repo/core-game';
 import { gql } from '@apollo/client';
 import { client } from '../../graphql/client';

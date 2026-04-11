@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import { WS_EVENT, type InputPayload } from '@repo/core-game';
 import type { Game } from '../scenes/Game';
 import { EventBus, EVENT_BUS } from '../EventBus';

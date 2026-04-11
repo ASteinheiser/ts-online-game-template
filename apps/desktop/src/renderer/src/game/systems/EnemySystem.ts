@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import { Enemy } from '../objects/Enemy';
 import type { Game } from '../scenes/Game';
 import type { RoomEventCallbacks } from './RoomSystem';
