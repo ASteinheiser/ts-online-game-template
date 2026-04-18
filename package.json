@@ -45,18 +45,12 @@
     "onlyBuiltDependencies": [
       "@apollo/protobufjs",
       "@parcel/watcher",
-      "@prisma/client",
       "@prisma/engines",
-      "@tailwindcss/oxide",
       "electron",
-      "electron-winstaller",
       "esbuild",
       "msgpackr-extract",
       "prisma",
       "sharp"
-    ],
-    "overrides": {
-      "msgpackr-extract": "^3.1.0"
-    }
+    ]
   }
 }
