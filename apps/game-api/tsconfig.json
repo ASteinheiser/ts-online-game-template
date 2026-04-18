@@ -3,6 +3,6 @@
   "extends": "@repo/typescript-config/vite.json",
   "include": ["src", "test", "codegen.ts"],
   "compilerOptions": {
-    "types": ["node", "mocha"]
+    "types": ["node"]
   }
 }

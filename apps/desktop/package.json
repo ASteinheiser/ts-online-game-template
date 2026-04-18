@@ -61,7 +61,7 @@
     "@vitest/coverage-v8": "catalog:",
     "electron": "catalog:",
     "electron-builder": "^26.8.1",
-    "electron-vite": "^6.0.0-beta.0",
+    "electron-vite": "^6.0.0-beta.1",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",

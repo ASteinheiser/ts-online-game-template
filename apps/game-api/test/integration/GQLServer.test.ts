@@ -1,4 +1,4 @@
-import assert from 'assert';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { gql } from 'graphql-tag';
 import { server } from '../../src/graphql';
 import { ProfilesRepository } from '../../src/repo/Profiles';
@@ -14,12 +14,12 @@ import type {
 } from '../graphql';
 
 describe('GQLServer', () => {
-  before(async () => {
+  beforeAll(async () => {
     await cleanupTestDb(prisma);
     await setupTestDb(prisma);
   });
 
-  after(async () => {
+  afterAll(async () => {
     await cleanupTestDb(prisma);
     await prisma.$disconnect();
   });
@@ -54,7 +54,7 @@ describe('GQLServer', () => {
 
     const { totalPlayers } = parseGQLData(result);
 
-    assert.deepEqual(totalPlayers, TEST_USERS.length);
+    expect(totalPlayers).toBe(TEST_USERS.length);
   });
 
   it('should fetch a user profile by the user id', async () => {
@@ -76,7 +76,7 @@ describe('GQLServer', () => {
 
     const { profile } = parseGQLData(result);
 
-    assert.deepEqual(profile?.userName, TEST_USERS[0].userName);
+    expect(profile?.userName).toBe(TEST_USERS[0].userName);
   });
 
   it('should not fetch a user profile when no user id is provided', async () => {
@@ -97,6 +97,6 @@ describe('GQLServer', () => {
 
     const { profile } = parseGQLData(result);
 
-    assert.deepEqual(profile, null);
+    expect(profile).toBeNull();
   });
 });
