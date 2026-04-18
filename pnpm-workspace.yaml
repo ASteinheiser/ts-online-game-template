@@ -2,6 +2,8 @@ packages:
   - "apps/*"
   - "packages/*"
 
+autoInstallPeers: false
+
 catalog:
   typescript: 6.0.2
   turbo: ^2.9.5
