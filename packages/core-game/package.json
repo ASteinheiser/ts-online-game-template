@@ -5,14 +5,10 @@
   "license": "MIT",
   "private": false,
   "type": "module",
-  "module": "./dist/index.es.js",
-  "main": "./dist/index.cjs.js",
-  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs.js"
+      "default": "./dist/index.js"
     }
   },
   "scripts": {
@@ -29,7 +25,6 @@
     "@colyseus/schema": "catalog:",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@rollup/plugin-typescript": "catalog:",
     "@types/node": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "tslib": "catalog:",

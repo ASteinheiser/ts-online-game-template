@@ -39,9 +39,6 @@ catalogs:
     '@react-three/fiber':
       specifier: ^9.5.0
       version: 9.6.0
-    '@rollup/plugin-typescript':
-      specifier: ^12.3.0
-      version: 12.3.0
     '@supabase/supabase-js':
       specifier: ^2.94.1
       version: 2.103.3
@@ -591,9 +588,6 @@ importers:
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@rollup/plugin-typescript':
-        specifier: 'catalog:'
-        version: 12.3.0(rollup@2.80.0)(tslib@2.8.1)(typescript@6.0.2)
       '@types/node':
         specifier: 'catalog:'
         version: 24.12.2
@@ -3283,19 +3277,6 @@ packages:
       rollup: ^2.0.0||^3.0.0||^4.0.0
     peerDependenciesMeta:
       rollup:
-        optional: true
-
-  '@rollup/plugin-typescript@12.3.0':
-    resolution: {integrity: sha512-7DP0/p7y3t67+NabT9f8oTBFE6gGkto4SA6Np2oudYmZE/m1dt8RB0SjL1msMxFpLo631qjRCcBlAbq1ml/Big==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^2.14.0||^3.0.0||^4.0.0
-      tslib: '*'
-      typescript: '>=3.7.0'
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-      tslib:
         optional: true
 
   '@rollup/pluginutils@3.1.0':
@@ -10586,15 +10567,6 @@ snapshots:
       terser: 5.46.1
     optionalDependencies:
       rollup: 2.80.0
-
-  '@rollup/plugin-typescript@12.3.0(rollup@2.80.0)(tslib@2.8.1)(typescript@6.0.2)':
-    dependencies:
-      '@rollup/pluginutils': 5.3.0(rollup@2.80.0)
-      resolve: 1.22.12
-      typescript: 6.0.2
-    optionalDependencies:
-      rollup: 2.80.0
-      tslib: 2.8.1
 
   '@rollup/pluginutils@3.1.0(rollup@2.80.0)':
     dependencies:

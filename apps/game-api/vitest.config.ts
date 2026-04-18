@@ -1,17 +1,13 @@
-import { defineConfig, mergeConfig } from 'vitest/config';
-import viteConfig from './vite.config';
+import { defineConfig } from 'vitest/config';
 
-export default mergeConfig(
-  viteConfig,
-  defineConfig({
-    test: {
-      name: 'game-api',
-      watch: false,
-      reporters: 'verbose',
-      coverage: {
-        provider: 'v8',
-        reporter: ['text'],
-      },
+export default defineConfig({
+  test: {
+    name: 'game-api',
+    watch: false,
+    reporters: 'verbose',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text'],
     },
-  })
-);
+  },
+});

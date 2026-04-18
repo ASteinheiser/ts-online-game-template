@@ -5,8 +5,6 @@ echo "Cleaning out caches, dists, node_modules, etc..."
 find . -name "node_modules" -type d -prune -exec rm -rf {} \;
 # Remove dist directories
 find . -name "dist" -type d -prune -exec rm -rf {} \;
-# Remove .rollup.cache directories
-find . -name ".rollup.cache" -type d -prune -exec rm -rf {} \;
 # Remove coverage directories
 find . -name "coverage" -type d -prune -exec rm -rf {} \;
 # Remove prisma-client directories
