@@ -4,6 +4,7 @@ packages:
 
 catalog:
   typescript: 6.0.2
+  turbo: ^2.9.5
   zod: ^4.0.14
   dotenv: ^17.0.1
   eslint: ^10.2.0
