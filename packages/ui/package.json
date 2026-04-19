@@ -13,11 +13,11 @@
     "./theme.css": "./dist/theme.css"
   },
   "scripts": {
-    "postinstall": "npm run build",
+    "postinstall": "pnpm build",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "check-types": "tsc --noEmit",
-    "dev": "npm run build -- --watch",
+    "dev": "pnpm build --watch",
     "build": "tailwindcss -i ./src/theme.css -o ./dist/theme.css"
   },
   "dependencies": {

@@ -12,7 +12,7 @@
     "./theme.css": "./dist/theme.css"
   },
   "scripts": {
-    "postinstall": "npm run build",
+    "postinstall": "pnpm build",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "test": "vitest",
@@ -20,7 +20,7 @@
     "check-types": "tsc --noEmit",
     "generate:gql-types": "graphql-codegen",
     "generate:gql-types:watch": "graphql-codegen --watch",
-    "dev": "npm run build -- --watch",
+    "dev": "pnpm build --watch",
     "build": "tailwindcss -i ./src/theme.css -o ./dist/theme.css"
   },
   "dependencies": {
