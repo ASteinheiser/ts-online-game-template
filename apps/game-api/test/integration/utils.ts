@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 import type { ColyseusTestServer } from '@colyseus/testing';
 import type { GraphQLResponse } from '@apollo/server';

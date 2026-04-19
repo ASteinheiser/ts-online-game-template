@@ -1,4 +1,4 @@
-import assert from 'assert';
+import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
 import type { ServerError } from '@colyseus/core';
 import { type ColyseusTestServer, boot } from '@colyseus/testing';
 import type { GoTrueAdminApi } from '@supabase/supabase-js';
@@ -32,7 +32,7 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
   // currently unused, but required by the app config
   const authClient = {} as GoTrueAdminApi;
 
-  before(async () => {
+  beforeAll(async () => {
     await cleanupTestDb(prisma);
     await setupTestDb(prisma);
     const app = makeApp({
@@ -43,7 +43,7 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
     server = await boot(app);
   });
 
-  after(async () => {
+  afterAll(async () => {
     await server.shutdown();
     await cleanupTestDb(prisma);
     await prisma.$disconnect();
@@ -60,10 +60,10 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       try {
         await joinTestRoom({ server, token: 'invalid-token' });
 
-        assert.fail('should have thrown an error');
+        expect.fail('should have thrown an error');
       } catch (error) {
-        assert.strictEqual((error as ServerError).code, WS_CODE.UNAUTHORIZED);
-        assert.strictEqual((error as ServerError).message, ROOM_ERROR.INVALID_TOKEN);
+        expect((error as ServerError).code).toBe(WS_CODE.UNAUTHORIZED);
+        expect((error as ServerError).message).toBe(ROOM_ERROR.INVALID_TOKEN);
       }
     });
 
@@ -71,10 +71,10 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       try {
         await joinTestRoom({ server, token: generateTestJWT({ expiresInMs: 0 }) });
 
-        assert.fail('should have thrown an error');
+        expect.fail('should have thrown an error');
       } catch (error) {
-        assert.strictEqual((error as ServerError).code, WS_CODE.UNAUTHORIZED);
-        assert.strictEqual((error as ServerError).message, ROOM_ERROR.INVALID_TOKEN);
+        expect((error as ServerError).code).toBe(WS_CODE.UNAUTHORIZED);
+        expect((error as ServerError).message).toBe(ROOM_ERROR.INVALID_TOKEN);
       }
     });
 
@@ -86,10 +86,10 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
         });
         await joinTestRoom({ server, token });
 
-        assert.fail('should have thrown an error');
+        expect.fail('should have thrown an error');
       } catch (error) {
-        assert.strictEqual((error as ServerError).code, WS_CODE.NOT_FOUND);
-        assert.strictEqual((error as ServerError).message, ROOM_ERROR.PROFILE_NOT_FOUND);
+        expect((error as ServerError).code).toBe(WS_CODE.NOT_FOUND);
+        expect((error as ServerError).message).toBe(ROOM_ERROR.PROFILE_NOT_FOUND);
       }
     });
   });
@@ -129,7 +129,7 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       client.send(WS_EVENT.PING);
       const pong = await pongPromise;
 
-      assert.strictEqual(pong, true);
+      expect(pong).toBe(true);
     });
 
     it('should return WS_CODE.SUCCESS when a client leaves the room via the LEAVE_ROOM event', async () => {
@@ -146,7 +146,7 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       await room.waitForNextSimulationTick();
 
       assertBasicPlayerState({ room, clientIds: [] });
-      assert.strictEqual(await leaveCodePromise, WS_CODE.SUCCESS);
+      expect(await leaveCodePromise).toBe(WS_CODE.SUCCESS);
     });
 
     it('should allow a client to reconnect to a room', async () => {
@@ -159,23 +159,23 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       // get a snapshot of the player state
       const oldPlayer = getPlayerSnapshot(room, client.sessionId);
 
-      assert.strictEqual(oldPlayer.attackCount, 100);
-      assert.strictEqual(oldPlayer.killCount, 50);
+      expect(oldPlayer.attackCount).toBe(100);
+      expect(oldPlayer.killCount).toBe(50);
       assertBasicPlayerState({ room, clientIds: [client.sessionId] });
 
       await client.leave(false);
       await room.waitForNextSimulationTick();
 
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.forcedDisconnects.size, 0);
+      expect(room.auth.forcedDisconnects.size).toBe(0);
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.expectingReconnections.size, 1);
+      expect(room.auth.expectingReconnections.size).toBe(1);
       assertExtraPlayerState({ room, clientIds: [], extraPlayerIds: [client.sessionId] });
 
       const sameClient = await reconnectTestRoom({ server, reconnectionToken });
       await room.waitForNextSimulationTick();
 
-      assert.strictEqual(sameClient.sessionId, client.sessionId);
+      expect(sameClient.sessionId).toBe(client.sessionId);
       assertBasicPlayerState({ room, clientIds: [sameClient.sessionId] });
       assertPlayerFieldsState({ room, playerId: sameClient.sessionId, expectedPlayer: oldPlayer });
     });
@@ -205,9 +205,9 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       await room.waitForNextSimulationTick();
 
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.forcedDisconnects.size, 0);
+      expect(room.auth.forcedDisconnects.size).toBe(0);
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.expectingReconnections.size, 1);
+      expect(room.auth.expectingReconnections.size).toBe(1);
       assertExtraPlayerState({ room, clientIds: [], extraPlayerIds: [client.sessionId] });
 
       room.state.players.delete(client.sessionId);
@@ -226,15 +226,15 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       // get a snapshot of the player state
       const oldPlayer = getPlayerSnapshot(room, client.sessionId);
 
-      assert.strictEqual(oldPlayer.attackCount, 100);
-      assert.strictEqual(oldPlayer.killCount, 50);
+      expect(oldPlayer.attackCount).toBe(100);
+      expect(oldPlayer.killCount).toBe(50);
       assertBasicPlayerState({ room, clientIds: [client.sessionId] });
 
       const newClient = await joinTestRoom({ server, token: generateTestJWT({}) });
 
-      assert.notStrictEqual(newClient.sessionId, client.sessionId);
+      expect(newClient.sessionId).not.toBe(client.sessionId);
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.forcedDisconnects.has(client.sessionId), true);
+      expect(room.auth.forcedDisconnects.has(client.sessionId)).toBe(true);
 
       await room.waitForNextSimulationTick();
 
@@ -259,8 +259,8 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       // get a snapshot of the player state
       const playerSnapshot = getPlayerSnapshot(room, badSessionId);
 
-      assert.strictEqual(playerSnapshot.attackCount, 100);
-      assert.strictEqual(playerSnapshot.killCount, 50);
+      expect(playerSnapshot.attackCount).toBe(100);
+      expect(playerSnapshot.killCount).toBe(50);
       assertExtraPlayerState({
         room,
         clientIds: [keepAliveClient.sessionId],
@@ -271,10 +271,10 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       const client = await joinTestRoom({ server, token: generateTestJWT({ user: TEST_USERS[1] }) });
 
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.forcedDisconnects.size, 0);
+      expect(room.auth.forcedDisconnects.size).toBe(0);
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.expectingReconnections.size, 0);
-      assert.notStrictEqual(client.sessionId, badSessionId);
+      expect(room.auth.expectingReconnections.size).toBe(0);
+      expect(client.sessionId).not.toBe(badSessionId);
 
       await room.waitForNextSimulationTick();
 
@@ -288,7 +288,7 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       );
       const roomIds = Array.from(new Set([client1.roomId, client2.roomId, client3.roomId, client4.roomId]));
 
-      assert.strictEqual(roomIds.length, 1);
+      expect(roomIds.length).toBe(1);
 
       const room = getRoom(roomIds[0]);
       const clientIds = room.state.players.keys().toArray();
@@ -306,10 +306,10 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       // get a snapshot of the enemy state
       const enemies = room.state.enemies.values().toArray();
 
-      assert.strictEqual(enemies.length, 1);
-      assert.strictEqual(typeof enemies[0].id, 'string');
-      assert.strictEqual(typeof enemies[0].x, 'number');
-      assert.strictEqual(typeof enemies[0].y, 'number');
+      expect(enemies.length).toBe(1);
+      expect(typeof enemies[0].id).toBe('string');
+      expect(typeof enemies[0].x).toBe('number');
+      expect(typeof enemies[0].y).toBe('number');
     });
 
     it('should allow a player to move in the room', async () => {
@@ -322,12 +322,12 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       const oldPlayer = getPlayerSnapshot(room, client.sessionId);
 
       assertBasicPlayerState({ room, clientIds: [client.sessionId] });
-      assert.strictEqual(oldPlayer.userId, TEST_USERS[0].id);
-      assert.strictEqual(oldPlayer.username, TEST_USERS[0].userName);
-      assert.strictEqual(typeof oldPlayer.x, 'number');
-      assert.strictEqual(typeof oldPlayer.y, 'number');
-      assert.strictEqual(oldPlayer.attackCount, 100);
-      assert.strictEqual(oldPlayer.killCount, 50);
+      expect(oldPlayer.userId).toBe(TEST_USERS[0].id);
+      expect(oldPlayer.username).toBe(TEST_USERS[0].userName);
+      expect(typeof oldPlayer.x).toBe('number');
+      expect(typeof oldPlayer.y).toBe('number');
+      expect(oldPlayer.attackCount).toBe(100);
+      expect(oldPlayer.killCount).toBe(50);
 
       client.send(WS_EVENT.PLAYER_INPUT, {
         seq: 0,
@@ -366,12 +366,12 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       await room.waitForNextSimulationTick();
 
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.expectingReconnections.size, 1);
+      expect(room.auth.expectingReconnections.size).toBe(1);
       assertExtraPlayerState({ room, clientIds: [], extraPlayerIds: [client.sessionId] });
 
       const sameClient = await reconnectTestRoom({ server, reconnectionToken: client.reconnectionToken });
 
-      assert.strictEqual(sameClient.sessionId, client.sessionId);
+      expect(sameClient.sessionId).toBe(client.sessionId);
       assertBasicPlayerState({ room, clientIds: [sameClient.sessionId] });
       assertPlayerFieldsState({ room, playerId: sameClient.sessionId, expectedPlayer: oldPlayer });
     });
@@ -387,15 +387,15 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       await room.waitForNextSimulationTick();
 
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.forcedDisconnects.size, 0);
+      expect(room.auth.forcedDisconnects.size).toBe(0);
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.expectingReconnections.size, 1);
+      expect(room.auth.expectingReconnections.size).toBe(1);
       assertExtraPlayerState({ room, clientIds: [], extraPlayerIds: [client.sessionId] });
 
       const sameClient = await reconnectTestRoom({ server, reconnectionToken });
       await room.waitForNextSimulationTick();
 
-      assert.strictEqual(sameClient.sessionId, client.sessionId);
+      expect(sameClient.sessionId).toBe(client.sessionId);
       assertBasicPlayerState({ room, clientIds: [sameClient.sessionId] });
     });
 
@@ -416,7 +416,7 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       await room.waitForNextSimulationTick();
 
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.expectingReconnections.size, 0);
+      expect(room.auth.expectingReconnections.size).toBe(0);
       assertBasicPlayerState({ room, clientIds: [] });
     });
   });
@@ -445,7 +445,7 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       await room.waitForNextSimulationTick();
 
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.expectingReconnections.size, 0);
+      expect(room.auth.expectingReconnections.size).toBe(0);
       assertBasicPlayerState({ room, clientIds: [] });
     });
 
@@ -459,7 +459,7 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       await room.waitForNextSimulationTick();
 
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.expectingReconnections.size, 0);
+      expect(room.auth.expectingReconnections.size).toBe(0);
       assertBasicPlayerState({ room, clientIds: [] });
     });
 
@@ -473,7 +473,7 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       await room.waitForNextSimulationTick();
 
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.expectingReconnections.size, 0);
+      expect(room.auth.expectingReconnections.size).toBe(0);
       assertBasicPlayerState({ room, clientIds: [] });
     });
 
@@ -488,7 +488,7 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       await room.waitForNextSimulationTick();
 
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.expectingReconnections.size, 0);
+      expect(room.auth.expectingReconnections.size).toBe(0);
       assertBasicPlayerState({ room, clientIds: [] });
     });
   });
@@ -546,7 +546,7 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       await waitForConnectionCheck();
 
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.expectingReconnections.size, 0);
+      expect(room.auth.expectingReconnections.size).toBe(0);
       assertBasicPlayerState({ room, clientIds: [] });
     });
 
@@ -565,17 +565,17 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
       await waitForConnectionCheck();
 
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.expectingReconnections.size, 2);
+      expect(room.auth.expectingReconnections.size).toBe(2);
       assertExtraPlayerState({ room, clientIds: [], extraPlayerIds: [client1.sessionId, client2.sessionId] });
 
       const sameClient1 = await reconnectTestRoom({ server, reconnectionToken: client1.reconnectionToken });
       const sameClient2 = await reconnectTestRoom({ server, reconnectionToken: client2.reconnectionToken });
       await room.waitForNextSimulationTick();
 
-      assert.strictEqual(sameClient1.sessionId, client1.sessionId);
-      assert.strictEqual(sameClient2.sessionId, client2.sessionId);
+      expect(sameClient1.sessionId).toBe(client1.sessionId);
+      expect(sameClient2.sessionId).toBe(client2.sessionId);
       // @ts-expect-error - allow use of private property for testing
-      assert.strictEqual(room.auth.expectingReconnections.size, 0);
+      expect(room.auth.expectingReconnections.size).toBe(0);
       assertBasicPlayerState({ room, clientIds: [sameClient1.sessionId, sameClient2.sessionId] });
     });
   });
@@ -592,12 +592,12 @@ interface AssertBasicPlayerStateArgs {
 }
 /** Asserts that the room has the same number of clients and players */
 const assertBasicPlayerState = ({ room, clientIds }: AssertBasicPlayerStateArgs) => {
-  assert.strictEqual(room.clients.length, clientIds.length);
-  assert.strictEqual(room.state.players.size, clientIds.length);
+  expect(room.clients.length).toBe(clientIds.length);
+  expect(room.state.players.size).toBe(clientIds.length);
 
   clientIds.forEach((clientId, index) => {
-    assert.strictEqual(room.clients[index].sessionId, clientId);
-    assert.strictEqual(!!room.state.players.get(clientId), true);
+    expect(room.clients[index].sessionId).toBe(clientId);
+    expect(!!room.state.players.get(clientId)).toBe(true);
   });
 };
 
@@ -608,16 +608,16 @@ interface AssertExtraPlayerStateArgs {
 }
 /** Asserts that the room has additional players with no client attached */
 const assertExtraPlayerState = ({ room, clientIds, extraPlayerIds }: AssertExtraPlayerStateArgs) => {
-  assert.strictEqual(room.clients.length, clientIds.length);
-  assert.strictEqual(room.state.players.size, clientIds.length + extraPlayerIds.length);
+  expect(room.clients.length).toBe(clientIds.length);
+  expect(room.state.players.size).toBe(clientIds.length + extraPlayerIds.length);
 
   clientIds.forEach((clientId, index) => {
-    assert.strictEqual(room.clients[index].sessionId, clientId);
-    assert.strictEqual(!!room.state.players.get(clientId), true);
+    expect(room.clients[index].sessionId).toBe(clientId);
+    expect(!!room.state.players.get(clientId)).toBe(true);
   });
 
   extraPlayerIds.forEach((extraPlayerId) => {
-    assert.strictEqual(!!room.state.players.get(extraPlayerId), true);
+    expect(!!room.state.players.get(extraPlayerId)).toBe(true);
   });
 };
 
@@ -653,13 +653,13 @@ interface AssertPlayerFieldsStateArgs {
 const assertPlayerFieldsState = ({ room, playerId, expectedPlayer }: AssertPlayerFieldsStateArgs) => {
   const actualPlayer = room.state.players.get(playerId)!;
 
-  assert.strictEqual(actualPlayer.x, expectedPlayer.x);
-  assert.strictEqual(actualPlayer.y, expectedPlayer.y);
-  assert.strictEqual(actualPlayer.userId, expectedPlayer.userId);
-  assert.strictEqual(actualPlayer.username, expectedPlayer.username);
-  assert.strictEqual(actualPlayer.attackCount, expectedPlayer.attackCount);
-  assert.strictEqual(actualPlayer.killCount, expectedPlayer.killCount);
+  expect(actualPlayer.x).toBe(expectedPlayer.x);
+  expect(actualPlayer.y).toBe(expectedPlayer.y);
+  expect(actualPlayer.userId).toBe(expectedPlayer.userId);
+  expect(actualPlayer.username).toBe(expectedPlayer.username);
+  expect(actualPlayer.attackCount).toBe(expectedPlayer.attackCount);
+  expect(actualPlayer.killCount).toBe(expectedPlayer.killCount);
   // ensure that the new player state is not simply a reference to the old player state
   // by checking that the lastActivityTime is updated, since all joins/reconnects should update this
-  assert.strictEqual(actualPlayer.lastActivityTime > expectedPlayer.lastActivityTime, true);
+  expect(actualPlayer.lastActivityTime > expectedPlayer.lastActivityTime).toBe(true);
 };
