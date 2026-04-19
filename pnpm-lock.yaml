@@ -200,6 +200,9 @@ importers:
       graphql:
         specifier: 'catalog:'
         version: 16.13.2
+      ms:
+        specifier: ^2.1.3
+        version: 2.1.3
       phaser:
         specifier: 'catalog:'
         version: 4.0.0
