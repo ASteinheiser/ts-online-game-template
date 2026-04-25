@@ -131,8 +131,6 @@ export class GameRoom extends Room {
   fixedTick() {
     this.state.players.forEach((player, sessionId) => {
       const client = this.clients.getById(sessionId);
-      // only process players that are still connected
-      if (!client) return;
 
       try {
         this.playerInput.processPlayerInput(player, (input) => {
@@ -141,8 +139,15 @@ export class GameRoom extends Room {
         });
       } catch (error) {
         const message = (error as Error)?.message || ROOM_ERROR.INTERNAL_SERVER_ERROR;
-        // allow reconnection as player inputs will be cleared, potentially solving issues
-        this.auth.kickClient(WS_CODE.INTERNAL_SERVER_ERROR, message, client);
+        if (client) {
+          // allow reconnection as player inputs will be cleared, potentially solving issues
+          this.auth.kickClient(WS_CODE.INTERNAL_SERVER_ERROR, message, client);
+        } else {
+          logger.error({
+            message: `Error processing player input without a client`,
+            data: { roomId: this.roomId, clientId: sessionId, error: message },
+          });
+        }
       }
     });
 

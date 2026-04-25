@@ -142,8 +142,7 @@ export class Auth {
         // do not allow reconnection, client will need to re-join
         return this.kickClient(WS_CODE.FORBIDDEN, ROOM_ERROR.CONNECTION_NOT_FOUND, client, false);
       }
-      // players should have inputs cleared on reconnection
-      player.inputQueue = [];
+
       player.lastActivityTime = Date.now();
 
       logger.info({

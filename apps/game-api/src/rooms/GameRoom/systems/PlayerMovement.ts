@@ -11,11 +11,8 @@ export class PlayerMovement {
       data: { roomId: this.room.roomId, clientId, userName: player.username },
     });
 
-    if (isExistingPlayer) {
-      // players should have inputs cleared on reconnection
-      player.inputQueue = [];
-      // existing players already have a position, so we don't need to spawn them
-    } else {
+    // existing players already have a position, so we don't need to spawn them
+    if (!isExistingPlayer) {
       player.x = Math.random() * MAP_SIZE.width;
       player.y = Math.random() * MAP_SIZE.height;
     }
