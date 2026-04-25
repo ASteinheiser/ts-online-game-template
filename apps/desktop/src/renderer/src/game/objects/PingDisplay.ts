@@ -43,7 +43,7 @@ export class PingDisplay {
 
   public destroy() {
     this.timerEvent?.remove();
-    delete this.timerEvent;
+    this.timerEvent = undefined;
     this.pingText.destroy();
     this.background.destroy();
   }

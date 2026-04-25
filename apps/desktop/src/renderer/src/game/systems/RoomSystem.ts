@@ -42,7 +42,7 @@ export class RoomSystem {
 
   public cleanupRoom() {
     this.room?.removeAllListeners();
-    delete this.room;
+    this.room = undefined;
   }
 
   public async joinRoom(authToken: string) {

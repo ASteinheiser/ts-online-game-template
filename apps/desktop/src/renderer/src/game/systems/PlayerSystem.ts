@@ -21,13 +21,18 @@ export class PlayerSystem {
   private serverAckSeq = 0;
   /** The inputs being predicted by the client */
   private pendingInputs: Array<InputPayload> = [];
+  private pendingReconciliation?: ServerPlayer;
 
   constructor(private scene: Game) {}
 
   public destroy() {
-    this.pendingInputs = [];
     this.currentPlayer?.destroy();
-    delete this.currentPlayer;
+    this.currentPlayer = undefined;
+    this.previousPosition = { x: 0, y: 0 };
+    this.currentPosition = { x: 0, y: 0 };
+    this.serverAckSeq = 0;
+    this.pendingInputs = [];
+    this.pendingReconciliation = undefined;
   }
 
   /** Predict and update local player state per fixed tick */
@@ -83,6 +88,9 @@ export class PlayerSystem {
     this.currentPlayer = new Player(this.scene, player.username, player.x, player.y);
     this.previousPosition = { x: player.x, y: player.y };
     this.currentPosition = { x: player.x, y: player.y };
+    this.serverAckSeq = 0;
+    this.pendingInputs = [];
+    this.pendingReconciliation = undefined;
     // ensure the camera is following the current player
     this.scene.cameras.main.startFollow(this.currentPlayer.entity, true, 0.1, 0.1);
     this.currentPlayer.createDebugBox();
