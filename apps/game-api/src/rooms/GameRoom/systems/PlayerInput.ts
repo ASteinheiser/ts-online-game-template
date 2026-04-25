@@ -32,8 +32,9 @@ export class PlayerInput {
       // silently drop duplicate or out-of-order seqs (rare cases, mostly an extra safeguard)
       if (payload.seq <= player.lastReceivedSeq) return;
       // reject seq jumps: legit client input seq always increments by exactly 1
-      if (payload.seq - player.lastReceivedSeq > 1) {
-        return this.room.auth.kickClient(WS_CODE.BAD_REQUEST, ROOM_ERROR.INVALID_PAYLOAD, client);
+      // skip this check on the first input (lastReceivedSeq === -1)
+      if (player.lastReceivedSeq >= 0 && payload.seq - player.lastReceivedSeq > 1) {
+        return this.room.auth.kickClient(WS_CODE.BAD_REQUEST, ROOM_ERROR.INVALID_PAYLOAD, client, false);
       }
 
       // rate limit input messages. still advance lastReceivedSeq so input sequence is preserved

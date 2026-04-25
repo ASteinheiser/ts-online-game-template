@@ -30,6 +30,15 @@ export class Auth {
     this.expectingReconnections.delete(sessionId);
   }
 
+  /** Resets a player's input state so a freshly-attached client can set its
+   * own input `seq` without tripping the sequence jump checks in `PlayerInput` */
+  private cleanupInputState(player: Player) {
+    player.lastReceivedSeq = -1;
+    player.lastProcessedInputSeq = 0;
+    player.inputQueue = [];
+    player.lastProcessedInput = undefined;
+  }
+
   /**
    * Validates the user's token and fetches their profile from the DB
    *
@@ -88,6 +97,9 @@ export class Auth {
     }
 
     const player = existingPlayer ?? new Player();
+    if (existingPlayer) {
+      this.cleanupInputState(existingPlayer);
+    }
 
     player.userId = user.userId;
     player.username = user.userName;
@@ -143,6 +155,7 @@ export class Auth {
         return this.kickClient(WS_CODE.FORBIDDEN, ROOM_ERROR.CONNECTION_NOT_FOUND, client, false);
       }
 
+      this.cleanupInputState(player);
       player.lastActivityTime = Date.now();
 
       logger.info({

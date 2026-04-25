@@ -11,6 +11,7 @@ export class InputSystem {
   constructor(private scene: Game) {}
 
   public setupInputSystem() {
+    this.inputSeq = 0;
     this.escapeKey = this.scene.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     this.cursorKeys = this.scene.input.keyboard?.createCursorKeys();
   }
