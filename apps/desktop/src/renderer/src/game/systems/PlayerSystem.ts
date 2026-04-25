@@ -76,7 +76,7 @@ export class PlayerSystem {
     );
   }
 
-  public handleCurrentPlayerAdded: RoomEventCallbacks['onPlayerAdded'] = (player, sessionId, $) => {
+  public handleCurrentPlayerAdded: RoomEventCallbacks['onPlayerAdded'] = (player, sessionId) => {
     // skip remote players, only handle the current player here
     if (sessionId !== this.scene.roomSystem.room?.sessionId) return;
 
@@ -86,12 +86,14 @@ export class PlayerSystem {
     // ensure the camera is following the current player
     this.scene.cameras.main.startFollow(this.currentPlayer.entity, true, 0.1, 0.1);
     this.currentPlayer.createDebugBox();
+  };
 
-    $(player).onChange(() => {
-      this.handleDebugFieldsUpdated(player);
-      this.handleKillCountUpdated(player);
-      this.handleServerReconciliation(player);
-    });
+  public handleCurrentPlayerUpdated: RoomEventCallbacks['onPlayerUpdated'] = (player, sessionId) => {
+    if (sessionId !== this.scene.roomSystem.room?.sessionId) return;
+
+    this.handleDebugFieldsUpdated(player);
+    this.handleKillCountUpdated(player);
+    this.handleServerReconciliation(player);
   };
 
   private handleDebugFieldsUpdated(player: ServerPlayer) {

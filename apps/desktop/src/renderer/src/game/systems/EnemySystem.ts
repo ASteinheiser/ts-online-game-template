@@ -16,16 +16,19 @@ export class EnemySystem {
     this.enemies = {};
   }
 
-  public handleEnemyAdded: RoomEventCallbacks['onEnemyAdded'] = (enemy, $) => {
+  public handleEnemyAdded: RoomEventCallbacks['onEnemyAdded'] = (enemy) => {
     const entity = new Enemy(this.scene, enemy.x, enemy.y);
     entity.serverX = enemy.x;
     entity.serverY = enemy.y;
     this.enemies[enemy.id] = entity;
+  };
 
-    $(enemy).onChange(() => {
-      entity.serverX = enemy.x;
-      entity.serverY = enemy.y;
-    });
+  public handleEnemyUpdated: RoomEventCallbacks['onEnemyUpdated'] = (enemy) => {
+    const foundEnemy = this.enemies[enemy.id];
+    if (!foundEnemy) return;
+
+    foundEnemy.serverX = enemy.x;
+    foundEnemy.serverY = enemy.y;
   };
 
   public handleEnemyRemoved: RoomEventCallbacks['onEnemyRemoved'] = (enemy) => {
