@@ -236,6 +236,24 @@ This snapshot was created on `2026-01-27`. All tests were run for 3 minutes agai
 
 It appears to be more efficient on the server to have larger rooms, but at a certain size, you will get buffer overflows. This is due to the sheer size of the room state (many players, each with their own state). You should try to strike a balance between room size and state. The smaller you can make the room state, the more players you can support in a single room. Conversely, if you have a lot of state to track, you will need to limit your maximum room size accordingly.
 
+### v0.0.5 Snapshot
+
+This snapshot was created on `2026-04-24`. All tests were run for 3 minutes against the cheapest DigitalOcean Droplet:
+- 512MB RAM
+- 1 vCPU
+- 10GB SSD
+- Ubuntu 24.04 LTS
+- US West - San Francisco
+
+| Room Size | Players | CPU Peak | Memory Peak |
+|---------|-----------|----------|-------------|
+| - | - (idle) | < 1% | 60% (105 mb) |
+| 10 | 10 | 20% | 76% (160 mb) |
+| 10 | 100 | 53% | 72% (125 mb) |
+| 10 | 200 | 90% | 79% (124 mb) |
+
+**NOTE:** With 200 players (20 full rooms), I saw ~40-60ms ping, with occasional spikes around 120-180ms
+
 ## Available Commands
 
 | Command | Description |
