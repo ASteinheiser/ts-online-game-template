@@ -51,8 +51,12 @@ export class Game extends Phaser.Scene {
       onPlayerAdded: (player, sessionId, $) => {
         this.playerSystem.handleCurrentPlayerAdded(player, sessionId, $);
         this.remotePlayerSystem.handleRemotePlayerAdded(player, sessionId, $);
+        this.uiSystem?.updateRemotePlayerList();
       },
-      onPlayerRemoved: this.remotePlayerSystem.handleRemotePlayerRemoved,
+      onPlayerRemoved: (sessionId) => {
+        this.remotePlayerSystem.handleRemotePlayerRemoved(sessionId);
+        this.uiSystem?.updateRemotePlayerList();
+      },
       onEnemyAdded: this.enemySystem.handleEnemyAdded,
       onEnemyRemoved: this.enemySystem.handleEnemyRemoved,
     });
