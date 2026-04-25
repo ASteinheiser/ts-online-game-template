@@ -59,7 +59,7 @@ export async function main(options: Options) {
     const closestEnemy = state.enemies.get(enemiesTracked[player.userId]);
     if (closestEnemy) {
       const input: InputPayload = {
-        seq: 0,
+        seq: player.lastProcessedInputSeq + 1,
         left: closestEnemy.x < player.x,
         right: closestEnemy.x > player.x,
         up: closestEnemy.y < player.y,
