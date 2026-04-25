@@ -23,12 +23,13 @@ const RECONNECT_BACKOFF_MS = 1000;
 /** The timeout for the connection to be considered alive (in ms) */
 const CONNECTION_IS_ALIVE_TIMEOUT = 5000;
 
-type ServerCallback = ReturnType<typeof getStateCallbacks<GameRoomState>>;
 export interface RoomEventCallbacks {
   setupStateListeners: () => void;
-  onPlayerAdded: (player: ServerPlayer, sessionId: string, $: ServerCallback) => void;
+  onPlayerAdded: (player: ServerPlayer, sessionId: string) => void;
+  onPlayerUpdated: (player: ServerPlayer, sessionId: string) => void;
   onPlayerRemoved: (sessionId: string) => void;
-  onEnemyAdded: (enemy: ServerEnemy, $: ServerCallback) => void;
+  onEnemyAdded: (enemy: ServerEnemy) => void;
+  onEnemyUpdated: (enemy: ServerEnemy) => void;
   onEnemyRemoved: (enemy: ServerEnemy) => void;
 }
 
@@ -41,7 +42,7 @@ export class RoomSystem {
 
   public cleanupRoom() {
     this.room?.removeAllListeners();
-    delete this.room;
+    this.room = undefined;
   }
 
   public async joinRoom(authToken: string) {
@@ -126,7 +127,11 @@ export class RoomSystem {
     const $ = getStateCallbacks(this.room);
 
     $(this.room.state).players.onAdd((player, sessionId) => {
-      callbacks.onPlayerAdded(player, sessionId, $);
+      callbacks.onPlayerAdded(player, sessionId);
+
+      $(player).onChange(() => {
+        callbacks.onPlayerUpdated(player, sessionId);
+      });
     });
 
     $(this.room.state).players.onRemove((_, sessionId) => {
@@ -134,7 +139,11 @@ export class RoomSystem {
     });
 
     $(this.room.state).enemies.onAdd((enemy) => {
-      callbacks.onEnemyAdded(enemy, $);
+      callbacks.onEnemyAdded(enemy);
+
+      $(enemy).onChange(() => {
+        callbacks.onEnemyUpdated(enemy);
+      });
     });
 
     $(this.room.state).enemies.onRemove((enemy) => {

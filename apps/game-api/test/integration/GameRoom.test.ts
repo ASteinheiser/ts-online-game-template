@@ -8,6 +8,7 @@ import {
   WS_ROOM,
   INACTIVITY_TIMEOUT,
   PLAYER_MOVE_SPEED,
+  FIXED_TIME_STEP,
   type InputPayload,
   Player,
 } from '@repo/core-game';
@@ -337,16 +338,19 @@ describe(`Colyseus WebSocket Server - ${WS_ROOM.GAME_ROOM}`, () => {
         down: true,
         attack: false,
       } satisfies InputPayload);
-      // ensure the input is processed
-      await waitForConnectionCheck();
+
+      await room.waitForNextSimulationTick();
+      // one input will run for multiple fixedTicks unless new input is received (ghost ticks)
+      const inputSteps = Math.max(1, Math.floor(room.patchRate / FIXED_TIME_STEP));
+      const moveDistance = inputSteps * PLAYER_MOVE_SPEED;
 
       assertPlayerFieldsState({
         room,
         playerId: client.sessionId,
         expectedPlayer: {
           ...oldPlayer,
-          x: oldPlayer.x + PLAYER_MOVE_SPEED,
-          y: oldPlayer.y + PLAYER_MOVE_SPEED,
+          x: oldPlayer.x + moveDistance,
+          y: oldPlayer.y + moveDistance,
         },
       });
     });

@@ -1,5 +1,4 @@
 import * as Phaser from 'phaser';
-import type { Player as ServerPlayer } from '@repo/core-game';
 import { Player } from '../objects/Player';
 import { PunchBox } from '../objects/PunchBox';
 import type { Game } from '../scenes/Game';
@@ -27,26 +26,16 @@ export class RemotePlayerSystem {
     this.playerEntities = {};
   }
 
-  public handleRemotePlayerAdded: RoomEventCallbacks['onPlayerAdded'] = (player, sessionId, $) => {
+  public handleRemotePlayerAdded: RoomEventCallbacks['onPlayerAdded'] = (player, sessionId) => {
     // skip the current player since we are handling via PlayerSystem
     if (sessionId === this.scene.roomSystem.room?.sessionId) return;
 
     this.playerEntities[sessionId] = new Player(this.scene, player.username, player.x, player.y);
-
-    $(player).onChange(() => {
-      this.handleRemotePlayerUpdated(player, sessionId);
-    });
   };
 
-  public handleRemotePlayerRemoved: RoomEventCallbacks['onPlayerRemoved'] = (sessionId) => {
-    const foundPlayer = this.playerEntities[sessionId];
-    if (foundPlayer) {
-      foundPlayer.destroy();
-      delete this.playerEntities[sessionId];
-    }
-  };
+  public handleRemotePlayerUpdated: RoomEventCallbacks['onPlayerUpdated'] = (player, sessionId) => {
+    if (sessionId === this.scene.roomSystem.room?.sessionId) return;
 
-  private handleRemotePlayerUpdated(player: ServerPlayer, sessionId: string) {
     const remotePlayer = this.playerEntities[sessionId];
     if (!remotePlayer) return;
 
@@ -60,7 +49,15 @@ export class RemotePlayerSystem {
       new PunchBox(this.scene, player.attackDamageFrameX, player.attackDamageFrameY, 0xff0000);
     }
     // #endregion FOR DEBUGGING PURPOSES
-  }
+  };
+
+  public handleRemotePlayerRemoved: RoomEventCallbacks['onPlayerRemoved'] = (sessionId) => {
+    const foundPlayer = this.playerEntities[sessionId];
+    if (foundPlayer) {
+      foundPlayer.destroy();
+      delete this.playerEntities[sessionId];
+    }
+  };
 
   public interpolateRemotePlayers(delta: number) {
     for (const sessionId in this.playerEntities) {

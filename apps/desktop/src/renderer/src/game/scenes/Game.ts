@@ -48,12 +48,21 @@ export class Game extends Phaser.Scene {
 
     this.roomSystem.setupRoomEventListeners({
       setupStateListeners: () => this.setupStateListeners(),
-      onPlayerAdded: (player, sessionId, $) => {
-        this.playerSystem.handleCurrentPlayerAdded(player, sessionId, $);
-        this.remotePlayerSystem.handleRemotePlayerAdded(player, sessionId, $);
+      onPlayerAdded: (player, sessionId) => {
+        this.playerSystem.handleCurrentPlayerAdded(player, sessionId);
+        this.remotePlayerSystem.handleRemotePlayerAdded(player, sessionId);
+        this.uiSystem?.updateRemotePlayerList();
       },
-      onPlayerRemoved: this.remotePlayerSystem.handleRemotePlayerRemoved,
+      onPlayerUpdated: (player, sessionId) => {
+        this.playerSystem.handleCurrentPlayerUpdated(player, sessionId);
+        this.remotePlayerSystem.handleRemotePlayerUpdated(player, sessionId);
+      },
+      onPlayerRemoved: (sessionId) => {
+        this.remotePlayerSystem.handleRemotePlayerRemoved(sessionId);
+        this.uiSystem?.updateRemotePlayerList();
+      },
       onEnemyAdded: this.enemySystem.handleEnemyAdded,
+      onEnemyUpdated: this.enemySystem.handleEnemyUpdated,
       onEnemyRemoved: this.enemySystem.handleEnemyRemoved,
     });
   }
@@ -77,6 +86,7 @@ export class Game extends Phaser.Scene {
   }
 
   private fixedTick() {
+    this.playerSystem.processReconciliation();
     const input = this.inputSystem.processInput();
     this.playerSystem.clientSidePrediction(input);
   }

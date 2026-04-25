@@ -3,6 +3,10 @@ import { ATTACK_DAMAGE__DELAY, type EntityPosition } from '@repo/core-game';
 import { ASSET, SOUND } from '../constants';
 import { CustomText } from './CustomText';
 
+const DEBUG_BOX_COLOR = 0x0000ff; // blue
+const DEBUG_BOX_FLASH_COLOR = 0xff0000; // red
+const DEBUG_BOX_FLASH_MS = 500;
+
 interface MoveIntent {
   delta: number;
   isMoving: boolean;
@@ -20,6 +24,7 @@ export class Player {
   public entity: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
   public nameText: CustomText;
   public debugBox?: Phaser.GameObjects.Rectangle;
+  private debugFlashTimer?: Phaser.Time.TimerEvent;
   private punchSfx: Phaser.Sound.BaseSound;
   private hitSfx: Phaser.Sound.BaseSound;
   /** The number of enemies killed by this player */
@@ -52,7 +57,7 @@ export class Player {
     this.debugBox = this.scene.add
       .rectangle(this.entity.x, this.entity.y, this.entity.width, this.entity.height)
       .setDepth(101)
-      .setStrokeStyle(1, 0xff0000);
+      .setStrokeStyle(1, DEBUG_BOX_COLOR);
   }
 
   public destroy() {
@@ -61,6 +66,7 @@ export class Player {
     this.punchSfx.destroy();
     this.hitSfx.destroy();
     this.debugBox?.destroy();
+    this.debugFlashTimer?.remove(false);
   }
 
   /** Force the player to move to a specific position, skips animations, interpolation, etc. */
@@ -69,6 +75,13 @@ export class Player {
     this.entity.y = y;
     this.nameText.x = x;
     this.nameText.y = y;
+
+    if (!this.debugBox) return;
+    this.debugBox.setStrokeStyle(1, DEBUG_BOX_FLASH_COLOR);
+    this.debugFlashTimer?.remove(false);
+    this.debugFlashTimer = this.scene.time.delayedCall(DEBUG_BOX_FLASH_MS, () => {
+      this.debugBox?.setStrokeStyle(1, DEBUG_BOX_COLOR);
+    });
   }
 
   public move({ x, y }: EntityPosition, { delta, isMoving, isMovingX }: MoveIntent) {

@@ -5,6 +5,7 @@ import { logger } from '../../logger';
 import { ROOM_ERROR } from '../error';
 import { Auth, type AuthResult } from './systems/Auth';
 import { Enemies } from './systems/Enemies';
+import { InputRateLimiter } from './systems/InputRateLimiter';
 import { PlayerInput } from './systems/PlayerInput';
 import { PlayerMovement } from './systems/PlayerMovement';
 import { PlayerCombat } from './systems/PlayerCombat';
@@ -40,6 +41,7 @@ export class GameRoom extends Room {
 
   private elapsedTime = 0;
   public state = new GameRoomState();
+  public inputRateLimiter = new InputRateLimiter();
   private enemies = new Enemies(this);
   private playerInput = new PlayerInput(this);
   private playerMovement = new PlayerMovement(this);
@@ -100,6 +102,7 @@ export class GameRoom extends Room {
 
     this.state.players.delete(sessionId);
     this.auth.cleanupPlayer(sessionId);
+    this.inputRateLimiter.cleanupPlayer(sessionId);
   }
 
   onDispose() {
@@ -128,8 +131,6 @@ export class GameRoom extends Room {
   fixedTick() {
     this.state.players.forEach((player, sessionId) => {
       const client = this.clients.getById(sessionId);
-      // only process players that are still connected
-      if (!client) return;
 
       try {
         this.playerInput.processPlayerInput(player, (input) => {
@@ -138,8 +139,15 @@ export class GameRoom extends Room {
         });
       } catch (error) {
         const message = (error as Error)?.message || ROOM_ERROR.INTERNAL_SERVER_ERROR;
-        // allow reconnection as player inputs will be cleared, potentially solving issues
-        this.auth.kickClient(WS_CODE.INTERNAL_SERVER_ERROR, message, client);
+        if (client) {
+          // allow reconnection as player inputs will be cleared, potentially solving issues
+          this.auth.kickClient(WS_CODE.INTERNAL_SERVER_ERROR, message, client);
+        } else {
+          logger.error({
+            message: `Error processing player input without a client`,
+            data: { roomId: this.roomId, clientId: sessionId, error: message },
+          });
+        }
       }
     });
 

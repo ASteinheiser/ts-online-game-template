@@ -12,6 +12,7 @@ export class UISystem {
   private mapBorder: Phaser.GameObjects.Rectangle;
   private mapBackground: Phaser.GameObjects.Image;
   private leaveText: CustomText;
+  private remotePlayerList: CustomText;
 
   constructor(private scene: Game) {
     // set the camera bounds to the map size
@@ -37,9 +38,16 @@ export class UISystem {
       fontSize: 20,
     }).setScrollFactor(0);
 
+    this.remotePlayerList = new CustomText(this.scene, 0, 0, 'no other players in room', {
+      fontFamily: 'Tiny5',
+      fontSize: 20,
+      align: 'left',
+    }).setScrollFactor(0);
+
     const layout = () => {
       const { width } = this.scene.scale;
       this.leaveText?.setPosition((width - this.leaveText.width) / 2, 20);
+      this.remotePlayerList?.setPosition(20, 20);
     };
 
     layout();
@@ -58,5 +66,24 @@ export class UISystem {
     this.mapBorder.destroy();
     this.mapBackground.destroy();
     this.leaveText.destroy();
+    this.remotePlayerList.destroy();
+  }
+
+  public updateRemotePlayerList() {
+    const room = this.scene.roomSystem.room;
+    if (!room) return;
+
+    const usernames: string[] = [];
+    room.state.players.forEach((player, sessionId) => {
+      if (sessionId === room.sessionId) return;
+      usernames.push(player.username);
+    });
+
+    if (usernames.length === 0) {
+      this.remotePlayerList.setText(['no other players in room', 'you are alone...']);
+      return;
+    }
+
+    this.remotePlayerList.setText(['other players in room:', ...usernames]);
   }
 }

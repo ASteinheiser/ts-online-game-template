@@ -21,13 +21,19 @@ export class PlayerSystem {
   private serverAckSeq = 0;
   /** The inputs being predicted by the client */
   private pendingInputs: Array<InputPayload> = [];
+  /** Queued server state for deferred reconciliation (processed on next `fixedTick`, before input) */
+  private pendingReconciliation?: ServerPlayer;
 
   constructor(private scene: Game) {}
 
   public destroy() {
-    this.pendingInputs = [];
     this.currentPlayer?.destroy();
-    delete this.currentPlayer;
+    this.currentPlayer = undefined;
+    this.previousPosition = { x: 0, y: 0 };
+    this.currentPosition = { x: 0, y: 0 };
+    this.serverAckSeq = 0;
+    this.pendingInputs = [];
+    this.pendingReconciliation = undefined;
   }
 
   /** Predict and update local player state per fixed tick */
@@ -76,23 +82,36 @@ export class PlayerSystem {
     );
   }
 
-  public handleCurrentPlayerAdded: RoomEventCallbacks['onPlayerAdded'] = (player, sessionId, $) => {
+  public handleCurrentPlayerAdded: RoomEventCallbacks['onPlayerAdded'] = (player, sessionId) => {
     // skip remote players, only handle the current player here
     if (sessionId !== this.scene.roomSystem.room?.sessionId) return;
 
     this.currentPlayer = new Player(this.scene, player.username, player.x, player.y);
     this.previousPosition = { x: player.x, y: player.y };
     this.currentPosition = { x: player.x, y: player.y };
+    this.serverAckSeq = 0;
+    this.pendingInputs = [];
+    this.pendingReconciliation = undefined;
     // ensure the camera is following the current player
     this.scene.cameras.main.startFollow(this.currentPlayer.entity, true, 0.1, 0.1);
     this.currentPlayer.createDebugBox();
-
-    $(player).onChange(() => {
-      this.handleDebugFieldsUpdated(player);
-      this.handleKillCountUpdated(player);
-      this.handleServerReconciliation(player);
-    });
   };
+
+  public handleCurrentPlayerUpdated: RoomEventCallbacks['onPlayerUpdated'] = (player, sessionId) => {
+    if (sessionId !== this.scene.roomSystem.room?.sessionId) return;
+
+    this.handleDebugFieldsUpdated(player);
+    this.handleKillCountUpdated(player);
+    this.pendingReconciliation = player;
+  };
+
+  /** Process queued server reconciliation before predicting the next input */
+  public processReconciliation() {
+    if (this.pendingReconciliation) {
+      this.handleServerReconciliation(this.pendingReconciliation);
+      this.pendingReconciliation = undefined;
+    }
+  }
 
   private handleDebugFieldsUpdated(player: ServerPlayer) {
     if (!this.currentPlayer?.debugBox) return;
@@ -147,10 +166,7 @@ export class PlayerSystem {
     }
 
     // if our CSP is out of sync with the server state, sync client state with server state
-    if (
-      this.currentPlayer.entity.x !== targetPosition.x ||
-      this.currentPlayer.entity.y !== targetPosition.y
-    ) {
+    if (this.currentPosition.x !== targetPosition.x || this.currentPosition.y !== targetPosition.y) {
       this.previousPosition.x = targetPosition.x;
       this.previousPosition.y = targetPosition.y;
       this.currentPosition.x = targetPosition.x;
