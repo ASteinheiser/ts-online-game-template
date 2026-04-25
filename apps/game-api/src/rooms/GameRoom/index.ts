@@ -5,6 +5,7 @@ import { logger } from '../../logger';
 import { ROOM_ERROR } from '../error';
 import { Auth, type AuthResult } from './systems/Auth';
 import { Enemies } from './systems/Enemies';
+import { InputRateLimiter } from './systems/InputRateLimiter';
 import { PlayerInput } from './systems/PlayerInput';
 import { PlayerMovement } from './systems/PlayerMovement';
 import { PlayerCombat } from './systems/PlayerCombat';
@@ -40,6 +41,7 @@ export class GameRoom extends Room {
 
   private elapsedTime = 0;
   public state = new GameRoomState();
+  public inputRateLimiter = new InputRateLimiter();
   private enemies = new Enemies(this);
   private playerInput = new PlayerInput(this);
   private playerMovement = new PlayerMovement(this);
@@ -100,6 +102,7 @@ export class GameRoom extends Room {
 
     this.state.players.delete(sessionId);
     this.auth.cleanupPlayer(sessionId);
+    this.inputRateLimiter.cleanupPlayer(sessionId);
   }
 
   onDispose() {
