@@ -21,6 +21,7 @@ export class PlayerSystem {
   private serverAckSeq = 0;
   /** The inputs being predicted by the client */
   private pendingInputs: Array<InputPayload> = [];
+  /** Queued server state for deferred reconciliation (processed on next `fixedTick`, before input) */
   private pendingReconciliation?: ServerPlayer;
 
   constructor(private scene: Game) {}
@@ -101,8 +102,16 @@ export class PlayerSystem {
 
     this.handleDebugFieldsUpdated(player);
     this.handleKillCountUpdated(player);
-    this.handleServerReconciliation(player);
+    this.pendingReconciliation = player;
   };
+
+  /** Process queued server reconciliation before predicting the next input */
+  public processReconciliation() {
+    if (this.pendingReconciliation) {
+      this.handleServerReconciliation(this.pendingReconciliation);
+      this.pendingReconciliation = undefined;
+    }
+  }
 
   private handleDebugFieldsUpdated(player: ServerPlayer) {
     if (!this.currentPlayer?.debugBox) return;
@@ -157,10 +166,7 @@ export class PlayerSystem {
     }
 
     // if our CSP is out of sync with the server state, sync client state with server state
-    if (
-      this.currentPlayer.entity.x !== targetPosition.x ||
-      this.currentPlayer.entity.y !== targetPosition.y
-    ) {
+    if (this.currentPosition.x !== targetPosition.x || this.currentPosition.y !== targetPosition.y) {
       this.previousPosition.x = targetPosition.x;
       this.previousPosition.y = targetPosition.y;
       this.currentPosition.x = targetPosition.x;
