@@ -23,9 +23,16 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       // ensure there are no dev caching issues
       devOptions: { enabled: false },
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      // Disable all SW caching so users always get the latest content
+      // Keeps the plugin around purely for manifest/installability
+      workbox: {
+        globPatterns: [],
+        navigateFallback: null,
+        cleanupOutdatedCaches: true,
+      },
       manifest: {
         name: 'Demo Game',
         short_name: 'Demo Game',
