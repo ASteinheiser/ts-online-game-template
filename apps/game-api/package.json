@@ -58,7 +58,7 @@
   "dependencies": {
     "@apollo/server": "catalog:",
     "@as-integrations/express5": "^1.1.2",
-    "@colyseus/core": "^0.17.41",
+    "@colyseus/core": "^0.17.44",
     "@colyseus/monitor": "^0.17.8",
     "@colyseus/playground": "^0.17.12",
     "@colyseus/schema": "catalog:",
