@@ -1,7 +1,7 @@
 {
   "name": "ts-online-game-template",
-  "packageManager": "pnpm@10.33.0",
-  "version": "0.0.5",
+  "packageManager": "pnpm@11.16.0",
+  "version": "0.0.6",
   "author": "Andrew Steinheiser <me@iamandrew.io>",
   "license": "MIT",
   "private": false,
@@ -40,17 +40,5 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "turbo": "catalog:"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@apollo/protobufjs",
-      "@parcel/watcher",
-      "@prisma/engines",
-      "electron",
-      "esbuild",
-      "msgpackr-extract",
-      "prisma",
-      "sharp"
-    ]
   }
 }

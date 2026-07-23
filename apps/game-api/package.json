@@ -1,6 +1,6 @@
 {
   "name": "game-api",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "Andrew Steinheiser <me@iamandrew.io>",
   "license": "MIT",
   "private": false,
@@ -37,8 +37,8 @@
     "@colyseus/sdk": "catalog:",
     "@colyseus/testing": "^0.17.11",
     "@graphql-codegen/cli": "catalog:",
-    "@graphql-codegen/typescript": "^5.0.7",
-    "@graphql-codegen/typescript-resolvers": "^5.1.5",
+    "@graphql-codegen/typescript": "^6.1.0",
+    "@graphql-codegen/typescript-resolvers": "^6.1.0",
     "@graphql-typed-document-node/core": "catalog:",
     "@parcel/watcher": "catalog:",
     "@repo/eslint-config": "workspace:*",
@@ -58,7 +58,7 @@
   "dependencies": {
     "@apollo/server": "catalog:",
     "@as-integrations/express5": "^1.1.2",
-    "@colyseus/core": "^0.17.41",
+    "@colyseus/core": "^0.17.44",
     "@colyseus/monitor": "^0.17.8",
     "@colyseus/playground": "^0.17.12",
     "@colyseus/schema": "catalog:",

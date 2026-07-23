@@ -1,6 +1,6 @@
 {
   "name": "@repo/eslint-config",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "author": "Andrew Steinheiser <me@iamandrew.io>",
   "license": "MIT",
   "private": false,
@@ -10,12 +10,12 @@
     "./web": "./web.config.js"
   },
   "devDependencies": {
-    "@eslint/compat": "^2.0.5",
+    "@eslint/compat": "^2.1.0",
     "@eslint/js": "^10.0.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-react": "^7.37.5",
-    "globals": "^17.4.0",
-    "typescript-eslint": "^8.58.1"
+    "globals": "^17.7.0",
+    "typescript-eslint": "^8.65.0"
   }
 }

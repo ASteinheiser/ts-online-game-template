@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "repository": "https://github.com/asteinheiser/ts-online-game-template",
   "author": "Andrew Steinheiser <me@iamandrew.io>",
   "license": "MIT",
@@ -49,7 +49,7 @@
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-plugin-pwa": "^1.2.0",
+    "vite-plugin-pwa": "^1.3.0",
     "vitest": "catalog:"
   }
 }

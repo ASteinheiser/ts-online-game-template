@@ -2,7 +2,11 @@
 
 A _highly opinionated_ template for creating real-time, online games using [TypeScript](https://www.typescriptlang.org/)! Quickly create mmo-style games using [React](https://react.dev/) + [Phaser](https://phaser.io/) for rendering, [Colyseus](https://colyseus.io/) for websockets and [Electron](https://www.electronjs.org/) for native builds! Also has support for [Progressive Web Apps](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps) (PWA). Oh, and lots and lots of [Vite](https://vite.dev/) for builds and testing!
 
-Try the demo: https://ts-game.online/download
+> Try the live demo: https://ts-game.online/download
+
+> This template is now listed as an official example in the [Colyseus docs](https://docs.colyseus.io/learn/examples/phaser)
+
+> You can also read the Phaser team's [blog post](https://phaser.io/news/2026/06/typescript-online-game-template-phaser-colyseus-react-and-electron-in-one-monorepo) about this project
 
 - [Overview](#overview)
 - [Third-party Dependencies](#third-party-dependencies)
