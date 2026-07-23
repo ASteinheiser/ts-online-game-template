@@ -21,7 +21,7 @@ catalog:
   "@apollo/server": ^5.5.1
   "@apollo/client": ^4.2.7
   rxjs: ^7.8.2
-  "@graphql-codegen/cli": ^6.1.0
+  "@graphql-codegen/cli": ^7.2.0
   "@graphql-typed-document-node/core": ^3.2.0
   "@parcel/watcher": ^2.6.0
   phaser: 4.0.0
