@@ -1,7 +1,7 @@
 {
   "name": "ts-online-game-template",
   "packageManager": "pnpm@11.16.0",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "Andrew Steinheiser <me@iamandrew.io>",
   "license": "MIT",
   "private": false,
