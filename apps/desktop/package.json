@@ -10,6 +10,7 @@
   "type": "module",
   "main": "./dist/main/index.js",
   "scripts": {
+    "postinstall": "install-electron",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "test": "vitest",
