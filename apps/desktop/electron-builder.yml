@@ -13,8 +13,6 @@ files:
   - '!{.eslintcache,eslint.config.js,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
-  # ignore this dependency from @colyseus/core (causes issues with universal mac builds)
-  - '!**/node_modules/@msgpackr-extract/**'
 asarUnpack:
   - resources/**
   - '**/node_modules/@dimforge/**'
@@ -39,6 +37,7 @@ mac:
   entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
   notarize: true
+  x64ArchFiles: "**/*-darwin-{x64,arm64}/**/*.node"
 dmg:
   artifactName: ${name}-${version}.${ext}
 linux:
