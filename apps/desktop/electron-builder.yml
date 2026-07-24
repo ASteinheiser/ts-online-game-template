@@ -13,6 +13,8 @@ files:
   - '!{.eslintcache,eslint.config.js,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+  # ignore this dependency from @colyseus/core (causes issues with universal mac builds)
+  - '!**/node_modules/@msgpackr-extract/**'
 asarUnpack:
   - resources/**
   - '**/node_modules/@dimforge/**'
